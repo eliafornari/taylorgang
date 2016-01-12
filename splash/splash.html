@@ -1,0 +1,24 @@
+<div class="splash" ng-controller="splashCtrl">
+
+
+<video class="splash-video" id="splash-video" src="assets/most-of-us.mp4" autoplay loop poster="assets/poster.jpg">
+
+</video>
+
+
+
+<table class="splash-table">
+  <tr>
+    <td>
+      <ul class="splash-ul">
+        <li class="splash-li" ng-repeat="a in general"><a href="{{a.slug}}"><p>{{a.name}}</p></a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+</div>

@@ -1,0 +1,437 @@
+
+
+/*....................................CONTACT PAGE..................................*/
+
+$paddingInput: 4px 4px 4px 8px;
+.page-contact{
+  width: 100%;
+  height: 100vh;
+.contact-content{
+  width: 100%;
+  height: 100%;
+  .contact-inside-wrapper{
+    position: absolute;
+    display:block;
+    height: 100%;
+    width: 100%;
+      tbody{
+        tr{
+          height: 100%;
+          width: 100%;
+          td{
+            height:100%;
+            vertical-align: middle;
+            // text-align:center;
+            .contact-col{
+              position:absolute;
+              // margin: auto 50%;
+              // height: auto;
+              width: 340px;
+              top: 185px;
+              left:50%;
+              margin-left:-170px;
+              height:auto;
+              -webkit-appearance: none;
+              border-radius: 0;
+              // margin-bottom: 90px;
+              // margin-left:250px;
+              @include respond-to(phone) {
+                width:300px;
+                top: 125px;
+                margin-left: -150px;
+                }
+              .contact-form{
+                display: block !important;
+                width: 100% !important;
+                height: 32% !important;
+                margin: auto 0% !important;
+                @include respond-to(phone) {
+                  width:80%;
+                  }
+                  .alert-success{
+                    line-height: 16px;
+                    font-size: 11px;
+                    text-align: left;
+                    position: FIXED;
+                    top: 50%;
+                    font-family: telefon;
+                    color: #606060;
+                    letter-spacing: 1px;
+                    .back-button{
+                      width: auto;
+                      font-size: $font-size-paragraph !important;
+                      color: $black;
+                      text-align: left;
+                      margin-top: 10px;
+                      line-height: 16px;
+                      @include hover-effect-color;
+                        a{
+                          @include hover-effect-color;
+                          display: block;
+                          font-size: $font-size-paragraph !important;
+                          letter-spacing: $letter-spacing;
+                          cursor: pointer;
+                          text-align: left;
+                        }
+                    }
+                }
+                .alert-danger{
+                    line-height: 16px;
+                    font-size: 11px;
+                    text-align: left;
+                    position: FIXED;
+                    top: 50%;
+                    font-family: gtWalsheim-light, Helvetica;
+                    color: #606060;
+                    letter-spacing: 1px;
+                    .back-button{
+                      width: auto;
+                      font-size: $font-size-paragraph !important;
+                      color: $black;
+                      text-align: left;
+                      margin-top: 10px;
+                      line-height: 16px;
+                      @include hover-effect-color;
+                        a{
+                          @include hover-effect-color;
+                          display: block;
+                          font-size: $font-size-paragraph !important;
+                          letter-spacing: $letter-spacing;
+                          cursor: pointer;
+                          text-align: left;
+                        }
+                    }
+                }
+                }
+                form{
+                  .text p{
+                    font-size:11px;
+                    margin-bottom:18px;
+                    font-family: gtWalsheim-regular;
+                    padding-bottom: 10px;
+                  }
+                  .form-group1{
+                    padding-bottom:8px;
+                  }
+                  .form-error-name{
+                    padding-bottom:8px;
+                    font-size: $font-size-paragraph;
+                    font-family: gtWalsheim-regular;
+                    color: #FFFF00;
+                    margin-left: 8px;
+                    // line-height: 10px;
+
+                  }
+                  .form-group2{
+                    padding-bottom:8px;
+
+                    // input.ng-invalid.ng-touched::-webkit-input-placeholder {
+                    // color: red;
+                    // content: 'hello';
+                    // }
+                    // input{
+                    //   &.ng-invalid.ng-touched
+                    //    {
+                    //     //  content: "Email address ";
+                    //     //  background-color: #606060;
+                    //   }
+                    //
+                    //   &.ng-valid.ng-touched {
+                    //     background-color: transparent;
+                    //   }
+                    // }
+                  }
+
+                  .form-error-email{
+                    padding-bottom: 8px;
+                    font-size: $font-size-paragraph;
+                    font-family: gtWalsheim-regular;
+                    color: #FFFF00;
+                    margin-left: 8px;
+                    // line-height: 10px;
+                  }
+                  .form-group3{
+                    padding-bottom:8px;
+                  }
+                  .drop-down{
+                    padding-bottom:8px;
+                    }
+
+                    .contact-dropdown{
+                      width:100%;
+                      height:30px;
+                      background-color: transparent;
+                      border-color:#000000;
+                      border-style:solid;
+                      border-width:1px;
+                      padding: $paddingInput;
+                      outline:0;
+                      letter-spacing: $letter-spacing;
+                      font-size:10px;
+                      text-transform: uppercase;
+                      font-family: gtWalsheim-regular;
+                      color:$black;
+                      -webkit-appearance: none;
+                      border-radius: 0;
+                      -webkit-transition: border-color .4s ease;
+                      -moz-transition: border-color .4s ease;
+                      -o-transition: border-color .4s ease;
+                      -ms-transition: border-color .4s ease;
+                      transition: border-color .4s ease;
+                      box-sizing: border-box;
+                      -webkit-box-sizing:border-box;
+                      &:hover {
+                        border-color: $yellow;
+                      }
+                      &:focus {
+                      border-color: $yellow;
+                      }
+                      @include respond-to(phone) {
+                        height: 35px;
+                        }
+                    }
+                    option:nth-child(1){
+                      color: blue;
+                    }
+
+                    .placeholder-text{
+                      color: blue;
+                    }
+
+                    .contact-select-arrow{
+                      display:block;
+                      /*height: 26px;*/
+                      position: relative;
+                      top: -17px;
+                      right: 1px;
+                      width: 0px;
+                      left: 94%;
+                      @include respond-to(phone) {
+                        top: -19px;
+                        }
+                    }
+
+                    .contact-select-arrow b{
+                      border-color: #888 transparent transparent transparent;
+                      border-style: solid;
+                      border-width: 5px 4px 0 4px;
+                      height: 0;
+                      /*left: 50%;*/
+                      margin-left: 0px;
+                      margin-top: 0px;
+                      position: absolute;
+                      top: 37%;
+                      width: 57.5%;
+                    }
+
+
+                  .submit-button{
+                    display:block;
+                    color: #000000;
+                    background-color:transparent;
+                    height:10%;
+                    letter-spacing:$letter-spacing;
+                    padding-bottom: 2px;
+                    font-size: 11px;
+                    font-family: gtWalsheim-regular;
+                    border-style:none;
+                    outline:0;
+                    text-transform: uppercase;
+                    margin: 15px auto 20px;
+                    -webkit-transition: color .4s ease;
+                    -moz-transition: color .4s ease;
+                    -o-transition: color .4s ease;
+                    -ms-transition: color .4s ease;
+                    transition: color .4s ease;
+                    cursor: pointer;
+                    @include hover-effect-color;
+                    a{
+                      @include hover-effect-color;
+
+                    }
+                    &.contactDisabled{
+                      cursor:default;
+                      color: $light-grey;
+                    }
+                    @include respond-to(phone) {
+                      margin-top: 25px;
+                      font-size: 12px;
+                      }
+                  }
+
+                  .form-control1{
+                    width:100%;
+                    height:30px;
+                    border-color:$light-grey;
+                    border-style:solid;
+                    border-width:1px;
+                    padding: $paddingInput;
+                    outline:0;
+                    letter-spacing: $letter-spacing;
+                    font-size:10px;
+                    font-family: gtWalsheim-regular;
+                    color:#000000;
+                    text-transform: uppercase;
+                    -webkit-appearance: none;
+                    border-radius: 0;
+                    -webkit-transition: border-color .4s ease;
+                    -moz-transition: border-color .4s ease;
+                    -o-transition: border-color .4s ease;
+                    -ms-transition: border-color .4s ease;
+                    transition: border-color .4s ease;
+                    box-sizing: border-box;
+                    -webkit-box-sizing:border-box;
+                    &:hover {
+                      border-color: gtWalsheim-regular;
+                    }
+                    &:focus {
+                    border-color: gtWalsheim-regular;
+                    }
+                    @include respond-to(phone) {
+                      height: 35px;
+                      }
+                  }
+
+                  .form-control2{
+                    @extend .form-control1;
+                    @include respond-to(phone) {
+                      height: 35px;
+                      }
+                  }
+                  .form-control3{
+                    @extend .form-control1;
+                    height: 105px;
+                    resize: none;
+                    padding-top: 8px;
+                    @include respond-to(phone) {
+                      height: 109px;
+                      }
+                  }
+                  .help-block {
+                    color: red;
+                    font-size: 10px;
+                    display: block;
+                    height: 100px;
+                    resize: none;
+                    padding-top: 8px;
+                  }
+                }
+              .contact-company{
+                  line-height: $font-size-paragraph;
+                  margin-top: 10%;
+                  display: block;
+                  height: 50% !important;
+                  width: 100% !important;
+                  letter-spacing: 1px;
+                  .showroom-address{
+                    h1{
+                      color: $black;
+                      margin-bottom: 10px;
+                      font-size: $font-size-subtitle;
+                      line-height: $font-size-paragraph;
+                      text-align: left;
+                      font-family: gtWalsheim-light;
+                      letter-spacing: 1px;
+                    }
+                    span{
+                      width: 100%;
+                      display: inline-block;
+                      clear: both;
+                      color:$black;
+                      font-family: gtWalsheim-regular;
+                      line-height: $font-size-paragraph;
+                      font-size: $font-size-paragraph;
+                      letter-spacing: 1px;
+                    }
+                    .number{
+                      margin-bottom:15px;
+                      font-family: gtWalsheim-regular;
+                      line-height: $font-size-paragraph;
+                      font-size: $font-size-paragraph;
+                      letter-spacing: 1px;
+                    }
+                  }
+                  .contacts{
+                    margin-top: 30px;
+                    margin-bottom:15px;
+                    h1{
+                      color: $black;
+                      margin-bottom: 10px;
+                      font-size: $font-size-subtitle;
+                      line-height: $font-size-paragraph;
+                      text-align: left;
+                      font-family: gtWalsheim-light;
+                      letter-spacing: 1px;
+                    }
+                    p{
+                      width: auto;
+                      display: inline-block;
+                      clear: both;
+                      color:$black;
+                      font-family: gtWalsheim-regular;
+                      line-height: $font-size-paragraph;
+                      font-size: $font-size-paragraph;
+                      letter-spacing: 1px;
+                    }
+                    span{
+                      width: 100%;
+                      display: inline-block;
+                      clear: both;
+                      color:$black;
+                      font-family: gtWalsheim-regular;
+                      line-height: $font-size-paragraph;
+                      font-size: $font-size-paragraph;
+                      letter-spacing: 1px;
+                      a{
+                        width: 100%;
+                        display: inline-block;
+                        clear: both;
+                        color:$black;
+                        font-family: gtWalsheim-regular;
+                        line-height: $font-size-paragraph;
+                        font-size: $font-size-paragraph;
+                        @include hover-effect-color;
+                        letter-spacing: 1px;
+                      }
+                    }
+                  }
+
+
+
+
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+  /*.................................................................................*/
+}
+::-webkit-input-placeholder {
+    color:    #000000;
+}
+:-moz-placeholder {
+  color:    #000000;
+}
+::-moz-placeholder {
+  color:    #000000;
+}
+:-ms-input-placeholder {
+  color:    #000000;
+}
+::selection {
+  background: #FFFF00; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #FFFF00; /* Gecko Browsers */
+}
+
+.ng-invalid.ng-touched{
+  border-color: #FFFF00 !important;
+}
+.ng-invalid-email.ng-touched{
+  border-color: #FFFF00 !important;
+}
+}

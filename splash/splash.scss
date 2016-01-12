@@ -1,0 +1,110 @@
+.splash-video{
+  display: block;
+  width: 100vw;
+  height: auto;
+  position: fixed;
+  left: 50%;
+  margin-left: -50vw;
+  z-index: $z-splash-video;
+
+  @include respond-to(laptop-large){
+    width: 120vw;
+    margin-left: -60vw;
+  }
+
+  @include respond-to(laptop-small){
+    width: 120vw;
+    margin-left: -60vw;
+  }
+
+  @include respond-to(tablet-portrait){
+    width: 220vw;
+    margin-left: -110vw;
+  }
+
+  @include respond-to(tablet-landscape){
+    width: 220vw;
+    margin-left: -110vw;
+  }
+
+  @include respond-to(phone){
+    width: 200vw;
+    margin-left: -100vw;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+@-webkit-keyframes filter-animation-splash {
+  0% {
+    @include filter-element(0px);
+  }
+
+  100% {
+    @include filter-element(7px);
+  }
+}
+
+
+
+
+
+
+
+
+.splash-table{
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  right:100px;
+  tr{
+
+    td{
+      vertical-align: middle;
+      height: 100%;
+      .splash-ul{
+        width: 200px;
+        z-index: $z-splash;
+        .splash-li{
+          width: 100%;
+          height: $font-size-splash;
+          margin-top: 6vh;
+            z-index: $z-splash;
+          a{
+            height: $font-size-splash;
+            width: 100%;
+            p{
+              width: 100%;
+              height: $font-size-splash;
+              line-height: $font-size-splash;
+              font-size: $font-size-splash;
+              font-family: 'telefon', Helvetica;
+              color: #FFFFFF;
+              z-index: $z-splash;
+              &:hover{
+                -webkit-filter: blur(7px);
+                -moz-filter: blur(7px);
+                -o-filter: blur(7px);
+                -ms-filter: blur(7px);
+                filter: blur(7px);
+
+                -webkit-animation: filter-animation-splash 10s 1;
+                -moz-animation: filter-animation-splash 10s 1;
+                -ms-animation: filter-animation-splash 10s 1;
+                -o-animation: filter-animation-splash 10s 1;
+                animation: filter-animation-splash 10s 1;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

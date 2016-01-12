@@ -1,0 +1,16 @@
+<div class="nav" ng-controller="navCtrl" ng-class="{'navShifted': navShown}">
+
+  <div class="nav-list">
+    <table>
+      <tr>
+        <td>
+          <ul class="nav-ul">
+            <li class="nav-li" ng-repeat="a in general"><a href="{{a.slug}}"><p>{{a.name}}</p></a></li>
+          </ul>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+</div>

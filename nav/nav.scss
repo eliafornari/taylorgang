@@ -1,0 +1,228 @@
+$fade-in: 0.4s;
+$fade-nav: 0.9s;
+$fade-out: 0.4s;
+
+//POP + opening the nav
+.pop{
+  position: fixed;
+  right: 0px;
+  width: 50px;
+  height: 100vh;
+  background-color: #000000;
+  z-index: $z-pop;
+  .pop-plus{
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 30px;
+    color: #FFFFFF;
+    top: 50%;
+    left: 0;
+    margin-top: -15px;
+    z-index: $z-pop-plus;
+    text-align: center;
+    font-size: 24px;
+    text-rendering: geometricPrecision;
+  }
+}
+
+
+.nav{
+  width: 50vw;
+  height: 100vh;
+  position: fixed;
+  left: 100vw;
+  background-color: #000000;
+  z-index: $z-nav;
+}
+
+
+.nav-list{
+  width: 50vw;
+  height: 100vh;
+  table{
+    height: 100vh;
+    tr{
+      td{
+        vertical-align: middle;
+        height: 100%;
+        .nav-ul{
+          width: 50vw;
+          .nav-li{
+            width: 50vw;
+            margin-bottom: 35px;
+            a{
+              width: 100%;
+              p{
+                width: 100%;
+                text-align: center;
+                color: #FFFFFF;
+                font-size: $font-size-nav;
+                font-family: 'telefon', Helvetica;
+                line-height: $font-size-nav;
+                height: $font-size-nav;
+                &:hover{
+                  @include hover-effect-color-yellow();
+                }
+
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes shiftLeftNav {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-50vw));}
+}
+
+@-webkit-keyframes shiftLeftNav {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-50vw));}
+}
+
+@-moz-keyframes shiftLeftNav {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-50vw));}
+}
+
+@-ms-keyframes shiftLeftNav {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-50vw));}
+}
+
+@-o-keyframes shiftLeftNav {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-50vw));}
+}
+
+
+
+//shift up keyframe
+@keyframes shiftRightNav {
+  from {@include transform-element(translateX(-50vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+@-webkit-keyframes shiftRightNav {
+  from {@include transform-element(translateX(-50vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+@-moz-keyframes shiftRightNav {
+  from {@include transform-element(translateX(-50vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+@-ms-keyframes shiftRightNav {
+  from {@include transform-element(translateX(-50vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+@-o-keyframes shiftRightNav {
+  from {@include transform-element(translateX(-50vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+
+
+
+$animation-speed: 0.6s;
+
+
+.nav{
+  transform: translateX(0vw);
+  -ms-transform: translateX(0vw);
+  -webkit-transform: translateX(0vw);
+transform-origin: 0 0;
+}
+
+.nav.navShifted{
+  transform: translateX(-50vw) !important;
+  -ms-transform: translateX(-50vw) !important;
+  -webkit-transform: translateX(-50vw) !important;
+
+}
+
+.nav.navShifted-add.navShifted-add-active{
+  -webkit-animation: shiftLeftNav $animation-speed ease;
+  -moz-animation: shiftLeftNav $animation-speed ease;
+  -ms-animation: shiftLeftNav $animation-speed ease;
+  -o-animation: shiftLeftNav $animation-speed ease;
+  animation: shiftLeftNav $animation-speed ease;
+}
+
+.nav.navShifted-remove.navShifted-remove-active{
+  -webkit-animation: shiftRightNav $animation-speed ease;
+  -moz-animation: shiftRightNav $animation-speed ease;
+  -ms-animation: shiftRightNav $animation-speed ease;
+  -o-animation: shiftRightNav $animation-speed ease;
+  animation: shiftRightNav $animation-speed ease;
+}
+
+
+
+
+
+//pop
+.pop{
+  transform: translateX(0vw);
+  -ms-transform: translateX(0vw);
+  -webkit-transform: translateX(0vw);
+transform-origin: 0 0;
+}
+
+.pop.popShifted{
+  transform: translateX(-50vw) !important;
+  -ms-transform: translateX(-50vw) !important;
+  -webkit-transform: translateX(-50vw) !important;
+
+}
+
+.pop.popShifted-add.popShifted-add-active{
+  -webkit-animation: shiftLeftNav $animation-speed ease;
+  -moz-animation: shiftLeftNav $animation-speed ease;
+  -ms-animation: shiftLeftNav $animation-speed ease;
+  -o-animation: shiftLeftNav $animation-speed ease;
+  animation: shiftLeftNav $animation-speed ease;
+}
+
+.pop.popShifted-remove.popShifted-remove-active{
+  -webkit-animation: shiftRightNav $animation-speed ease;
+  -moz-animation: shiftRightNav $animation-speed ease;
+  -ms-animation: shiftRightNav $animation-speed ease;
+  -o-animation: shiftRightNav $animation-speed ease;
+  animation: shiftRightNav $animation-speed ease;
+}
+
+
+
+
+
+
+
+
+
+
+// per noi sei speciale
+// un esempio da seguire per tutta la vita, in ogni situazione.
+// Con te non possiamo che essere sicuri di ottenere il meglio da ogni situazione.
+// Dalla la tua calma e la tua esperienza prendiamo spunto ogni giorno.
+// Oggi siamo felici di festeggiare te, non gli anni ma la persona che sei.

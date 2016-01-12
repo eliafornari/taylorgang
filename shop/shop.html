@@ -1,0 +1,28 @@
+<div class="shop" ng-controller="shopCtrl">
+
+  <div class="shop-related">
+    <ul class="shop-ul">
+      <li class="shop-li" ng-related="s in shop_data" ng-click="thisProduct(s.image, $index)">
+        <div class="shop-related-image" style="background-image: url('{{s.image}}')"></div>
+      </li>
+    </ul>
+  </div>
+
+
+
+    <div class="shop-main">
+      <div class="shop-main-image" style="background-color: url('{{shop_main_image}}')">
+
+      </div>
+
+      <div class="shop-main-button">
+        <p>shop</p>
+      </div>
+
+      <div class="shop-main-description">
+        <p class="shop-main-price">{{shop_main_price}}</p>
+        <p class="shop-main-name">{{shop_main_name}}</p>
+      </div>
+    </div>
+
+</div>
