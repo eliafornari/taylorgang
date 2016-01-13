@@ -157,6 +157,7 @@ App.controller("appCtrl", ['$http','$scope','$templateCache','$location','$rootS
 
 
 $rootScope.general, $rootScope.pageLoading;
+$rootScope.pageLoading = true;
 
   // This service's function returns a promise, but we'll deal with that shortly
 
@@ -175,8 +176,10 @@ $rootScope.general, $rootScope.pageLoading;
 
     setTimeout(function(){
       $rootScope.viewLoaded = true;
-    }, 600);
-    $rootScope.pageLoading = false;
+      $rootScope.pageLoading = false;
+      $scope.$apply();
+    }, 2000);
+
     // $scope.$apply();
 
   });
@@ -193,48 +196,48 @@ $rootScope.general, $rootScope.pageLoading;
 // YouTube User ID: 7JKIgvB-X3BggJkxVlOXjQ
 // YouTube Channel ID: UC7JKIgvB-X3BggJkxVlOXjQ
 
-var channelName = 'taylorgangent'
-// UC7JKIgvB-X3BggJkxVlOXjQ
-
-  $.get(
-    "https://www.googleapis.com/youtube/v3/channels",{
-      part: 'contentDetails',
-      forUsername: channelName,
-      key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
-    },
-      function(data){
-        // console.log(data);
-        $.each(data.items, function(i, item){
-          console.log(item);
-
-          var pid = item.contentDetails.relatedPlaylists.uploads;
-          getVids(pid);
-        })
-      }
-  );
-
-
-function getVids(pid){
-  $.get(
-    "https://www.googleapis.com/youtube/v3/playlistItems",{
-      part: 'snippet',
-      maxResults: 10,
-      playlistId: pid,
-      key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
-    },
-      function(data){
-        var output;
-        // console.log(data);
-        $.each(data.items, function(i, item){
-          console.log(item);
-          var videoTitle = item.snippet.title;
-          output = videoTitle;
-          console.log(output);
-        })
-      }
-  );
-
-}
+// var channelName = 'taylorgangent'
+// // UC7JKIgvB-X3BggJkxVlOXjQ
+//
+  // $.get(
+  //   "https://www.googleapis.com/youtube/v3/channels",{
+  //     part: 'id',
+  //     forUsername: 'chriscarter1218',
+  //     key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+  //   },
+  //     function(data){
+  //       // console.log(data);
+  //       $.each(data.items, function(i, item){
+  //         console.log(item);
+  //
+  //         // var pid = item.contentDetails.relatedPlaylists.uploads;
+  //         // getVids(pid);
+  //       })
+  //     }
+  // );
+//
+//
+// function getVids(pid){
+//   $.get(
+//     "https://www.googleapis.com/youtube/v3/playlistItems",{
+//       part: 'snippet',
+//       maxResults: 10,
+//       playlistId: pid,
+//       key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+//     },
+//       function(data){
+//         var output;
+//         // console.log(data);
+//         $.each(data.items, function(i, item){
+//           console.log(item);
+//           var videoTitle = item.snippet.title;
+//           output = videoTitle;
+//           console.log(output);
+//         })
+//       }
+//   );
+//
+// }
 
 
 
@@ -257,9 +260,25 @@ function getVids(pid){
       // });
 
 
+// https://www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails&channelId=UCVp3nfGRxmMadNDuVbJSk8A&maxResults=20&key={YOUR_API_KEY}
 
 
-
+  // $.get(
+  //   "https://www.googleapis.com/youtube/v3/playlists",{
+  //     part: 'snippet,contentDetails',
+  //     maxResults: 20,
+  //     channelId: 'UC2rdCWnU8fmFxdgeYXkbbIw',
+  //     key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+  //   },
+  //     function(data){
+  //       var output;
+  //       // console.log(data);
+  //       $.each(data.items, function(i, item){
+  //         var videoTitle = item.snippet.title;
+  //         output = videoTitle;
+  //       })
+  //     }
+  // );
 
 
 
@@ -363,15 +382,11 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
 .controller('routeController', function($scope, $location, $rootScope, $routeParams, $timeout){
 
   $rootScope.location = $location.path();
-  // console.log($rootScope.location)
 
-
-  $scope.isRouteLoading = false;
 
   $rootScope.$on('$routeChangeStart', function() {
     $rootScope.location = $location.path();
     $rootScope.hash = $location.hash();
-    // console.log($rootScope.location)
     $rootScope.artist = $routeParams.artist;
 
   });//routeChangeStart
@@ -387,7 +402,6 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
   $scope.navShown = false;
 
   $rootScope.showNav = function(){
-    console.log('showNav');
     $scope.navShown = !$scope.navShown;
   }
 
@@ -496,26 +510,24 @@ $rootScope.checkDevice = {
     replace: true,
     link: function(scope, elem, attrs) {
 
+// $rootScope.pageLoading = true;
+//
+//       $rootScope.$on('$routeChangeStart', function() {
+//
+//           $rootScope.pageLoading = true;
+//           scope.logoHide = true;
+//
+//       });
+//
+//
+//       $rootScope.$on('$routeChangeSuccess', function() {
+//
+//         // // $timeout(function () {
+//         //   scope.logoHide = false;
+//         //   $rootScope.pageLoading = false;
+//         // // }, 1000);
+//       });
 
-      $rootScope.$on('$routeChangeStart', function() {
-
-          $rootScope.pageLoading = true;
-          scope.logoHide = true;
-
-      });
-
-
-      $rootScope.$on('$routeChangeSuccess', function() {
-
-        // $timeout(function () {
-          scope.logoHide = false;
-          $rootScope.pageLoading = false;
-        // }, 1000);
-
-
-
-
-      });
     }
   };
 });
@@ -547,23 +559,58 @@ angular.module('myApp')
 
 $scope.artist = $routeParams.artist;
 $rootScope.artist_data;
+$rootScope.channel_data = [];
+
+$scope.main_video, $scope.main_title;
 
 
 artistService.get({artist: $routeParams.artist}, function(data){
 
-  console.log(data);
-  console.log($routeParams.artist);
   $rootScope.artist_data = data;
 
+}).$promise.then(function (data) {
+  // console.log($rootScope.artist_data.videos[0].id);
 
-}).$promise.then(function () {
-  console.log($rootScope.artist_data.videos[0].id);
+  console.log(data);
 
 
-  $scope.baseUrl = 'https://www.youtube.com/embed/'+$rootScope.artist_data.videos[0].id+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
-  $scope.main_video = $sce.trustAsResourceUrl($scope.baseUrl);
 
-  $scope.main_title = $rootScope.artist_data.videos[0].title;
+
+
+              $.get(
+                "https://www.googleapis.com/youtube/v3/search",{
+                  part: 'snippet',
+                  maxResults: 50,
+                  channelId: data.channel_id,
+                  key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+                },
+                  function(data){
+
+                    $rootScope.channel_data = data.items;
+                    console.log($rootScope.channel_data);
+                    // console.log(data);
+                    // $.each(data.items, function(i, item){
+                    //   // var videoTitle = item.snippet.title;
+                    // })
+
+
+                    $scope.baseUrl = 'https://www.youtube.com/embed/'+$rootScope.channel_data[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+                    $scope.main_video = $sce.trustAsResourceUrl($scope.baseUrl);
+                    $scope.main_title = $rootScope.channel_data[0].title;
+
+                    $scope.$apply();
+
+                    console.log("title: "+$scope.main_title);
+                    console.log("main video:"+$scope.main_video);
+
+                  }
+              );
+
+
+
+
+
+
 });
 
 
@@ -571,31 +618,11 @@ $scope.thisVideo = function(id, index){
 
   $scope.baseUrl = 'https://www.youtube.com/embed/'+id+'?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
   $scope.main_video = $sce.trustAsResourceUrl($scope.baseUrl);
-
-    $scope.main_title = $rootScope.artist_data.videos[index].title;
+  $scope.main_title = $rootScope.channel_data[index].title;
 
 }
 
-  // getArtist.get($scope.artist)
-  // // then() called when son gets back
-  // .then(function(data) {
-  //
-  //     $rootScope.artist_data = data;
-  //
-  // }, function(error) {
-  //     // promise rejected, could log the error with: console.log('error', error);
-  //
-  //     alert("an error occurred please reload the page.");
-  //
-  // }).then(function(){
-  //
-  //   setTimeout(function(){
-  //     $rootScope.viewLoaded = true;
-  //   }, 600);
-  //   $rootScope.pageLoading = false;
-  //   // $scope.$apply();
-  //
-  // });
+
 
 
 
@@ -734,10 +761,6 @@ angular.module('myApp')
 var video_splash = document.getElementById('splash-video');
 video_splash.volume = 0;
 video_splash.play();
-
-
-
-
 
 
 

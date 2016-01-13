@@ -13,6 +13,7 @@ App.controller("appCtrl", ['$http','$scope','$templateCache','$location','$rootS
 
 
 $rootScope.general, $rootScope.pageLoading;
+$rootScope.pageLoading = true;
 
   // This service's function returns a promise, but we'll deal with that shortly
 
@@ -31,8 +32,10 @@ $rootScope.general, $rootScope.pageLoading;
 
     setTimeout(function(){
       $rootScope.viewLoaded = true;
-    }, 600);
-    $rootScope.pageLoading = false;
+      $rootScope.pageLoading = false;
+      $scope.$apply();
+    }, 2000);
+
     // $scope.$apply();
 
   });
@@ -49,48 +52,48 @@ $rootScope.general, $rootScope.pageLoading;
 // YouTube User ID: 7JKIgvB-X3BggJkxVlOXjQ
 // YouTube Channel ID: UC7JKIgvB-X3BggJkxVlOXjQ
 
-var channelName = 'taylorgangent'
-// UC7JKIgvB-X3BggJkxVlOXjQ
-
-  $.get(
-    "https://www.googleapis.com/youtube/v3/channels",{
-      part: 'contentDetails',
-      forUsername: channelName,
-      key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
-    },
-      function(data){
-        // console.log(data);
-        $.each(data.items, function(i, item){
-          console.log(item);
-
-          var pid = item.contentDetails.relatedPlaylists.uploads;
-          getVids(pid);
-        })
-      }
-  );
-
-
-function getVids(pid){
-  $.get(
-    "https://www.googleapis.com/youtube/v3/playlistItems",{
-      part: 'snippet',
-      maxResults: 10,
-      playlistId: pid,
-      key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
-    },
-      function(data){
-        var output;
-        // console.log(data);
-        $.each(data.items, function(i, item){
-          console.log(item);
-          var videoTitle = item.snippet.title;
-          output = videoTitle;
-          console.log(output);
-        })
-      }
-  );
-
-}
+// var channelName = 'taylorgangent'
+// // UC7JKIgvB-X3BggJkxVlOXjQ
+//
+  // $.get(
+  //   "https://www.googleapis.com/youtube/v3/channels",{
+  //     part: 'id',
+  //     forUsername: 'chriscarter1218',
+  //     key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+  //   },
+  //     function(data){
+  //       // console.log(data);
+  //       $.each(data.items, function(i, item){
+  //         console.log(item);
+  //
+  //         // var pid = item.contentDetails.relatedPlaylists.uploads;
+  //         // getVids(pid);
+  //       })
+  //     }
+  // );
+//
+//
+// function getVids(pid){
+//   $.get(
+//     "https://www.googleapis.com/youtube/v3/playlistItems",{
+//       part: 'snippet',
+//       maxResults: 10,
+//       playlistId: pid,
+//       key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+//     },
+//       function(data){
+//         var output;
+//         // console.log(data);
+//         $.each(data.items, function(i, item){
+//           console.log(item);
+//           var videoTitle = item.snippet.title;
+//           output = videoTitle;
+//           console.log(output);
+//         })
+//       }
+//   );
+//
+// }
 
 
 
@@ -113,9 +116,25 @@ function getVids(pid){
       // });
 
 
+// https://www.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails&channelId=UCVp3nfGRxmMadNDuVbJSk8A&maxResults=20&key={YOUR_API_KEY}
 
 
-
+  // $.get(
+  //   "https://www.googleapis.com/youtube/v3/playlists",{
+  //     part: 'snippet,contentDetails',
+  //     maxResults: 20,
+  //     channelId: 'UC2rdCWnU8fmFxdgeYXkbbIw',
+  //     key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+  //   },
+  //     function(data){
+  //       var output;
+  //       // console.log(data);
+  //       $.each(data.items, function(i, item){
+  //         var videoTitle = item.snippet.title;
+  //         output = videoTitle;
+  //       })
+  //     }
+  // );
 
 
 

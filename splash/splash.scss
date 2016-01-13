@@ -63,7 +63,7 @@
   width: 200px;
   height: 100vh;
   position: fixed;
-  right:100px;
+  right:50px;
   tr{
 
     td{
@@ -88,6 +88,7 @@
               font-family: 'telefon', Helvetica;
               color: #FFFFFF;
               z-index: $z-splash;
+              text-align: right;
               &:hover{
                 -webkit-filter: blur(7px);
                 -moz-filter: blur(7px);

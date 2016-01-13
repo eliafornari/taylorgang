@@ -9,8 +9,4 @@ video_splash.play();
 
 
 
-
-
-
-
 }]);

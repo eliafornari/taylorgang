@@ -148,56 +148,94 @@ span{
 
 
 /*...........................LOADER..............................*/
+/* Chrome, Safari, Opera */
+@-webkit-keyframes mymove {
+    from {top: 0vh;}
+    to {top: 100vh;}
+}
 
-// .page-loader-div{
-//   width: 100vw;
-//   height: 100vh;
-//   position: fixed;
-//   z-index: $z-loader;
-//   background-color: #FFFFFF;
-//   opacity: 1;
-//   .page-loader-taylorgang{
-//       position: fixed;
-//       top: 0px;
-//       // z-index: $z-nav;
-//       // -webkit-animation: mymove 5s infinite; /* Chrome, Safari, Opera */
-//       // animation: mymove 5s infinite;
-//       p{
-//         color
-//       }
-//   }
+@keyframes mymove {
+    from {top: 0vh;}
+    to {top: 100vh;}
+}
+
+
+
+
+.page-loader-div{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $z-loader;
+  background-color: #FFFFFF;
+  opacity: 1;
+
+.page-loader-stripes{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: $z-loader;
+  background-color: transparent;
+  li{
+    width: 100vw;
+    height: 40px;
+    margin-top: 40px;
+    background-color: #000000;
+  }
+}
+
+  .page-loader-taylorgang{
+      position: fixed;
+      top: 0px;
+      left: 50%;
+      width: 500px;
+      margin-left: -250px;
+      z-index: $z-nav;
+      -webkit-animation: mymove 2s infinite; /* Chrome, Safari, Opera */
+      animation: mymove 2s infinite;
+      -webkit-animation-timing-function: linear; /* Chrome, Safari, Opera */
+      animation-timing-function: linear;
+      p{
+        color: #000000;
+        text-align: center;
+        font-family: 'gtWalsheim-black-oblique', Helvetica;
+        font-size: 40px;
+      }
+  }
+}
+
+
+
+
+
+// .page-loader-div.ng-hide{
+//   opacity: 0 !important;
+//   -webkit-transition: all 500ms ease;
+//   -moz-transition: all 500ms ease;
+//   -ms-transition: all 500ms ease;
+//   -o-transition: all 500ms ease;
+//   transition: all 500ms ease;
 // }
-
-
-
-
-
-.page-loader-div.ng-hide{
-  opacity: 0 !important;
-  -webkit-transition: all 500ms ease;
-  -moz-transition: all 500ms ease;
-  -ms-transition: all 500ms ease;
-  -o-transition: all 500ms ease;
-  transition: all 500ms ease;
-}
-.page-loader-div.ng-hide-add.ng-hide-add-active{
-  -webkit-transition: all 500ms ease;
-  -moz-transition: all 500ms ease;
-  -ms-transition: all 500ms ease;
-  -o-transition: all 500ms ease;
-  transition: all 500ms ease;
-}
-
-.page-loader-div.ng-hide-remove.ng-hide-add-remove{
-  -webkit-transition: all 500ms ease 1s;
-  -moz-transition: all 500ms ease 1s;
-  -ms-transition: all 500ms ease 1s;
-  -o-transition: all 500ms ease 1s;
-  transition: all 500ms ease 1s;
-}
-
-
-
+// .page-loader-div.ng-hide-add.ng-hide-add-active{
+//   -webkit-transition: all 500ms ease;
+//   -moz-transition: all 500ms ease;
+//   -ms-transition: all 500ms ease;
+//   -o-transition: all 500ms ease;
+//   transition: all 500ms ease;
+// }
+//
+// .page-loader-div.ng-hide-remove.ng-hide-add-remove{
+//   -webkit-transition: all 500ms ease 1s;
+//   -moz-transition: all 500ms ease 1s;
+//   -ms-transition: all 500ms ease 1s;
+//   -o-transition: all 500ms ease 1s;
+//   transition: all 500ms ease 1s;
+// }
+//
+//
+//
 
 
 

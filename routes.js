@@ -71,15 +71,11 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
 .controller('routeController', function($scope, $location, $rootScope, $routeParams, $timeout){
 
   $rootScope.location = $location.path();
-  // console.log($rootScope.location)
 
-
-  $scope.isRouteLoading = false;
 
   $rootScope.$on('$routeChangeStart', function() {
     $rootScope.location = $location.path();
     $rootScope.hash = $location.hash();
-    // console.log($rootScope.location)
     $rootScope.artist = $routeParams.artist;
 
   });//routeChangeStart
@@ -95,7 +91,6 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
   $scope.navShown = false;
 
   $rootScope.showNav = function(){
-    console.log('showNav');
     $scope.navShown = !$scope.navShown;
   }
 
@@ -204,26 +199,24 @@ $rootScope.checkDevice = {
     replace: true,
     link: function(scope, elem, attrs) {
 
+// $rootScope.pageLoading = true;
+//
+//       $rootScope.$on('$routeChangeStart', function() {
+//
+//           $rootScope.pageLoading = true;
+//           scope.logoHide = true;
+//
+//       });
+//
+//
+//       $rootScope.$on('$routeChangeSuccess', function() {
+//
+//         // // $timeout(function () {
+//         //   scope.logoHide = false;
+//         //   $rootScope.pageLoading = false;
+//         // // }, 1000);
+//       });
 
-      $rootScope.$on('$routeChangeStart', function() {
-
-          $rootScope.pageLoading = true;
-          scope.logoHide = true;
-
-      });
-
-
-      $rootScope.$on('$routeChangeSuccess', function() {
-
-        // $timeout(function () {
-          scope.logoHide = false;
-          $rootScope.pageLoading = false;
-        // }, 1000);
-
-
-
-
-      });
     }
   };
 });
