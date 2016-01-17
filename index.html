@@ -27,8 +27,11 @@
 </head>
 
 <body ng-controller="routeController">
+  <div id="player"></div>
+<script>
+   // 2. This code loads the IFrame Player API code asynchronously.
 
-
+</script>
   <div class="pop" ng-click="showNav()" ng-hide="hidePop" ng-class="{'popShifted': navShown}">
     <p class="pop-plus">+</p>
   </div>
@@ -40,6 +43,8 @@
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 <nav-directive></nav-directive>
+
+<div class="glass" ng-show="navShown" ng-click="closeNav()"></div>
 
 <div ng-show="pageLoading" class="page-loader-div">
 
@@ -74,7 +79,7 @@
 </div>
 
 <!-- <div class="main-div" class="main-{{pageClass}}" ng-click="homeClick()"> -->
-<main ng-view="" class='main' autoscroll="" ng-controller="appCtrl" ng-class="{'mainShifted': navShown, 'mainFilter': navShown}" ng-click="closeNav()"></main>
+<main ng-view="" class='main' autoscroll="" ng-controller="appCtrl" ng-class="{'mainShifted': navShown, 'mainFilter': navShown}"></main>
 
 </body>
 

@@ -2,7 +2,13 @@ angular.module('myApp')
 
 .controller('contactCtrl',['$scope','$location','$rootScope','getService','$sce','$routeParams', function($scope, $location, $rootScope, getService, $sce, $routeParams) {
 
+  $rootScope.pageLoading = true;
 
+  setTimeout(function(){
+    $rootScope.viewLoaded = true;
+    $rootScope.pageLoading = false;
+    $scope.$apply();
+  }, 500);
 
 
 

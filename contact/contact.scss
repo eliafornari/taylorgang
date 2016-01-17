@@ -2,16 +2,21 @@
 
 /*....................................CONTACT PAGE..................................*/
 
+.input{
+  outline: 0;
+  border: 0;
+}
+
+
 $paddingInput: 4px 4px 4px 8px;
-.page-contact{
+.contact{
   width: 100%;
+  position: relative;
   height: 100vh;
-.contact-content{
-  width: 100%;
-  height: 100%;
-  .contact-inside-wrapper{
+  display: block;
+
+  .contact-table{
     position: absolute;
-    display:block;
     height: 100%;
     width: 100%;
       tbody{
@@ -19,27 +24,8 @@ $paddingInput: 4px 4px 4px 8px;
           height: 100%;
           width: 100%;
           td{
-            height:100%;
             vertical-align: middle;
-            // text-align:center;
-            .contact-col{
-              position:absolute;
-              // margin: auto 50%;
-              // height: auto;
-              width: 340px;
-              top: 185px;
-              left:50%;
-              margin-left:-170px;
-              height:auto;
-              -webkit-appearance: none;
-              border-radius: 0;
-              // margin-bottom: 90px;
-              // margin-left:250px;
-              @include respond-to(phone) {
-                width:300px;
-                top: 125px;
-                margin-left: -150px;
-                }
+            height: 100%;
               .contact-form{
                 display: block !important;
                 width: 100% !important;
@@ -48,62 +34,8 @@ $paddingInput: 4px 4px 4px 8px;
                 @include respond-to(phone) {
                   width:80%;
                   }
-                  .alert-success{
-                    line-height: 16px;
-                    font-size: 11px;
-                    text-align: left;
-                    position: FIXED;
-                    top: 50%;
-                    font-family: telefon;
-                    color: #606060;
-                    letter-spacing: 1px;
-                    .back-button{
-                      width: auto;
-                      font-size: $font-size-paragraph !important;
-                      color: $black;
-                      text-align: left;
-                      margin-top: 10px;
-                      line-height: 16px;
-                      @include hover-effect-color;
-                        a{
-                          @include hover-effect-color;
-                          display: block;
-                          font-size: $font-size-paragraph !important;
-                          letter-spacing: $letter-spacing;
-                          cursor: pointer;
-                          text-align: left;
-                        }
-                    }
-                }
-                .alert-danger{
-                    line-height: 16px;
-                    font-size: 11px;
-                    text-align: left;
-                    position: FIXED;
-                    top: 50%;
-                    font-family: gtWalsheim-light, Helvetica;
-                    color: #606060;
-                    letter-spacing: 1px;
-                    .back-button{
-                      width: auto;
-                      font-size: $font-size-paragraph !important;
-                      color: $black;
-                      text-align: left;
-                      margin-top: 10px;
-                      line-height: 16px;
-                      @include hover-effect-color;
-                        a{
-                          @include hover-effect-color;
-                          display: block;
-                          font-size: $font-size-paragraph !important;
-                          letter-spacing: $letter-spacing;
-                          cursor: pointer;
-                          text-align: left;
-                        }
-                    }
-                }
-                }
                 form{
+                  outline: 0;
                   .text p{
                     font-size:11px;
                     margin-bottom:18px;
@@ -316,99 +248,187 @@ $paddingInput: 4px 4px 4px 8px;
                     padding-top: 8px;
                   }
                 }
-              .contact-company{
-                  line-height: $font-size-paragraph;
-                  margin-top: 10%;
-                  display: block;
-                  height: 50% !important;
-                  width: 100% !important;
-                  letter-spacing: 1px;
-                  .showroom-address{
-                    h1{
-                      color: $black;
-                      margin-bottom: 10px;
-                      font-size: $font-size-subtitle;
-                      line-height: $font-size-paragraph;
-                      text-align: left;
-                      font-family: gtWalsheim-light;
-                      letter-spacing: 1px;
-                    }
-                    span{
-                      width: 100%;
-                      display: inline-block;
-                      clear: both;
-                      color:$black;
-                      font-family: gtWalsheim-regular;
-                      line-height: $font-size-paragraph;
-                      font-size: $font-size-paragraph;
-                      letter-spacing: 1px;
-                    }
-                    .number{
-                      margin-bottom:15px;
-                      font-family: gtWalsheim-regular;
-                      line-height: $font-size-paragraph;
-                      font-size: $font-size-paragraph;
-                      letter-spacing: 1px;
-                    }
-                  }
-                  .contacts{
-                    margin-top: 30px;
-                    margin-bottom:15px;
-                    h1{
-                      color: $black;
-                      margin-bottom: 10px;
-                      font-size: $font-size-subtitle;
-                      line-height: $font-size-paragraph;
-                      text-align: left;
-                      font-family: gtWalsheim-light;
-                      letter-spacing: 1px;
-                    }
-                    p{
-                      width: auto;
-                      display: inline-block;
-                      clear: both;
-                      color:$black;
-                      font-family: gtWalsheim-regular;
-                      line-height: $font-size-paragraph;
-                      font-size: $font-size-paragraph;
-                      letter-spacing: 1px;
-                    }
-                    span{
-                      width: 100%;
-                      display: inline-block;
-                      clear: both;
-                      color:$black;
-                      font-family: gtWalsheim-regular;
-                      line-height: $font-size-paragraph;
-                      font-size: $font-size-paragraph;
-                      letter-spacing: 1px;
-                      a{
-                        width: 100%;
-                        display: inline-block;
-                        clear: both;
-                        color:$black;
-                        font-family: gtWalsheim-regular;
-                        line-height: $font-size-paragraph;
-                        font-size: $font-size-paragraph;
-                        @include hover-effect-color;
-                        letter-spacing: 1px;
-                      }
-                    }
-                  }
-
-
-
-
               }
-            }
           }
         }
       }
     }
 
 
-  /*.................................................................................*/
+
+
+/*......................................ALERTTS...........................................*/
+  .alert-success{
+    line-height: 16px;
+    font-size: 11px;
+    text-align: left;
+    position: fixed;
+    top: 50%;
+    font-family: telefon;
+    color: #606060;
+    letter-spacing: 1px;
+    .back-button{
+      width: auto;
+      font-size: $font-size-paragraph !important;
+      color: $black;
+      text-align: left;
+      margin-top: 10px;
+      line-height: 16px;
+      @include hover-effect-color;
+        a{
+          @include hover-effect-color;
+          display: block;
+          font-size: $font-size-paragraph !important;
+          letter-spacing: $letter-spacing;
+          cursor: pointer;
+          text-align: left;
+        }
+    }
 }
+  .alert-danger{
+      line-height: 16px;
+      font-size: 11px;
+      text-align: left;
+      position: FIXED;
+      top: 50%;
+      font-family: gtWalsheim-light, Helvetica;
+      color: #606060;
+      letter-spacing: 1px;
+      .back-button{
+        width: auto;
+        font-size: $font-size-paragraph !important;
+        color: $black;
+        text-align: left;
+        margin-top: 10px;
+        line-height: 16px;
+        @include hover-effect-color;
+          a{
+            @include hover-effect-color;
+            display: block;
+            font-size: $font-size-paragraph !important;
+            letter-spacing: $letter-spacing;
+            cursor: pointer;
+            text-align: left;
+          }
+      }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+/*......................................CONTACT COMPANY...........................................*/
+
+  .contact-company{
+      line-height: $font-size-paragraph;
+      margin-top: 10%;
+      display: block;
+      height: 50% !important;
+      width: 100% !important;
+      letter-spacing: 1px;
+      .showroom-address{
+        h1{
+          color: $black;
+          margin-bottom: 10px;
+          font-size: $font-size-subtitle;
+          line-height: $font-size-paragraph;
+          text-align: left;
+          font-family: gtWalsheim-light;
+          letter-spacing: 1px;
+        }
+        span{
+          width: 100%;
+          display: inline-block;
+          clear: both;
+          color:$black;
+          font-family: gtWalsheim-regular;
+          line-height: $font-size-paragraph;
+          font-size: $font-size-paragraph;
+          letter-spacing: 1px;
+        }
+        .number{
+          margin-bottom:15px;
+          font-family: gtWalsheim-regular;
+          line-height: $font-size-paragraph;
+          font-size: $font-size-paragraph;
+          letter-spacing: 1px;
+        }
+      }
+      .contacts{
+        margin-top: 30px;
+        margin-bottom:15px;
+        h1{
+          color: $black;
+          margin-bottom: 10px;
+          font-size: $font-size-subtitle;
+          line-height: $font-size-paragraph;
+          text-align: left;
+          font-family: gtWalsheim-light;
+          letter-spacing: 1px;
+        }
+        p{
+          width: auto;
+          display: inline-block;
+          clear: both;
+          color:$black;
+          font-family: gtWalsheim-regular;
+          line-height: $font-size-paragraph;
+          font-size: $font-size-paragraph;
+          letter-spacing: 1px;
+        }
+        span{
+          width: 100%;
+          display: inline-block;
+          clear: both;
+          color:$black;
+          font-family: gtWalsheim-regular;
+          line-height: $font-size-paragraph;
+          font-size: $font-size-paragraph;
+          letter-spacing: 1px;
+          a{
+            width: 100%;
+            display: inline-block;
+            clear: both;
+            color:$black;
+            font-family: gtWalsheim-regular;
+            line-height: $font-size-paragraph;
+            font-size: $font-size-paragraph;
+            @include hover-effect-color;
+            letter-spacing: 1px;
+          }
+        }
+      }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*.................................................................................*/
+
 ::-webkit-input-placeholder {
     color:    #000000;
 }

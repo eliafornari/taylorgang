@@ -5,12 +5,19 @@
       <tr>
         <td>
           <ul class="nav-ul">
-            <li class="nav-li" ng-repeat="a in general"><a href="{{a.slug}}"><p>{{a.name}}</p></a></li>
+            <li class="nav-li-big" ng-click="closeNav()"><a href="/taylorgang"><p>taylorgang</p></a></li>
+
+            <li class="nav-li" ng-repeat="a in general" ng-click="closeNav()"><a href="{{a.slug}}"><p>{{a.name}}</p></a></li>
+
+            <li class="nav-li-big" ng-click="closeNav()"><a href="/shop"><p>shop</p></a></li>
+
+            <li class="nav-li-big" ng-click="closeNav()"><a href="/contact"><p>contact</p></a></li>
+
           </ul>
         </td>
       </tr>
     </table>
-
   </div>
+
 
 </div>

@@ -13,6 +13,7 @@ $font-size-splash: 20px;
 $font-size-title: 28px;
 $font-size-subtitle: 15px;
 $font-size-nav: 14px;
+$font-size-nav-big: 22px;
 $font-size-paragraph: 13px;
 
 
@@ -46,8 +47,7 @@ $color-subtext: rgba(156, 156, 156, 1);
 
 /*.......LINE HEIGHTS......*/
 $line-height-overall: 20px;
-$line-height-paragraph: 19px;
-$line-height-editorsletter: 22px;
+$line-height-paragraph: 18px;
 
 
 
@@ -66,11 +66,14 @@ $z-artist-title:11;
 $z-nav: 11;
 $z-splash:10;
 $z-pop-plus: 10;
-$z-pop: 9;
+$z-pop: 10;
 
-
+$z-glass:9;
 
 $z-artist-video: 5;
+
+$z-related-title:5;
+$z-related-image:4;
 
 
 

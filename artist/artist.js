@@ -5,8 +5,12 @@ angular.module('myApp')
 $scope.artist = $routeParams.artist;
 $rootScope.artist_data;
 $rootScope.channel_data = [];
-
 $scope.main_video, $scope.main_title;
+
+$rootScope.pageLoading = true;
+
+
+
 
 
 artistService.get({artist: $routeParams.artist}, function(data){
@@ -47,6 +51,12 @@ artistService.get({artist: $routeParams.artist}, function(data){
 
                     console.log("title: "+$scope.main_title);
                     console.log("main video:"+$scope.main_video);
+
+                    // setTimeout(function(){
+                      $rootScope.viewLoaded = true;
+                      $rootScope.pageLoading = false;
+                      $scope.$apply();
+                    // }, 1500);
 
                   }
               );

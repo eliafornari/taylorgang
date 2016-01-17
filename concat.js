@@ -174,11 +174,11 @@ $rootScope.pageLoading = true;
 
   }).then(function(){
 
-    setTimeout(function(){
-      $rootScope.viewLoaded = true;
-      $rootScope.pageLoading = false;
-      $scope.$apply();
-    }, 2000);
+    // setTimeout(function(){
+    //   $rootScope.viewLoaded = true;
+    //   $rootScope.pageLoading = false;
+    //   $scope.$apply();
+    // }, 2000);
 
     // $scope.$apply();
 
@@ -326,19 +326,19 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
   $routeProvider
   // $locationChangeStart
 
+  .when('/taylorgang', {
+    templateUrl: 'taylor/taylor.html',
+    controller: 'taylorCtrl'
+  })
+
+  .when('/contact', {
+    templateUrl: 'contact/contact.html',
+    controller: 'contactCtrl'
+  })
+
     .when('/:artist', {
       templateUrl: 'artist/artist.html',
       controller: 'artistCtrl'
-    })
-
-    .when('/taylorgang', {
-      templateUrl: 'taylor/taylor.html',
-      controller: 'taylorCtrl'
-    })
-
-    .when('/contact', {
-      templateUrl: 'contact/contact.html',
-      controller: 'contactCtrl'
     })
 
     .when('/shop', {
@@ -378,6 +378,14 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
 
 
 }])
+
+// .run(function () {
+//   $rootScope.tag = document.createElement('script');
+//   $rootScope.tag.src = "http://www.youtube.com/iframe_api";
+//   $rootScope.firstScriptTag = document.getElementsByTagName('script')[0];
+//   $rootScope.firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// })
+
 
 .controller('routeController', function($scope, $location, $rootScope, $routeParams, $timeout){
 
@@ -560,8 +568,12 @@ angular.module('myApp')
 $scope.artist = $routeParams.artist;
 $rootScope.artist_data;
 $rootScope.channel_data = [];
-
 $scope.main_video, $scope.main_title;
+
+$rootScope.pageLoading = true;
+
+
+
 
 
 artistService.get({artist: $routeParams.artist}, function(data){
@@ -603,6 +615,12 @@ artistService.get({artist: $routeParams.artist}, function(data){
                     console.log("title: "+$scope.main_title);
                     console.log("main video:"+$scope.main_video);
 
+                    // setTimeout(function(){
+                      $rootScope.viewLoaded = true;
+                      $rootScope.pageLoading = false;
+                      $scope.$apply();
+                    // }, 1500);
+
                   }
               );
 
@@ -633,6 +651,13 @@ angular.module('myApp')
 
 .controller('taylorgangCtrl',['$scope','$location','$rootScope','getService','$sce','$routeParams', function($scope, $location, $rootScope, getService, $sce, $routeParams) {
 
+$rootScope.pageLoading = true;
+
+  // setTimeout(function(){
+    $rootScope.viewLoaded = true;
+    $rootScope.pageLoading = false;
+    $scope.$apply();
+  // }, 1500);
 
 }]);
 
@@ -640,7 +665,13 @@ angular.module('myApp')
 
 .controller('contactCtrl',['$scope','$location','$rootScope','getService','$sce','$routeParams', function($scope, $location, $rootScope, getService, $sce, $routeParams) {
 
+  $rootScope.pageLoading = true;
 
+  setTimeout(function(){
+    $rootScope.viewLoaded = true;
+    $rootScope.pageLoading = false;
+    $scope.$apply();
+  }, 500);
 
 
 
@@ -750,6 +781,14 @@ angular.module('myApp')
 
 .controller('shopCtrl',['$scope','$location','$rootScope','getService','$sce','$routeParams', function($scope, $location, $rootScope, getService, $sce, $routeParams) {
 
+  $rootScope.pageLoading = false;
+
+    // setTimeout(function(){
+      $rootScope.viewLoaded = true;
+      $rootScope.pageLoading = false;
+      $scope.$apply();
+    // }, 1500);
+
 
 }]);
 
@@ -758,10 +797,79 @@ angular.module('myApp')
 .controller('splashCtrl',['$scope','$location','$rootScope','getService','$sce','$routeParams', function($scope, $location, $rootScope, getService, $sce, $routeParams) {
 
 
-var video_splash = document.getElementById('splash-video');
-video_splash.volume = 0;
-video_splash.play();
+$rootScope.pageLoading = true;
+
+  setTimeout(function(){
+    $rootScope.viewLoaded = true;
+    $rootScope.pageLoading = false;
+    $scope.$apply();
+  }, 1000);
+
+// var video_splash = document.getElementById('splash-video');
+// video_splash.volume = 0;
+// video_splash.play();
+
+
+}])
 
 
 
-}]);
+.directive('youtube', function($window) {
+  return {
+    restrict: "E",
+    scope: {
+      height:   "@",
+      width:    "@",
+      videoid:  "@"
+    },
+
+    template: '<div class="splash-video"></div>',
+
+    link: function(scope, element) {
+      var tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      var player;
+
+      $window.onYouTubeIframeAPIReady = function() {
+        player = new YT.Player(element.children()[0], {
+
+          playerVars: {
+            autoplay: 1,
+            html5: 1,
+            theme: "light",
+            modesbranding: 1,
+            color: "white",
+            iv_load_policy: 3,
+            showinfo: 1,
+            controls: 1,
+          },
+
+          height: scope.height,
+          width: scope.width,
+          videoId: scope.videoid,
+          events: {
+              'onReady': onPlayerReady
+          }
+        });
+
+
+
+      };
+
+
+
+      function onPlayerReady(event) {
+          player.mute();
+          player.playVideo();
+      }
+
+
+
+
+
+    },
+  }
+});

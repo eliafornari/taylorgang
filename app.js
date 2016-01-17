@@ -30,11 +30,11 @@ $rootScope.pageLoading = true;
 
   }).then(function(){
 
-    setTimeout(function(){
-      $rootScope.viewLoaded = true;
-      $rootScope.pageLoading = false;
-      $scope.$apply();
-    }, 2000);
+    // setTimeout(function(){
+    //   $rootScope.viewLoaded = true;
+    //   $rootScope.pageLoading = false;
+    //   $scope.$apply();
+    // }, 2000);
 
     // $scope.$apply();
 

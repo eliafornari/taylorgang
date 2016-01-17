@@ -1,11 +1,18 @@
+
+
+
 .splash-video{
   display: block;
-  width: 100vw;
-  height: auto;
+  width: 160vw;
+  height: 160vh;
   position: fixed;
   left: 50%;
-  margin-left: -50vw;
+  margin-left: -100vw;
+  // // top:50%;
+  transform: translateY(-26%);
+  // margin-top: -130vh;
   z-index: $z-splash-video;
+
 
   @include respond-to(laptop-large){
     width: 120vw;
@@ -13,8 +20,8 @@
   }
 
   @include respond-to(laptop-small){
-    width: 120vw;
-    margin-left: -60vw;
+    width: 150vw;
+    margin-left: -75vw;
   }
 
   @include respond-to(tablet-portrait){
@@ -28,8 +35,9 @@
   }
 
   @include respond-to(phone){
-    width: 200vw;
-    margin-left: -100vw;
+    width: 450vw;
+    margin-left: -225vw;
+    transform: translateY(-32%);
   }
 
 }
@@ -76,7 +84,10 @@
           width: 100%;
           height: $font-size-splash;
           margin-top: 6vh;
-            z-index: $z-splash;
+          z-index: $z-splash;
+          &:nth-child(1){
+            margin-top: 0;
+          }
           a{
             height: $font-size-splash;
             width: 100%;

@@ -374,7 +374,15 @@ transition: opacity 500ms ease;
 
 
 
+.glass{
+  width: 50vw;
+  height: 100vh;
+  position: fixed;
+  z-index:$z-glass;
+  background-color: transparent;
 
+
+}
 
 
 

@@ -15,19 +15,19 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
   $routeProvider
   // $locationChangeStart
 
+  .when('/taylorgang', {
+    templateUrl: 'taylor/taylor.html',
+    controller: 'taylorCtrl'
+  })
+
+  .when('/contact', {
+    templateUrl: 'contact/contact.html',
+    controller: 'contactCtrl'
+  })
+
     .when('/:artist', {
       templateUrl: 'artist/artist.html',
       controller: 'artistCtrl'
-    })
-
-    .when('/taylorgang', {
-      templateUrl: 'taylor/taylor.html',
-      controller: 'taylorCtrl'
-    })
-
-    .when('/contact', {
-      templateUrl: 'contact/contact.html',
-      controller: 'contactCtrl'
     })
 
     .when('/shop', {
@@ -67,6 +67,14 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
 
 
 }])
+
+// .run(function () {
+//   $rootScope.tag = document.createElement('script');
+//   $rootScope.tag.src = "http://www.youtube.com/iframe_api";
+//   $rootScope.firstScriptTag = document.getElementsByTagName('script')[0];
+//   $rootScope.firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// })
+
 
 .controller('routeController', function($scope, $location, $rootScope, $routeParams, $timeout){
 

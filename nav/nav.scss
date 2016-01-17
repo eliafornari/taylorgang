@@ -2,6 +2,13 @@ $fade-in: 0.4s;
 $fade-nav: 0.9s;
 $fade-out: 0.4s;
 
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+cursor: pointer;
+}
+
 //POP + opening the nav
 .pop{
   position: fixed;
@@ -21,8 +28,11 @@ $fade-out: 0.4s;
     margin-top: -15px;
     z-index: $z-pop-plus;
     text-align: center;
-    font-size: 24px;
+    font-size: 30px;
     text-rendering: geometricPrecision;
+    &:hover{
+      @include hover-effect-color-yellow();
+    }
   }
 }
 
@@ -50,7 +60,8 @@ $fade-out: 0.4s;
           width: 50vw;
           .nav-li{
             width: 50vw;
-            margin-bottom: 35px;
+            margin-top: 35px;
+
             a{
               width: 100%;
               p{
@@ -64,7 +75,28 @@ $fade-out: 0.4s;
                 &:hover{
                   @include hover-effect-color-yellow();
                 }
-
+              }
+            }
+          }
+          .nav-li-big{
+            width: 50vw;
+            margin-top: 45px;
+            &:nth-child(1){
+              margin-top: 0px;
+            }
+            a{
+              width: 100%;
+              p{
+                width: 100%;
+                text-align: center;
+                color: #FFFFFF;
+                font-size: $font-size-nav-big;
+                font-family: 'telefon', Helvetica;
+                line-height: $font-size-nav-big;
+                height: $font-size-nav-big;
+                &:hover{
+                  @include hover-effect-color-yellow();
+                }
               }
             }
           }
@@ -73,6 +105,7 @@ $fade-out: 0.4s;
     }
   }
 }
+
 
 
 
@@ -181,6 +214,77 @@ transform-origin: 0 0;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes shiftLeftPop {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-49vw));}
+}
+
+@-webkit-keyframes shiftLeftPop {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-49vw));}
+}
+
+@-moz-keyframes shiftLeftPop {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-49vw));}
+}
+
+@-ms-keyframes shiftLeftPop {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-49vw));}
+}
+
+@-o-keyframes shiftLeftPop {
+  from {@include transform-element(translateX(0vw));}
+  to {@include transform-element(translateX(-49vw));}
+}
+
+
+
+//shift up keyframe
+@keyframes shiftRightPop {
+  from {@include transform-element(translateX(-49vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+@-webkit-keyframes shiftRightPop {
+  from {@include transform-element(translateX(-49vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+@-moz-keyframes shiftRightPop {
+  from {@include transform-element(translateX(-49vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+@-ms-keyframes shiftRightPop {
+  from {@include transform-element(translateX(-49vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+@-o-keyframes shiftRightPop {
+  from {@include transform-element(translateX(-49vw));}
+  to {@include transform-element(translateX(0vw));}
+}
+
+
+$animation-speed-pop: 0.6s;
 //pop
 .pop{
   transform: translateX(0vw);
@@ -190,26 +294,26 @@ transform-origin: 0 0;
 }
 
 .pop.popShifted{
-  transform: translateX(-50vw) !important;
-  -ms-transform: translateX(-50vw) !important;
-  -webkit-transform: translateX(-50vw) !important;
+  transform: translateX(-49vw) !important;
+  -ms-transform: translateX(-49vw) !important;
+  -webkit-transform: translateX(-49vw) !important;
 
 }
 
 .pop.popShifted-add.popShifted-add-active{
-  -webkit-animation: shiftLeftNav $animation-speed ease;
-  -moz-animation: shiftLeftNav $animation-speed ease;
-  -ms-animation: shiftLeftNav $animation-speed ease;
-  -o-animation: shiftLeftNav $animation-speed ease;
-  animation: shiftLeftNav $animation-speed ease;
+  -webkit-animation: shiftLeftPop $animation-speed-pop ease;
+  -moz-animation: shiftLeftPop $animation-speed-pop ease;
+  -ms-animation: shiftLeftPop $animation-speed-pop ease;
+  -o-animation: shiftLeftPop $animation-speed-pop ease;
+  animation: shiftLeftPop $animation-speed-pop ease;
 }
 
 .pop.popShifted-remove.popShifted-remove-active{
-  -webkit-animation: shiftRightNav $animation-speed ease;
-  -moz-animation: shiftRightNav $animation-speed ease;
-  -ms-animation: shiftRightNav $animation-speed ease;
-  -o-animation: shiftRightNav $animation-speed ease;
-  animation: shiftRightNav $animation-speed ease;
+  -webkit-animation: shiftRightPop $animation-speed-pop ease;
+  -moz-animation: shiftRightPop $animation-speed-pop ease;
+  -ms-animation: shiftRightPop $animation-speed-pop ease;
+  -o-animation: shiftRightPop $animation-speed-pop ease;
+  animation: shiftRightPop $animation-speed-pop ease;
 }
 
 
