@@ -331,6 +331,12 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
     controller: 'taylorCtrl'
   })
 
+
+  .when('/shop', {
+    templateUrl: 'shop/shop.html',
+    controller: 'shopCtrl'
+  })
+
   .when('/contact', {
     templateUrl: 'contact/contact.html',
     controller: 'contactCtrl'
@@ -341,10 +347,6 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
       controller: 'artistCtrl'
     })
 
-    .when('/shop', {
-      templateUrl: 'shop/shop.html',
-      controller: 'shopCtrl'
-    })
 
 
 
@@ -581,12 +583,6 @@ artistService.get({artist: $routeParams.artist}, function(data){
   $rootScope.artist_data = data;
 
 }).$promise.then(function (data) {
-  // console.log($rootScope.artist_data.videos[0].id);
-
-  console.log(data);
-
-
-
 
 
               $.get(
@@ -612,14 +608,39 @@ artistService.get({artist: $routeParams.artist}, function(data){
 
                     $scope.$apply();
 
-                    console.log("title: "+$scope.main_title);
-                    console.log("main video:"+$scope.main_video);
-
                     // setTimeout(function(){
                       $rootScope.viewLoaded = true;
                       $rootScope.pageLoading = false;
                       $scope.$apply();
                     // }, 1500);
+
+
+
+
+
+
+
+                    // for (i in $rootScope.channel_data){
+                    //
+                    //
+                    //   var html = $rootScope.channel_data[i].snippet.title
+                    //
+                    //   console.log(html);
+                    //
+                    //
+                    //    var newHtml='';
+                    //
+                    //    for (var n=0;n<html.length;n++) {
+                    //        newHtml=newHtml+html[n];
+                    //        if ((n+1)%15==0) {newHtml=newHtml+"\n";}
+                    //    }
+                    //
+                    //    $rootScope.channel_data[i].snippet.title = newHtml;
+                    //
+                    //    $scope.$apply();
+                    //
+                    //      console.log(newHtml);
+                    // }
 
                   }
               );
@@ -639,6 +660,10 @@ $scope.thisVideo = function(id, index){
   $scope.main_title = $rootScope.channel_data[index].title;
 
 }
+
+
+
+
 
 
 

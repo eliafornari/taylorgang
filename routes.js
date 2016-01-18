@@ -20,6 +20,12 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
     controller: 'taylorCtrl'
   })
 
+
+  .when('/shop', {
+    templateUrl: 'shop/shop.html',
+    controller: 'shopCtrl'
+  })
+
   .when('/contact', {
     templateUrl: 'contact/contact.html',
     controller: 'contactCtrl'
@@ -30,10 +36,6 @@ angular.module('myApp.Routes', ['ngRoute', 'ngAnimate', 'ngResource'])
       controller: 'artistCtrl'
     })
 
-    .when('/shop', {
-      templateUrl: 'shop/shop.html',
-      controller: 'shopCtrl'
-    })
 
 
 

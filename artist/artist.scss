@@ -69,29 +69,41 @@
         z-index: $z-related-image;
       }
       .artist-video-title{
+        display: block;
         position: absolute;
         top:0;
         left: 0;
         width:100%;
         height: 100%;
         display: block;
-        background-color: #FFFFFF;
-        overflow-y: scroll;
-        word-wrap: break-word;
+        background-color: rgba(255, 255, 255, 0.9);
         width: 100%;
         z-index: $z-related-title;
-        p{
-          position: absolute;
-          top: 50%;
-          margin-top: -7.5px;
-          width: auto;
-          text-align: center;
-          // overflow: scroll;
-          color: #000000;
-          height: $line-height-paragraph;
-          line-height: $line-height-paragraph;
-          font-size: $font-size-paragraph;
-          word-break: break-all;
+        table{
+          width: 100%;
+          height: 100%;
+          tr{
+            td{
+              vertical-align: middle;
+              height: 100%;
+              p{
+                display: block;
+                width: 15vw;
+                position: relative;
+                margin-left: -7.5vw;
+                left: 50%;
+                word-break:keep-all;
+                word-wrap: break-word;
+                text-align: center;
+                white-space: pre-wrap;
+                // overflow: scroll;
+                color: #000000;
+                height: auto;
+                line-height: $line-height-paragraph;
+                font-size: $font-size-related-title;
+              }
+            }
+          }
         }
       }
     }

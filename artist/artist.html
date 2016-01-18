@@ -24,8 +24,15 @@
       <ul class="artist-video-ul">
         <li class="artist-video-li" ng-repeat="r in channel_data" ng-click="thisVideo(r.id.videoId, $index)" ng-mouseover="related_show=true" ng-mouseout="related_show=false">
 
-          <div class="artist-video-title" ng-show="related_show"><p>{{r.snippet.title}}</p></div>
-
+          <div class="artist-video-title" id="artist-video-title-{{$index}}" ng-show="related_show">
+            <table>
+              <tr>
+                <td>
+                  <p class="artist-video-title-p">{{r.snippet.title}}</p>
+                </td>
+              </tr>
+            </table>
+          </div>
           <div class="artist-video-img" style="background-image: url('{{r.snippet.thumbnails.high.url}}')"></div>
           <!-- http://img.youtube.com/vi/{{r.id.videoId}}/0.jpg -->
         </li>

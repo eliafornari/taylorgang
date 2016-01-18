@@ -60,8 +60,7 @@ cursor: pointer;
           width: 50vw;
           .nav-li{
             width: 50vw;
-            margin-top: 35px;
-
+            margin-top: 32px;
             a{
               width: 100%;
               p{
@@ -90,10 +89,10 @@ cursor: pointer;
                 width: 100%;
                 text-align: center;
                 color: #FFFFFF;
-                font-size: $font-size-nav-big;
-                font-family: 'telefon', Helvetica;
-                line-height: $font-size-nav-big;
-                height: $font-size-nav-big;
+                font-size: $font-size-title;
+                font-family: gtWalsheim-black-oblique, Helvetica;
+                line-height: $font-size-title;
+                height: $font-size-title;
                 &:hover{
                   @include hover-effect-color-yellow();
                 }

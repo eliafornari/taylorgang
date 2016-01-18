@@ -27,10 +27,12 @@ $paddingInput: 4px 4px 4px 8px;
             vertical-align: middle;
             height: 100%;
               .contact-form{
+                position: relative;
                 display: block !important;
-                width: 100% !important;
+                width: 40vw !important;
                 height: 32% !important;
-                margin: auto 0% !important;
+                margin-left: -20vw;
+                left: 50%;
                 @include respond-to(phone) {
                   width:80%;
                   }
@@ -39,8 +41,10 @@ $paddingInput: 4px 4px 4px 8px;
                   .text p{
                     font-size:11px;
                     margin-bottom:18px;
-                    font-family: gtWalsheim-regular;
+                    font-family: gtWalsheim-black-oblique;
                     padding-bottom: 10px;
+                    font-size: $font-size-title;
+                    text-align: center;
                   }
                   .form-group1{
                     padding-bottom:8px;
@@ -48,7 +52,7 @@ $paddingInput: 4px 4px 4px 8px;
                   .form-error-name{
                     padding-bottom:8px;
                     font-size: $font-size-paragraph;
-                    font-family: gtWalsheim-regular;
+                    font-family: gtWalsheim-light;
                     color: #FFFF00;
                     margin-left: 8px;
                     // line-height: 10px;
@@ -77,7 +81,7 @@ $paddingInput: 4px 4px 4px 8px;
                   .form-error-email{
                     padding-bottom: 8px;
                     font-size: $font-size-paragraph;
-                    font-family: gtWalsheim-regular;
+                    font-family: gtWalsheim-light;
                     color: #FFFF00;
                     margin-left: 8px;
                     // line-height: 10px;
@@ -93,15 +97,16 @@ $paddingInput: 4px 4px 4px 8px;
                       width:100%;
                       height:30px;
                       background-color: transparent;
-                      border-color:#000000;
-                      border-style:solid;
-                      border-width:1px;
+                      // border-color:#000000;
+                      // border-style:solid;
+                      // border-width:1px;
+                      border: none;
                       padding: $paddingInput;
                       outline:0;
                       letter-spacing: $letter-spacing;
                       font-size:10px;
                       text-transform: uppercase;
-                      font-family: gtWalsheim-regular;
+                      font-family: gtWalsheim-light;
                       color:$black;
                       -webkit-appearance: none;
                       border-radius: 0;
@@ -113,21 +118,21 @@ $paddingInput: 4px 4px 4px 8px;
                       box-sizing: border-box;
                       -webkit-box-sizing:border-box;
                       &:hover {
-                        border-color: $yellow;
+                        color: $black-transparent;
                       }
                       &:focus {
-                      border-color: $yellow;
+                      color: $black-transparent;
                       }
                       @include respond-to(phone) {
                         height: 35px;
                         }
                     }
                     option:nth-child(1){
-                      color: blue;
+                      color: $yellow;
                     }
 
                     .placeholder-text{
-                      color: blue;
+                      color: $yellow;
                     }
 
                     .contact-select-arrow{
@@ -165,7 +170,7 @@ $paddingInput: 4px 4px 4px 8px;
                     letter-spacing:$letter-spacing;
                     padding-bottom: 2px;
                     font-size: 11px;
-                    font-family: gtWalsheim-regular;
+                    font-family: gtWalsheim-light;
                     border-style:none;
                     outline:0;
                     text-transform: uppercase;
@@ -194,14 +199,12 @@ $paddingInput: 4px 4px 4px 8px;
                   .form-control1{
                     width:100%;
                     height:30px;
-                    border-color:$light-grey;
-                    border-style:solid;
-                    border-width:1px;
+                    border: none;
                     padding: $paddingInput;
                     outline:0;
                     letter-spacing: $letter-spacing;
                     font-size:10px;
-                    font-family: gtWalsheim-regular;
+                    font-family: gtWalsheim-light;
                     color:#000000;
                     text-transform: uppercase;
                     -webkit-appearance: none;
@@ -214,10 +217,10 @@ $paddingInput: 4px 4px 4px 8px;
                     box-sizing: border-box;
                     -webkit-box-sizing:border-box;
                     &:hover {
-                      border-color: gtWalsheim-regular;
+                      border-color: gtWalsheim-light;
                     }
                     &:focus {
-                    border-color: gtWalsheim-regular;
+                    border-color: gtWalsheim-light;
                     }
                     @include respond-to(phone) {
                       height: 35px;
@@ -348,14 +351,14 @@ $paddingInput: 4px 4px 4px 8px;
           display: inline-block;
           clear: both;
           color:$black;
-          font-family: gtWalsheim-regular;
+          font-family: gtWalsheim-light;
           line-height: $font-size-paragraph;
           font-size: $font-size-paragraph;
           letter-spacing: 1px;
         }
         .number{
           margin-bottom:15px;
-          font-family: gtWalsheim-regular;
+          font-family: gtWalsheim-light;
           line-height: $font-size-paragraph;
           font-size: $font-size-paragraph;
           letter-spacing: 1px;
@@ -378,7 +381,7 @@ $paddingInput: 4px 4px 4px 8px;
           display: inline-block;
           clear: both;
           color:$black;
-          font-family: gtWalsheim-regular;
+          font-family: gtWalsheim-light;
           line-height: $font-size-paragraph;
           font-size: $font-size-paragraph;
           letter-spacing: 1px;
@@ -388,7 +391,7 @@ $paddingInput: 4px 4px 4px 8px;
           display: inline-block;
           clear: both;
           color:$black;
-          font-family: gtWalsheim-regular;
+          font-family: gtWalsheim-light;
           line-height: $font-size-paragraph;
           font-size: $font-size-paragraph;
           letter-spacing: 1px;
@@ -397,7 +400,7 @@ $paddingInput: 4px 4px 4px 8px;
             display: inline-block;
             clear: both;
             color:$black;
-            font-family: gtWalsheim-regular;
+            font-family: gtWalsheim-light;
             line-height: $font-size-paragraph;
             font-size: $font-size-paragraph;
             @include hover-effect-color;
