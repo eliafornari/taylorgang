@@ -28,12 +28,27 @@
 
 <body ng-controller="routeController">
   <div id="player"></div>
-<script>
-   // 2. This code loads the IFrame Player API code asynchronously.
 
-</script>
+
+
   <div class="pop" ng-click="showNav()" ng-hide="hidePop" ng-class="{'popShifted': navShown}">
-    <p class="pop-plus">+</p>
+    <svg class="pop-plus" version="1.1" id="cross" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+       viewBox="-249 251 500 500" style="enable-background:new -249 251 500 500;" xml:space="preserve">
+
+      <style type="text/css">
+        .line{
+          fill:none;
+          stroke:rgba(255, 255, 255, 1);
+          stroke-width:50;
+          stroke-miterlimit:10;
+        }
+      </style>
+
+      <line class="line" id="line1" x1="251" y1="507" x2="-249" y2="507" ng-class="{'rotateClock': navShown}"/>
+      <line class="line" id="line2" x1="1" y1="751" x2="1" y2="251" ng-class="{'rotateClock': navShown}"/>
+      <line class="line" id="line3" x1="1" y1="751" x2="1" y2="251" ng-class="{'rotateClock': navShown}"/>
+    </svg>
+
   </div>
 
 

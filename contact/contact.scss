@@ -118,10 +118,10 @@ $paddingInput: 4px 4px 4px 8px;
                       box-sizing: border-box;
                       -webkit-box-sizing:border-box;
                       &:hover {
-                        color: $black-transparent;
+                        background-color: $light-grey;
                       }
                       &:focus {
-                      color: $black-transparent;
+                        background-color: $light-grey;
                       }
                       @include respond-to(phone) {
                         height: 35px;
@@ -217,10 +217,10 @@ $paddingInput: 4px 4px 4px 8px;
                     box-sizing: border-box;
                     -webkit-box-sizing:border-box;
                     &:hover {
-                      border-color: gtWalsheim-light;
+                      background-color: $light-grey;
                     }
                     &:focus {
-                    border-color: gtWalsheim-light;
+                      background-color: $light-grey;
                     }
                     @include respond-to(phone) {
                       height: 35px;

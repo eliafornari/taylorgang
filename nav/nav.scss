@@ -21,7 +21,7 @@ cursor: pointer;
     position: absolute;
     display: block;
     width: 50px;
-    height: 30px;
+    height: 18px;
     color: #FFFFFF;
     top: 50%;
     left: 0;
@@ -30,8 +30,14 @@ cursor: pointer;
     text-align: center;
     font-size: 30px;
     text-rendering: geometricPrecision;
+    cursor: pointer;
+
     &:hover{
       @include hover-effect-color-yellow();
+      .line{
+        stroke: $yellow;
+      }
+
     }
   }
 }
@@ -323,6 +329,99 @@ transform-origin: 0 0;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//animating the bar
+@keyframes rotate_clock {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(45deg);}
+}
+
+@-webkit-keyframes rotate_clock {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(45deg);}
+}
+
+@-moz-keyframes rotate_clock {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(45deg);}
+}
+
+@-ms-keyframes rotate_clock {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(45deg);}
+}
+
+@-o-keyframes rotate_clock {
+  from {transform: rotate(0deg);}
+  to {transform: rotate(45deg);}
+}
+
+
+
+
+@keyframes rotate_counter {
+  from {transform: rotate(45deg);}
+  to {transform: rotate(90deg);}
+}
+
+@-webkit-keyframes rotate_counter {
+  from {transform: rotate(45deg);}
+  to {transform: rotate(90deg);}
+}
+
+@-moz-keyframes rotate_counter {
+  from {transform: rotate(45deg);}
+  to {transform: rotate(90deg);}
+}
+
+@-ms-keyframes rotate_counter {
+  from {transform: rotate(45deg);}
+  to {transform: rotate(90deg);}
+}
+
+@-o-keyframes rotate_counter {
+  from {transform: rotate(45deg);}
+  to {transform: translateY(90deg);}
+}
+//plus animation
+.line{
+  transform: rotate(0deg);
+  transform-origin: 50%;
+}
+
+//plus animation
+.line.rotateClock{
+  transform: rotate(45deg);
+  transform-origin: 50%;
+}
+.line.rotateClock-add.rotateClock-add-active{
+  -webkit-animation: rotate_clock 1s ease;
+  -moz-animation: rotate_clock 1s ease;
+  -ms-animation: rotate_clock 1s ease;
+  -o-animation: rotate_clock 1s ease;
+  animation: rotate_clock 1s ease;
+}
+
+.line.rotateClock-remove.rotateClock-remove-active{
+  -webkit-animation: rotate_counter 1s ease;
+  -moz-animation: rotate_counter 1s ease;
+  -ms-animation: rotate_counter 1s ease;
+  -o-animation: rotate_counter 1s ease;
+  animation: rotate_counter 1s ease;
+}
 
 // per noi sei speciale
 // un esempio da seguire per tutta la vita, in ogni situazione.
