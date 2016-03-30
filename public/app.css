@@ -1,0 +1,503 @@
+@font-face {
+  font-family: gtWalsheimPro-black;
+  src: url("assets/fonts/GT-Walsheim/woff/GTWalsheimProBlack-Oblique.woff") format("woff"), url("assets/fonts/GT-Walsheim/otf/GTWalsheimProBlack-Oblique.otf") format("otf"); }
+@font-face {
+  font-family: gtWalsheimPro-regular-oblique;
+  src: url("assets/fonts/GT-Walsheim/woff/GTWalsheimProRegular-Oblique.woff") format("woff"), url("assets/fonts/GT-Walsheim/otf/GTWalsheimProRegular-Oblique.otf") format("otf"); }
+@font-face {
+  font-family: gtWalsheimPro-light;
+  src: url("assets/fonts/GT-Walsheim/woff/GTWalsheimProLight.woff") format("woff"), url("assets/fonts/GT-Walsheim/otf/GTWalsheimProLight.otf") format("otf"); }
+/*....................................SCSS VARIABLES..................................*/
+/*....................................................................................*/
+/*.................................................................................*/
+/*$break-large-desktop: 2500px;*/
+/*$break-infinite: 500000px;*/
+/*....................................SCSS MIXINS..................................*/
+.header {
+  position: fixed;
+  bottom: 20px;
+  right: 0;
+  width: 100px;
+  height: 70px;
+  background-color: #000000;
+  z-index: 13;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.2s ease-in-out; }
+  .header:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
+  .header .header-wrapper {
+    width: 100%;
+    height: 100%; }
+    .header .header-wrapper .logo-wrapper {
+      width: 60px;
+      height: 100%;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      margin-left: -30px; }
+      .header .header-wrapper .logo-wrapper svg {
+        width: 100%;
+        height: 100%; }
+
+.nav {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: black;
+  z-index: 12;
+  top: 0;
+  left: 0;
+  /*  @if $media == large-desktop {
+      @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
+    }*/ }
+  @media only screen and (min-width: 0px) and (max-device-width: 767px) {
+    .nav {
+      height: calc(100vh - 60px); } }
+
+.nav-close {
+  width: 60px;
+  height: 100%;
+  /* margin: auto; */
+  position: absolute;
+  left: 50%;
+  /* margin-top: -20px; */
+  top: 0;
+  margin-left: -30px; }
+  .nav-close a {
+    width: 100%;
+    height: 100%;
+    color: #FFFFFF;
+    line-height: 70px;
+    text-align: center;
+    display: block; }
+    .nav-close a svg {
+      width: 100%;
+      height: 100%; }
+
+.nav-content {
+  width: 100vw;
+  height: 100vh;
+  /*  @if $media == large-desktop {
+      @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
+    }*/ }
+  @media only screen and (min-width: 0px) and (max-device-width: 767px) {
+    .nav-content {
+      height: calc(100vh - 60px); } }
+  .nav-content .nav-ul {
+    width: 100vw;
+    height: 100vh;
+    /*  @if $media == large-desktop {
+        @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
+      }*/ }
+    @media only screen and (min-width: 0px) and (max-device-width: 767px) {
+      .nav-content .nav-ul {
+        height: calc(100vh - 60px); } }
+    .nav-content .nav-ul .nav-li {
+      border: 1px solid #FFFFFF;
+      box-sizing: border-box;
+      float: left;
+      width: 50vw;
+      height: 33.33vh;
+      /*  @if $media == large-desktop {
+          @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
+        }*/ }
+      @media only screen and (min-width: 0px) and (max-device-width: 767px) {
+        .nav-content .nav-ul .nav-li {
+          height: 33.333%; } }
+      .nav-content .nav-ul .nav-li a {
+        color: #FFFFFF;
+        width: 100%;
+        height: 100%;
+        line-height: 33.33vh;
+        text-align: center;
+        vertical-align: middle;
+        display: block;
+        font-size: 35px; }
+
+@keyframes close_slideLeft {
+  0% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@-webkit-keyframes close_slideLeft {
+  0% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@-moz-keyframes close_slideLeft {
+  0% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@-ms-keyframes close_slideLeft {
+  0% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@-o-keyframes close_slideLeft {
+  0% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@keyframes close_slideRight {
+  0% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@-webkit-keyframes close_slideRight {
+  0% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@-moz-keyframes close_slideRight {
+  0% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@-ms-keyframes close_slideRight {
+  0% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+@-o-keyframes close_slideRight {
+  0% {
+    transform: translateX(0vw);
+    -ms-transform: translateX(0vw);
+    /* IE 9 */
+    -webkit-transform: translateX(0vw);
+    /* Safari */
+    transform-origin: 0 0; }
+  100% {
+    transform: translateX(10vw);
+    -ms-transform: translateX(10vw);
+    /* IE 9 */
+    -webkit-transform: translateX(10vw);
+    /* Safari */
+    transform-origin: 0 0; } }
+.close-right {
+  position: fixed;
+  transform: translateX(0vw);
+  -ms-transform: translateX(0vw);
+  /* IE 9 */
+  -webkit-transform: translateX(0vw);
+  /* Safari */
+  transform-origin: 0 0; }
+
+.close-right.ng-hide {
+  transform: translateX(10vw);
+  -ms-transform: translateX(10vw);
+  /* IE 9 */
+  -webkit-transform: translateX(10vw);
+  /* Safari */
+  transform-origin: 0 0; }
+
+.close-right.ng-hide-remove.ng-hide-remove-active {
+  -webkit-animation: close_slideLeft 0.3s ease-in;
+  -moz-animation: close_slideLeft 0.3s ease-in;
+  -ms-animation: close_slideLeft 0.3s ease-in;
+  -o-animation: close_slideLeft 0.3s ease-in;
+  animation: close_slideLeft 0.3s ease-in; }
+
+.close-right.ng-hide-add.ng-hide-add-active {
+  -webkit-animation: close_slideRight 0.3s ease-in;
+  -moz-animation: close_slideRight 0.3s ease-in;
+  -ms-animation: close_slideRight 0.3s ease-in;
+  -o-animation: close_slideRight 0.3s ease-in;
+  animation: close_slideRight 0.3s ease-in; }
+
+/*....................................General settings..................................*/
+/*.....................TEXT MARK STYLES......................*/
+::-moz-selection {
+  background: #ede611;
+  color: #FFFFFF;
+  text-shadow: none; }
+
+::selection {
+  background: #ede611;
+  color: #FFFFFF;
+  text-shadow: none; }
+
+/*.........................................................*/
+a:active {
+  color: #ede611; }
+
+.ng-click-active {
+  color: #ede611;
+  stroke: #ede611; }
+
+/*.....................ACTIVE CLASSES......................*/
+.active {
+  color: #FF0000 !important;
+  pointer-events: none; }
+
+/*.........................................................*/
+/*....................HIDING SCROLLBAR.....................*/
+::-webkit-scrollbar {
+  display: none; }
+
+/*.....................GENERAL STYLES......................*/
+html {
+  font-family: camptonSemiBold;
+  width: 100%;
+  height: 100%;
+  margin: 0, 0;
+  padding: 0, 0; }
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0, 0;
+  padding: 0, 0;
+  text-transform: uppercase;
+  /* Set the background color of the HTML page to black */
+  background-color: #FFFFFF;
+  /* Hide oversized content. This prevents the scroll bars. */ }
+
+p, a, li {
+  font-size: 12px;
+  list-style-type: none;
+  letter-spacing: 1px;
+  color: #000000; }
+
+input, textarea, select, a, li {
+  text-decoration: none; }
+
+a {
+  font-family: gtWalsheimPro-black; }
+
+/*.........................MAIN............................*/
+main {
+  width: calc(100vw - 100px);
+  height: auto;
+  position: relative;
+  display: block;
+  list-style-type: none; }
+
+/*.............................Loader............................*/
+.page-loader-div {
+  display: block;
+  height: 100vh;
+  opacity: 1;
+  display: block;
+  width: 100vw;
+  float: left;
+  padding: 0;
+  margin: 0;
+  display: list-item;
+  background-color: transparent;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.95);
+  position: fixed; }
+  .page-loader-div .loading-p {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 50px;
+    margin-top: -25px;
+    margin-left: -50px;
+    line-height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 16px;
+    font-family: camptonSemiBold; }
+
+.loading-logo {
+  width: 100px;
+  height: 100px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -50px;
+  margin-top: -50px; }
+  .loading-logo svg {
+    width: 100%;
+    height: 100%; }
+
+/*.............................NG-CLOAK............................*/
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important; }
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+  cursor: pointer; }
+
+.images-loader-div {
+  display: block;
+  position: relative;
+  width: 33.333333333333vw !important;
+  height: 33.3333333333vw !important;
+  opacity: 1;
+  display: block;
+  padding: 0;
+  margin: 0 0 0 0;
+  display: list-item;
+  background-color: #FFFFFF;
+  /*  @if $media == large-desktop {
+      @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
+    }*/ }
+  @media only screen and (min-width: 0px) and (max-width: 767px) {
+    .images-loader-div {
+      width: 100vw !important;
+      height: 100vw !important; } }
+  .images-loader-div .loader {
+    position: relative;
+    height: 35px !important;
+    width: 35px !important;
+    top: 50% !important;
+    left: 50%;
+    margin-top: -17.5px;
+    margin-left: -17.5px;
+    border: 2px solid #606060;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: rotate .75s linear infinite;
+    animation: rotate .75s linear infinite;
+    z-index: 1;
+    /*  @if $media == large-desktop {
+        @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
+      }*/ }
+    @media only screen and (min-width: 0px) and (max-width: 767px) and (orientation: landscape) {
+      .images-loader-div .loader {
+        left: 50%;
+        top: 56%;
+        margin-left: -25px; } }
+
+.grey-placeholder {
+  display: block;
+  height: 100%;
+  width: 100%; }
+
+.contact {
+  position: fixed;
+  left: 100vw;
+  background-color: white;
+  width: 90vw;
+  height: 100vh;
+  z-index: 11;
+  overflow-y: scroll; }
+
+.contact.ng-hide {
+  transform: translateX(0vw);
+  -ms-transform: translateX(0vw);
+  /* IE 9 */
+  -webkit-transform: translateX(0vw);
+  /* Safari */
+  transform-origin: 0 0; }
+
+.contact {
+  position: fixed;
+  transform: translateX(-90vw);
+  -ms-transform: translateX(-90vw);
+  /* IE 9 */
+  -webkit-transform: translateX(-90vw);
+  /* Safari */
+  transform-origin: 0 0; }
+
+.contact.ng-hide-remove.ng-hide-remove-active {
+  -webkit-animation: j_slideLeft 0.3s ease-in;
+  -moz-animation: j_slideLeft 0.3s ease-in;
+  -ms-animation: j_slideLeft 0.3s ease-in;
+  -o-animation: j_slideLeft 0.3s ease-in;
+  animation: j_slideLeft 0.3s ease-in; }
+
+.contact.ng-hide-add.ng-hide-add-active {
+  -webkit-animation: j_slideRight 0.3s ease-in;
+  -moz-animation: j_slideRight 0.3s ease-in;
+  -ms-animation: j_slideRight 0.3s ease-in;
+  -o-animation: j_slideRight 0.3s ease-in;
+  animation: j_slideRight 0.3s ease-in; }
+
+/*# sourceMappingURL=app.css.map */

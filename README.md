@@ -1,2 +1,0 @@
-# taylorgang
-taylorgang.com

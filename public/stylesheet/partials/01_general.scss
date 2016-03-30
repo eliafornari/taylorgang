@@ -1,0 +1,274 @@
+/*....................................General settings..................................*/
+
+
+
+
+/*.....................TEXT MARK STYLES......................*/
+
+::-moz-selection {
+    background: $yellow;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+
+::selection {
+    background: $yellow;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+/*.........................................................*/
+
+
+a:active {
+    color: $yellow;
+}
+.ng-click-active{
+  color:$yellow;
+  stroke: $yellow;
+}
+
+
+/*.....................ACTIVE CLASSES......................*/
+
+.active{
+  color: #FF0000 !important;
+  pointer-events: none;
+}
+
+/*.........................................................*/
+
+
+
+
+
+
+/*....................HIDING SCROLLBAR.....................*/
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.....................GENERAL STYLES......................*/
+
+html{
+  font-family: camptonSemiBold;
+  width: 100%;
+  height: 100%;
+  margin: 0, 0;
+  padding: 0, 0;
+}
+
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0, 0;
+  padding: 0, 0;
+  text-transform: uppercase;
+/* Set the background color of the HTML page to black */
+background-color: #FFFFFF;
+
+/* Hide oversized content. This prevents the scroll bars. */
+// overflow: hidden;
+}
+
+
+p, a, li {
+  font-size: $font-size-paragraph;
+  list-style-type: none;
+  letter-spacing:$letter-spacing;
+  color: #000000;
+}
+
+
+input, textarea, select, a, li {
+  text-decoration: none;
+}
+
+a{
+  font-family: gtWalsheimPro-black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*.........................MAIN............................*/
+main {
+  width:  calc(100vw - 100px);
+  height: auto;
+  position: relative;
+  display: block;
+  list-style-type: none;
+  // z-index: $z-main;
+}
+
+/*.............................Loader............................*/
+
+
+
+.page-loader-div{
+  display: block;
+  height: 100vh;
+  opacity: 1;
+  display: block;
+  width: 100vw;
+  float: left;
+  padding: 0;
+  margin: 0;
+  display: list-item;
+  background-color: transparent;
+  z-index: $z-loader;
+  background-color: rgba(255,255,255,0.95);
+  position: fixed;
+  .loading-p{
+    position: fixed;
+    top:50%;
+    left:50%;
+    width:100px;
+    height:50px;
+    margin-top:-25px;
+    margin-left:-50px;
+    line-height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: $font-size-subtitle;
+    font-family: camptonSemiBold;
+  }
+
+}
+
+
+.loading-logo{
+  width:100px;
+  height:100px;
+  position: fixed;
+  left:50%;
+  top:50%;
+  margin-left: -50px;
+  margin-top:-50px;
+  svg{
+    width:100%;
+    height:100%;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.............................NG-CLOAK............................*/
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+
+[ng-click],
+[data-ng-click],
+[x-ng-click] {
+cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+.images-loader-div{
+  display: block;
+  position: relative;
+  width: 33.333333333333vw !important;
+  height: 33.3333333333vw !important;
+  opacity: 1;
+  display: block;
+  // float: left;
+  padding: 0;
+  margin: 0 0 0 0;
+  display: list-item;
+  background-color: #FFFFFF;
+  // border: 1px solid #FFFFFF;
+  @include respond-to(phone) {
+    width: 100vw !important;
+    height: 100vw !important;
+  }
+  .loader {
+    position: relative;
+    height: 35px !important;
+    width: 35px !important;
+    top: 50% !important;
+    left: 50%;
+    margin-top: -17.5px;
+    margin-left: -17.5px;
+    border: 2px solid #606060;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: rotate .75s linear infinite;
+    animation: rotate .75s linear infinite;
+    z-index: 1;
+    @include respond-to(phone-landscape-device) {
+      left: 50%;
+      top: 56%;
+      margin-left: -25px;
+    }
+  }
+}
+
+.grey-placeholder{
+  display: block;
+  height: 100%;
+  width: 100%;
+
+}

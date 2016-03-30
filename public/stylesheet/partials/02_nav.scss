@@ -1,0 +1,204 @@
+.header{
+  position: fixed;
+  bottom:$margin-sides;
+  right: 0;
+  width: 100px;
+  height: 70px;
+  background-color: #000000;
+  z-index: $z-header;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.2s ease-in-out;
+
+
+&:hover {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+  .header-wrapper{
+    width: 100%;
+    height: 100%;
+    .logo-wrapper{
+      width: 60px;
+      height: 100%;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      margin-left: -30px;
+      svg{
+        width: 100%;
+        height: 100%;
+
+      }
+    }
+  }
+}
+
+
+
+.nav{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 1);
+  z-index: $z-nav;
+  top:0;
+  left: 0;
+  @include respond-to(phone-device){
+    height: calc(100vh - 60px);
+  }
+}
+
+.nav-close{
+  width: 60px;
+  height: 100%;
+  /* margin: auto; */
+  position: absolute;
+  left: 50%;
+  /* margin-top: -20px; */
+  top: 0;
+  margin-left: -30px;
+  a{
+    width:100%;
+    height: 100%;
+    color: #FFFFFF;
+    line-height: 70px;
+    text-align: center;
+    display: block;
+    svg{
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+}
+
+.nav-content{
+  width:100vw;
+  height:100vh;
+  @include respond-to(phone-device){
+    height: calc(100vh - 60px);
+  }
+  .nav-ul{
+    width:100vw;
+    height:100vh;
+    @include respond-to(phone-device){
+      height: calc(100vh - 60px);
+    }
+    .nav-li{
+      border: 1px solid #FFFFFF;
+      box-sizing:border-box;
+      float:left;
+      width:50vw;
+      height:33.33vh;
+      @include respond-to(phone-device){
+        height: 33.333%;
+      }
+      a{
+        color: #FFFFFF;
+        width: 100%;
+        height: 100%;
+        line-height: 33.33vh;
+        text-align: center;
+        vertical-align: middle;
+        display: block;
+        font-size: $font-size-nav;
+      }
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes close_slideLeft {
+  0% { @include transform-element(translateX(10vw)); }
+  100% { @include transform-element(translateX(0vw)); }
+}
+
+@-webkit-keyframes close_slideLeft {
+  0% { @include transform-element(translateX(10vw)); }
+  100% { @include transform-element(translateX(0vw)); }
+}
+
+@-moz-keyframes close_slideLeft {
+  0% { @include transform-element(translateX(10vw)); }
+  100% { @include transform-element(translateX(0vw)); }
+}
+
+@-ms-keyframes close_slideLeft {
+  0% { @include transform-element(translateX(10vw)); }
+  100% { @include transform-element(translateX(0vw)); }
+}
+
+@-o-keyframes close_slideLeft {
+  0% { @include transform-element(translateX(10vw)); }
+  100% { @include transform-element(translateX(0vw)); }
+}
+
+
+
+@keyframes close_slideRight {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(10vw)); }
+}
+
+@-webkit-keyframes close_slideRight {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(10vw)); }
+}
+
+@-moz-keyframes close_slideRight {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(10vw)); }
+}
+
+@-ms-keyframes close_slideRight {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(10vw)); }
+}
+
+@-o-keyframes close_slideRight {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(10vw)); }
+}
+
+
+
+
+$animation-bezier: ease-in;
+$animation-speed: 0.3s;
+
+.close-right{
+  position: fixed;
+  @include transform-element(translateX(0vw));
+}
+.close-right.ng-hide{
+  @include transform-element(translateX(10vw));
+}
+
+
+.close-right.ng-hide-remove.ng-hide-remove-active{
+  -webkit-animation: close_slideLeft $animation-speed $animation-bezier;
+  -moz-animation: close_slideLeft $animation-speed $animation-bezier;
+  -ms-animation: close_slideLeft $animation-speed $animation-bezier;
+  -o-animation: close_slideLeft $animation-speed $animation-bezier;
+  animation: close_slideLeft $animation-speed $animation-bezier;
+}
+
+.close-right.ng-hide-add.ng-hide-add-active{
+
+  -webkit-animation: close_slideRight $animation-speed $animation-bezier;
+  -moz-animation: close_slideRight $animation-speed $animation-bezier;
+  -ms-animation: close_slideRight $animation-speed $animation-bezier;
+  -o-animation: close_slideRight $animation-speed $animation-bezier;
+  animation: close_slideRight $animation-speed $animation-bezier;
+}
