@@ -1,0 +1,531 @@
+.home-releases{
+  width: 100vw;
+  height: auto;
+}
+
+home-filters-input{
+  .ng-invalid.ng-touched{
+    background-color: #FFFFFF;
+  }
+  .ng-invalid-email.ng-touched{
+    background-color: #FFFFFF;
+  }
+  .ng-valid.ng-touched{
+    background-color: #FFFFFF;
+  }
+}
+.home-filters{
+  width:100vw;
+  height:150px;
+  position: relative;
+  overflow: hidden;
+  @include respond-to(phone){
+    height:80px;
+  }
+  .home-filters-input{
+    width:100vw;
+    height:40px;
+    border:none;
+    outline: 0;
+    font-size: $font-size-nav;
+    font-family: $font-family-nav;
+    text-align: left;
+    line-height:40px;
+    position: absolute;
+    left:$margin-sides;
+    bottom: $margin-sides;
+    // text-transform: uppercase;
+    padding:0;
+
+    @include respond-to(phone){
+      padding:0;
+      width: 40vw;
+      height:30px;
+      line-height:30px;
+      left:$margin-sides-mobile;
+      bottom: $margin-sides-mobile;
+      font-size: $font-size-nav-mobile;
+    }
+  }
+
+  .home-social{
+    width: auto;
+    position: absolute;
+    right:$margin-sides;
+    bottom: $margin-sides;
+    @include respond-to(phone){
+      position: absolute;
+      right:$margin-sides-mobile;
+      bottom: $margin-sides-mobile;
+      width: 128px;
+    }
+    .home-social-li{
+      width: 30px;
+      height: 30px;
+      margin-left: 26px;
+      display: inline-block;
+      @include respond-to(phone){
+        width: 25px;
+        height: 25px;
+        margin-left: 15px;
+      }
+      a{
+        width: 100%;
+        height: 100%;
+        display: block;
+        fill: inherit;
+        @include hover-effect-fill($black, $yellow, 'fill');
+        svg{
+          // fill: inherit;
+          width: 100%;
+          height: 100%;
+          g{
+            // fill: inherit;
+            path{
+              // fill: inherit;
+
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+
+
+
+//
+// #home-social-li-instagram{
+//   // @include raised(0.6);
+//   //   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+//   @include hover-effect-fill($black, $yellow, 'fill');
+// }
+// #home-social-li-facebook{
+//   // @include raised(0.6);
+//   //     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+//   @include hover-effect-fill($black, $yellow, 'fill');
+// }
+// #home-social-li-twitter{
+//   // @include raised(0.6);
+//   // box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+//   @include hover-effect-fill($black, $yellow, 'fill');
+// }
+
+
+
+
+ // 4  4  4  4
+.home-releases-ul{
+  width: 100vw;
+  position: relative;
+  display: table;
+
+  .home-releases-li{
+    position: relative;
+    float:left;
+    width: 20vw;
+    // @include hover-effect-background-color($white, $yellow);
+
+    @include respond-to(phone){
+      margin-left: 0vw;
+      margin-right: 0vw;
+      width: auto;
+      height: auto;
+    }
+    .home-releases-cover{
+      @include hover-effect-opacity();
+      // @include hover-effect-fade(10px);
+      width: 20vw;
+      height: 20vw;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: auto 98%;
+
+
+      @include respond-to(phone){
+        width: 50vw;
+        height: 50vw;
+        background-size: 98% 98%;
+      }
+    }
+    .home-releases-cover-title{
+      position: absolute;
+      width: 20vw;
+      height: 20vw;
+      text-align: center;
+      @include subtitle();
+      line-height: 20vw;
+      vertical-align: middle;
+
+    }
+  }
+}
+
+
+
+
+
+
+
+.home-releases-li-main{
+  position: relative;
+  left: 0px;
+  height: 0vw;
+  background-color: #000000;
+  transition: height .3s ease-in-out;
+              // margin-bottom .1s .2s;
+  box-sizing: content-box;
+  overflow: hidden;
+  .home-main-left{
+    position: absolute;
+    left:0;
+    width:30vw;
+    height: 100%;
+    @include respond-to(phone){
+      width: 100vw;
+      bottom: 0%;
+      height: 20%;
+    }
+    table{
+      width:30vw !important;
+    }
+    .home-main-left-artist{
+        color: #FFFFFF;
+        display:block;
+        @include subtitle();
+        text-align: center;
+        width:30vw;
+    }
+    .home-main-left-name{
+      color: #FFFFFF;
+      @include paragraph();
+      text-align: center;
+      width: 90%;
+      margin-left: 5%;
+    }
+
+  }
+  .home-main-video{
+    position: absolute;
+    width: 40vw;
+    height: 40vh;
+    margin-top: 5vh;
+    left: 50%;
+    margin-left: -20vw;
+    @include respond-to(phone){
+      position: absolute;
+      width: 80vw;
+      height: 20vh;
+      margin-top: 5vh;
+      left: 50%;
+      margin-left: -40vw;
+    }
+    .home-main-video-iframe{
+      width: 100%;
+      height: 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+    }
+
+  }
+  .home-main-right{
+    position: absolute;
+    right:0;
+    width:30vw;
+    height: 100%;
+    @include respond-to(phone){
+      width: 100vw;
+      bottom: 20%;
+      height: 20%;
+    }
+    .home-main-right-read{
+      display:block;
+      color: #FFFFFF;
+      // @include paragraph();
+      text-align: center;
+      width: 90%;
+      margin-left: 5%;
+      margin-top: 10px;
+      @include subtitle();
+      @include hover-effect-color($white, $yellow);
+
+    }
+  }
+
+}
+
+
+
+
+
+.home-main-share{
+  width:30vw;
+  display:block;
+  height: $line-height-paragraph;
+  .home-main-share-p{
+    color: #FFFFFF;
+    @include paragraph();
+    text-align: center;
+    margin-top: 10px;
+    @include hover-effect-color($white, $yellow);
+  }
+  .home-main-share-ul{
+    text-align: center;
+    margin-top: 10px;
+    .home-main-share-li{
+      width: 30px;
+      height: 30px;
+      margin-left: 26px;
+      display: inline-block;
+      &:nth-child(1){
+        margin-left: 0;
+      }
+      @include respond-to(phone){
+        width: 25px;
+        height: 25px;
+        margin-left: 15px;
+        &:nth-child(1){
+          margin-left: 0;
+        }
+      }
+      a{
+        width: 100%;
+        height: 100%;
+        display: block;
+        fill: inherit;
+        @include hover-effect-fill($white, $yellow, 'fill');
+        svg{
+          // fill: inherit;
+          width: 100%;
+          height: 100%;
+          g{
+            // fill: inherit;
+            path{
+              // fill: inherit;
+
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.home-releases-li-main.expand{
+  height: 50vh;
+  max-height: 500px;
+  margin-bottom: 10px;
+}
+
+
+// .home-releases-li:nth-of-type(5n+6) {
+//   clear: left;
+// }
+@include respond-to(phone){
+
+  .home-releases-li {
+  //     width: 50%;
+    clear: none;
+  }
+
+  .home-releases-li:nth-of-type(2n+2) .expand {
+      margin-left: -100%;
+  }
+
+  .home-releases-li:nth-of-type(2n+3) {
+      clear:left;
+  }
+
+  .home-releases-li-main {
+      width: 200%;
+  }
+
+}
+
+@media only screen and (min-width: 767px) {
+  .home-releases-li {
+      width: 20%;
+  }
+
+  .home-releases-li:nth-of-type(5n+2) .expand {
+    margin-left: -100%;
+  }
+
+  .home-releases-li:nth-of-type(5n+3) .expand {
+    margin-left: -200%;
+  }
+
+  .home-releases-li:nth-of-type(5n+4) .expand {
+    margin-left: -300%;
+  }
+
+  .home-releases-li:nth-of-type(5n+5) .expand {
+    margin-left: -400%;
+  }
+
+  .home-releases-li:nth-of-type(5n+6) {
+    clear: left;
+  }
+
+  .home-releases-li-main {
+    width: 500%;
+  }
+
+}
+
+
+
+
+
+
+
+
+.home-releases-arrow{
+  display:none;
+  height: 10px;
+  width: 100%;
+  margin: auto !important;
+}
+
+
+
+
+.home-releases-arrow.expand{
+    display:block;
+    border-bottom: 8px solid #222;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    height: 0;
+    width: 0;
+    margin: 2px auto 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes slideLeft {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(-300vw)); }
+}
+
+@-webkit-keyframes slideLeft {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(-300vw)); }
+}
+
+@-moz-keyframes slideLeft {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(-300vw)); }
+}
+
+@-ms-keyframes slideLeft {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(-300vw)); }
+}
+
+@-o-keyframes slideLeft {
+  0% { @include transform-element(translateX(0vw)); }
+  100% { @include transform-element(translateX(-300vw)); }
+}
+
+
+//
+// @keyframes slideDown {
+//   0% { @include transform-element(translateX(-200vw)); }
+//   100% { @include transform-element(translateX(0vw)); }
+// }
+//
+// @-webkit-keyframes slideDown {
+//   0% { @include transform-element(translateX(-200vw)); }
+//   100% { @include transform-element(translateX(0vw)); }
+// }
+//
+// @-moz-keyframes slideDown {
+//   0% { @include transform-element(translateX(-200vw)); }
+//   100% { @include transform-element(translateX(0vw)); }
+// }
+//
+// @-ms-keyframes slideDown {
+//   0% { @include transform-element(translateX(-200vw)); }
+//   100% { @include transform-element(translateX(0vw)); }
+// }
+//
+// @-o-keyframes slideDown {
+//   0% { @include transform-element(translateX(-200vw)); }
+//   100% { @include transform-element(translateX(0vw)); }
+// }
+
+
+
+
+$animation-bezier: ease-in;
+$animation-speed: 5s;
+
+.home-title{
+  position: fixed;
+  @include title();
+  font-size: 11vw;
+  line-height: 150px;
+  top:0px;
+  left:100vw;
+  width: 200vw;
+  margin-left: -150px;
+  text-align: center;
+  z-index:11;
+  color: $light-grey;
+  @include transform-element(translateX(-300vw));
+  @include respond-to(phone){
+    font-size: 14vw;
+    line-height: 80px;
+  }
+}
+.home-title.ng-hide{
+    @include transform-element(translateX(0vw));
+}
+
+
+.home-title.ng-hide-remove.ng-hide-remove-active{
+  -webkit-animation: slideLeft $animation-speed $animation-bezier;
+  -moz-animation: slideLeft $animation-speed $animation-bezier;
+  -ms-animation: slideLeft $animation-speed $animation-bezier;
+  -o-animation: slideLeft $animation-speed $animation-bezier;
+  animation: slideLeft $animation-speed $animation-bezier;
+}
+
+.home-title.ng-hide-add.ng-hide-add-active{
+  -webkit-animation: slideUp $animation-speed $animation-bezier;
+  -moz-animation: slideUp $animation-speed $animation-bezier;
+  -ms-animation: slideUp $animation-speed $animation-bezier;
+  -o-animation: slideUp $animation-speed $animation-bezier;
+  animation: slideUp $animation-speed $animation-bezier;
+}

@@ -1,6 +1,130 @@
 <div class="home" summary="home" ng-controller="homeCtrl">
 
+  <div class="home-filters" >
 
+    <!-- <p class="home-title" ng-hide="pageLoading">
+      TAYLOR GANG RELEASES
+    </p> -->
+
+    <div class="home-filters-predefined">
+      <!-- <a href="#" ng-click="setFilter('longtime')">longtime</a>
+      <a href="#" ng-click="setFilter()">hello</a> -->
+
+      <ul class="home-filters-predefined-ul" ng-init="click">
+        <li class="home-filters-predefined-li" ng-repeat="f in Filter" >
+          <a ng-click="setFilter(f.uid)">{{f.data['filter.value'].value[0].text}}</a>
+          <!-- <label ng-click="click = 'longtime' ">longtime<input type="hidden" ng-model="click" ></label><br> -->
+        </li>
+        <li class="home-filters-predefined-li" >
+          <a ng-click="setFilter()">clear</a>
+          <!-- <label ng-click="click = 'longtime' ">longtime<input type="hidden" ng-model="click" ></label><br> -->
+        </li>
+      </ul>
+    </div>
+
+    <input class="home-filters-input" type="text" name="name" value="" ng-model="searchText" placeholder="filter">
+
+    <ul class="home-social">
+
+      <li class="home-social-li">
+        <a class="home-social-li-a" href="https://www.instagram.com/taylorgang/" target="_blank"  id="home-social-li-instagram">
+          <instagram-icon-directive></instagram-icon-directive>
+        </a>
+      </li>
+      <li class="home-social-li" >
+        <a class="home-social-li-a" href="https://twitter.com/TaylorGang" target="_blank" id="home-social-li-twitter">
+          <twitter-icon-directive></twitter-icon-directive>
+        </a>
+      </li>
+      <li class="home-social-li" >
+        <a class="home-social-li-a" href="https://www.facebook.com/TaylorGang" target="_blank" id="home-social-li-facebook">
+          <facebook-icon-directive></facebook-icon-directive>
+        </a>
+      </li>
+
+
+
+
+
+    </ul>
+  </div>
+
+
+
+
+
+
+  <div class="home-releases">
+    <ul class="home-releases-ul">
+      <article class="home-releases-li" ng-repeat="r in Release | orderBy: $index | filter:searchText | isArtGroup:selectedFilter track by $index" ng-class="{expand: $index==selectedIndex}" ng-click="thisRelease(r.uid)" id="release-{{$index}}">
+        <p class="home-releases-cover-title" ng-show="showTitle">{{r.data['release.coverTitle'].value[0].text}}</p>
+        <div class="home-releases-cover" style="background-image: url('{{r.data['release.cover'].value.main.url}}')" ng-mouseover="showTitle=true" ng-mouseout="showTitle=false">
+        </div>
+        <div class="home-releases-arrow" ng-class="{expand: $index==selectedIndex}"></div>
+        <div class="home-releases-li-main" ng-class="{expand: $index==selectedIndex}" ng-if="$index==selectedIndex">
+          <!-- ng-repeat-end ng-if="$index == moveBox" -->
+          <div class="home-main-left">
+            <table style="width: 100%;height: 100%;">
+              <tr>
+                <td style="vertical-align:middle; height:100%;">
+                  <p class="home-main-left-name">{{r.data['release.name'].value[0].text}}</p>
+                  <p class="home-main-left-artist">{{r.data['release.artist'].value[0].text}}</p>
+
+
+                </td>
+              </tr>
+            </table>
+
+
+
+
+          </div>
+
+          <div class="home-main-video">
+            <iframe class="home-main-video-iframe" ng-src="{{r.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="r.data['release.embed'].value[0].slice_type == 'youtube'"></iframe>
+            <iframe class="home-main-video-iframe" ng-src="{{r.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="r.data['release.embed'].value[0].slice_type == 'soundcloud'"></iframe>
+            <iframe class="home-main-video-iframe" ng-src="{{r.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="r.data['release.embed'].value[0].slice_type == 'vimeo'"></iframe>
+            <div class="home-main-video-iframe" style="background-image: url('{{r.data['release.embed'].value[0].value.value.main.url || trustUrl}}')" ng-if="r.data['release.embed'].value[0].slice_type == 'image'"></div>
+          </div>
+<!-- {{mainReleaseYoutube}} -->
+          <div class="home-main-right">
+            <table style="width: 100%;height: 100%;">
+              <tr>
+                <td style="vertical-align:middle; height:100%;">
+                  <a class="home-main-right-read" href="release/{{r.uid}}">read more</a>
+                  <div class="home-main-share">
+                    <p ng-click="shareOpen=!shareOpen" class="home-main-share-p">share</p>
+                    <ul class="home-main-share-ul" ng-show="shareOpen">
+                      <li class="home-main-share-li">
+                        <a href="#" id="home-social-li-instagram">
+                          <instagram-icon-directive></instagram-icon-directive>
+                        </a>
+                      </li>
+                      <li class="home-main-share-li">
+                        <a href="#" id="home-social-li-twitter">
+                          <twitter-icon-directive></twitter-icon-directive>
+                        </a>
+                      </li>
+                      <li class="home-main-share-li">
+                        <a href="#" id="home-social-li-facebook">
+                          <facebook-icon-directive></facebook-icon-directive>
+                        </a>
+                      </li>
+                    </ul>
+
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+
+        </div>
+      </article>
+
+
+    </ul>
+  </div>
 
 
 

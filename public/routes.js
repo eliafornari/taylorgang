@@ -54,15 +54,16 @@ $rootScope.pageLoading = true;
 
   .filter('trustUrl', function ($sce) {
       return function(url) {
-        if (url){
-          return $sce.trustAsResourceUrl(url);
-        }
+        // if (url){
+          var trusted = $sce.trustAsResourceUrl(url);
+          return trusted;
+        // }
       };
     })
 
-.config(['$routeProvider', '$locationProvider' , function($routeProvider, $locationProvider) {
+.config(['$routeProvider', '$locationProvider' ,'$sceProvider', function($routeProvider, $locationProvider, $sceProvider) {
 
-
+$sceProvider.enabled(false);
 
   // use the HTML5 History API
   $locationProvider.html5Mode(true);
@@ -83,9 +84,9 @@ $rootScope.pageLoading = true;
       controller: 'artistCtrl'
       })
 
-    .when('/contact', {
-      templateUrl: 'contact/contact.html',
-      controller: 'contactCtrl'
+    .when('/tour', {
+      templateUrl: 'tour/tour.html',
+      controller: 'tourCtrl'
       })
 
     .when('/about', {
@@ -103,6 +104,10 @@ $rootScope.pageLoading = true;
       controller: 'privacyCtrl'
     })
 
+    .when('/release/:name', {
+      templateUrl: 'home/release.html',
+      controller: 'homeCtrl'
+    })
 
 
     /*............................. Take-all routing ........................*/

@@ -1,0 +1,94 @@
+.release{
+  position: fixed;
+  height:100vh;
+  width: 100vw;
+  background-color: #000000;
+
+}
+
+.release-table{
+  position: fixed;
+  height:100vh;
+  width: 100vw;
+  background-color: #000000;
+  .release-tr{
+    .release-td{
+      vertical-align: middle;
+
+    }
+  }
+}
+
+.release-li-main{
+  position: relative;
+  left: 0px;
+  height: 50vh;
+  width: 100vw;
+  background-color: #000000;
+  transition: height .3s ease-in-out;
+              // margin-bottom .1s .2s;
+  box-sizing: content-box;
+  overflow: hidden;
+  .release-main-left{
+    position: absolute;
+    left:0;
+    width:30vw;
+    height: 100%;
+    @include respond-to(phone){
+      width: 100vw;
+      bottom: 0%;
+      height: 20%;
+    }
+    .release-main-left-artist{
+        color: #FFFFFF;
+        @include subtitle();
+        text-align: center;
+        width: 90%;
+        margin-left: 5%;
+    }
+    .release-main-left-name{
+      color: #FFFFFF;
+      @include paragraph();
+      text-align: center;
+      width: 90%;
+      margin-left: 5%;
+    }
+  }
+  .release-main-video{
+    position: absolute;
+    width: 40vw;
+    height: 40vh;
+    margin-top: 5vh;
+    left: 50%;
+    margin-left: -20vw;
+    @include respond-to(phone){
+      position: absolute;
+      width: 80vw;
+      height: 20vh;
+      margin-top: 5vh;
+      left: 50%;
+      margin-left: -40vw;
+    }
+    .release-main-video-iframe{
+      width: 100%;
+      height: 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+    }
+
+  }
+  .release-main-right{
+    position: absolute;
+    right:0;
+    width:30vw;
+    height: 100%;
+    @include respond-to(phone){
+      width: 100vw;
+      bottom: 20%;
+      height: 20%;
+    }
+
+  }
+
+}

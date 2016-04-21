@@ -5,7 +5,11 @@ angular.module('myApp', [
   'ngRoute',
   'ngResource',
   'ngAnimate',
-  'myApp.routes'
+  'ngSanitize',
+  'myApp.routes',
+  'myapp.Service',
+  'eliasInstagramModule',
+  'mailchimp'
 ])
 
 .directive('googleAnalytics', function(){

@@ -1,4 +1,88 @@
 <div class="subscribe" ng-controller="subscribeCtrl">
+      <table class="subscribe-table">
+        <tr>
+          <td style="height:100%; vertical-align: middle;">
+
+            <div class="subscribe-form">
+
+              <!-- "//agency.us13.list-manage.com/subscribe/post?u=a1806989c573cd3d1afa1ca0f&amp;id=20e84fcbd0" -->
+
+              <form role="form" name="MailchimpSubscriptionForm" ng-controller="MailchimpSubscriptionCtrl">
+
+                <div class = "subscribe-text">
+                  <p>subscribe</p>
+                </div>
+
+                <div ng-hide="mailchimp.result === 'success'">
+                  <input class="hidden" type="hidden" ng-model="mailchimp.username" ng-init="mailchimp.username='agency'">
+                  <input class="hidden" type="hidden" ng-model="mailchimp.dc" ng-init="mailchimp.dc='us13'">
+                  <input class="hidden" type="hidden" ng-model="mailchimp.u" ng-init="mailchimp.u='a1806989c573cd3d1afa1ca0f'">
+                  <input class="hidden" type="hidden" ng-model="mailchimp.id" ng-init="mailchimp.id='20e84fcbd0'">
+
+                  <div class="subscribe-form-group">
+                    <input class="subscribe-form-control input" type="text" name="fname" ng-model="mailchimp.FNAME" placeholder="First name">
+                  </div>
+                  <div class="subscribe-form-group">
+                    <input class="subscribe-form-control input" type="text" name="lname" ng-model="mailchimp.LNAME" placeholder="Last name">
+                  </div>
+
+                  <div class="subscribe-form-group">
+                    <input class="subscribe-form-control input" type="email" name="email" ng-model="mailchimp.EMAIL" placeholder="Email address" required>
+                  </div>
+
+                  <button class="subscribe-submit-button" ng-disabled="MailchimpSubscriptionForm.$invalid" ng-click="addSubscription(mailchimp)">Join</button>
+                </div>
+
+                <!-- Show error message if MailChimp unsuccessfully added the email to the list. -->
+                <div class="subscribe-alert-danger" ng-show="mailchimp.result === 'error'" ng-cloak>
+                  <span ng-bind-html="mailchimp.errorMessage"></span>
+                  <p class="subscribe-back-button"><a href="/contact" ng-click="contactMobileOutsideBackLink()">back</a></p>
+                </div>
+
+                <!-- Show success message if MailChimp returned successfully. -->
+                <div class="subscribe-alert-success" ng-show="mailchimp.result === 'success'" ng-cloak>
+                  <span ng-bind-html="mailchimp.successMessage"></span>
+                  <p class="subscribe-back-button"><a href="/contact" ng-click="contactMobileOutsideBackLink()">back</a></p>
+                </div>
+              </form>
+
+            </div>
+
+
+
+
+              <!-- <div class="subscribe-form">
+                <div id="subscribe-messages" ng-show="message">{{ message }}</div>
+
+                  <div class="subscribe-alert alert-danger" ng-show="error">
+                  <button class="subscribe-close" data-dismiss="alert">x</button>
+                  </div>
+
+                  <div class="subscribe-alert-success" ng-show="success">
+                     We received your message. Thank you for your interest.
+                    <p class="subscribe-back-button"><a href="/contact" ng-click="contactMobileOutsideBackLink()">back</a></p>
+                  </div>
+
+                <form role="form" name="subscribeForm" ng-submit="s_processForm()" novalidate ng-hide="hideSubscribe">
+                  <div class = "subscribe-text">
+                    <p>subscribe</p>
+                  </div>
+
+                  <div class="subscribe-form-group">
+                    <input class="subscribe-form-control input" type="email" name="email" ng-model="s_formData.email" required="required" placeholder="EMAIL" onfocus="this.placeholder = ''" onblur="this.placeholder = 'EMAIL'">
+                  </div>
+
+                  <button type="submit" class="subscribe-submit-button"  ng-class="{'contactDisabled': subscribeForm.$invalid}" ng-click="s_processForm()" ng-disabled="subscribeForm.$invalid">SUBMIT</button>
+              </form>
+            </div> -->
+
+
+
+
+
+        </td>
+      </tr>
+    </table>
 
 
 

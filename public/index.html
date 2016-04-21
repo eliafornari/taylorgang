@@ -15,13 +15,14 @@
 
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
 
-  <link rel="stylesheet" href="/stylesheet/css/reset.css">
-  <link rel="stylesheet" href="app.css">
-
-<meta name=“author” title=“Elia Fornari | Qual Agency”>
+  <link rel="stylesheet" type="text/css" href="/stylesheet/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheet/app.css">
 
 
+  <meta name=“author” title=“Elia Fornari | Qual Agency”>
 
+
+  <link rel="icon" type="image/x-icon" href="assets/favicon/TGOD_favicon.ico" >
 <!--
 =======================================================================
 
@@ -54,12 +55,13 @@
 
 <nav-directive></nav-directive>
 
-<header ng-controller="navCtrl" class="header" ng-click="openNav()">
+<header ng-controller="navCtrl" class="header" ng-click="openNav()" ng-class="{'navOpen': isNavOpen}">
   <div class="header-wrapper">
     <div class="nav-close" ng-show="isNavOpen"><a><ex-directive></ex-directive></a></div>
 
     <div class="logo-wrapper" ng-hide="isNavOpen">
       <logo-directive></logo-directive>
+      <menu-icon-directive></menu-icon-directive>
     </div>
   </div>
 </header>
@@ -72,7 +74,8 @@
 
     <div class="loading-logo">
 
-      <logo-black-directive><logo-black-directive>
+      <logo-black-directive></logo-black-directive>
+        <!-- <h1 class="contad" data-content="TGOD">TGOD</h1> -->
 
     </div>
 
@@ -105,8 +108,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-touch.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-sanitize.js"></script>
+<script src="https://code.angularjs.org/1.5.5/angular-sanitize.min.js"></script>
 
 
-  <script type="text/javascript" src="/concat.js"></script>
+
+  <script type="text/javascript" src="js/concat.js"></script>
 
 </html>

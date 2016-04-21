@@ -1,0 +1,98 @@
+<div class="artist-detail" ng-controller="artistCtrl">
+
+
+
+    <header class="artist-header" id="top">
+      <h1 class="artist-header-name">{{mainArtist.data['artist.name'].value[0].text;}}</h1>
+      <div class="artist-header-text">
+        <ul class="artist-header-ul">
+          <li class="artist-header-li"><a href="{{mainArtist.data['artist.spotify'].value.url}}" target="_blank"><spotify-icon-directive></spotify-icon-directive></a></li>
+          <li class="artist-header-li"><a href="{{mainArtist.data['artist.itunes'].value.url}}" target="_blank"><itunes-icon-directive></itunes-icon-directive></a></li>
+          <li class="artist-header-li"><a href="{{mainArtist.data['artist.soundcloud'].value.url}}" target="_blank"><soundcloud-icon-directive></soundcloud-icon-directive></a></li>
+        </ul>
+
+      </div>
+      <div class="artist-header-image" id="artist-header-image-{{mainArtist.uid}}" style="background-image: url('{{mainArtist.data['artist.image'].value.main.url}}')"></div>
+    </header>
+
+
+
+
+
+<div class="artist-youtube">
+
+    <div class="artist-video">
+
+              <!-- main video -->
+              <div class="artist-video-main">
+                <iframe class="iframe" src="{{main_video | trustUrl}}" frameborder="0" allowfullscreen ></iframe>
+                <p class="artist-video-main-title">
+                  {{main_title}}
+                </p>
+              </div>
+
+
+
+              <!-- related video -->
+              <div class="artist-video-related">
+                <ul class="artist-video-ul">
+                  <li class="artist-video-li" ng-repeat="r in channel_data" ng-click="thisVideo(r.id.videoId, $index)" ng-mouseover="related_show=true" ng-mouseout="related_show=false">
+
+                    <div class="artist-video-title" id="artist-video-title-{{$index}}" ng-show="related_show">
+                      <table>
+                        <tr>
+                          <td>
+                            <p class="artist-video-title-p">{{r.snippet.title}}</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="artist-video-img" style="background-image: url('{{r.snippet.thumbnails.high.url}}')"></div>
+                    <!-- http://img.youtube.com/vi/{{r.id.videoId}}/0.jpg -->
+                  </li>
+                </ul>
+              </div>
+
+  </div>
+</div>
+
+  <div class="tour" id="tour-dates" ng-if="mainArtist.data['artist.bandsintownName'].value">
+
+  </div>
+
+
+
+
+
+
+  <div class="artist-instagram">
+
+
+    <ul class="artist-instagram-ul">
+      <li class="artist-instagram-li" ng-repeat="i in instaTotal | orderBy: $index | limitTo:totalDisplayed track by $index ">
+        <a class="artist-instagram-li-a" href="{{i.link}}" target="_blank">
+          <img class="artist-instagram-img" src="{{i.images.standard_resolution.url}}" alt="" />
+          <p class="artist-instagram-caption">
+            {{i.caption.text}}
+          </p>
+        </a>
+      </li>
+      <!-- <li class="load-more-li" ng-hide="hideLoadMore">
+        <div class="load-more-button" ng-click="loadMore()" ng-hide="noMore">
+          <p class="load-more-button-p">Load more</p>
+        </div>
+      </li> -->
+    </ul>
+
+  </div>
+
+
+
+
+  <div class="artist-backtotop" ng-hide="hideBacktotop" ng-click="gotoAnchor('top')">
+    <p>BACK TO TOP</p>
+  </div>
+
+
+
+</div>

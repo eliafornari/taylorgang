@@ -1,37 +1,81 @@
 .header{
   position: fixed;
-  bottom:$margin-sides;
-  right: 0;
-  width: 100px;
-  height: 70px;
+  bottom: $margin-sides;
+  right: $margin-sides;
+  width: 120px;
+  height: 80px;
   background-color: #000000;
   z-index: $z-header;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.2s ease-in-out;
+  @include raised(0.6);
 
-
-&:hover {
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
-
+  @include respond-to(phone){
+    width: 60px;
+    height: 60px;
+    bottom: $margin-sides-mobile;
+    right: $margin-sides-mobile;
+  }
   .header-wrapper{
     width: 100%;
     height: 100%;
-    .logo-wrapper{
+    @include respond-to(phone){
       width: 60px;
-      height: 100%;
+      height: 60px;
+      position: absolute;
+      right: 0px;
+    }
+    .logo-wrapper{
+      width: 80px;
+      height: 80px;
       position: absolute;
       left: 50%;
       top: 0;
-      margin-left: -30px;
+      margin-left: -50px;
+      @include respond-to(phone){
+        left:50%;
+        top: 50%;
+        width: 40px;
+        height: 40px;
+        margin-left: -20px;
+        margin-top: -20px;
+      }
       svg{
         width: 100%;
-        height: 100%;
-
+        height: auto;
+        // @include hover-effect-fill(#FFFFFF, $yellow, 'fill');
+      }
+      .menu-icon-svg{
+        width: auto;
+        height: 50%;
+        position: absolute;
+        top:50%;
+        right: -20px;
+        margin-top: -25%;
       }
     }
   }
 }
+
+
+//when mobile nav is open
+.header.navOpen{
+  @include respond-to(phone){
+    width:60px;
+    height: 60px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -43,20 +87,23 @@
   z-index: $z-nav;
   top:0;
   left: 0;
-  @include respond-to(phone-device){
-    height: calc(100vh - 60px);
+
+  @include respond-to(phone){
+    height:100vh;
   }
 }
 
 .nav-close{
-  width: 60px;
-  height: 100%;
-  /* margin: auto; */
+  width: 50px;
+  height: 50px;
   position: absolute;
   left: 50%;
-  /* margin-top: -20px; */
-  top: 0;
-  margin-left: -30px;
+  top:50%;
+  margin-top: -25px;
+  margin-left: -25px;
+  @include respond-to(phone){
+
+  }
   a{
     width:100%;
     height: 100%;
@@ -69,20 +116,19 @@
       height: 100%;
     }
   }
-
 }
 
 .nav-content{
   width:100vw;
   height:100vh;
-  @include respond-to(phone-device){
-    height: calc(100vh - 60px);
+  @include respond-to(phone){
+    height: calc(100vh - 140px);
   }
   .nav-ul{
     width:100vw;
     height:100vh;
-    @include respond-to(phone-device){
-      height: calc(100vh - 60px);
+    @include respond-to(phone){
+      height: calc(100vh - 140px);
     }
     .nav-li{
       border: 1px solid #FFFFFF;
@@ -90,18 +136,38 @@
       float:left;
       width:50vw;
       height:33.33vh;
-      @include respond-to(phone-device){
+
+      @include hover-effect-background-color($black, $yellow);
+      @include respond-to(phone){
         height: 33.333%;
+        position: relative;
       }
       a{
-        color: #FFFFFF;
+        display: block;
         width: 100%;
         height: 100%;
-        line-height: 33.33vh;
-        text-align: center;
-        vertical-align: middle;
-        display: block;
-        font-size: $font-size-nav;
+        p{
+          color: #FFFFFF;
+          width: 100%;
+          height: 100%;
+          line-height: 33.33vh;
+          text-align: center;
+          vertical-align: middle;
+          display: block;
+          font-size: $font-size-nav;
+
+          @include respond-to(phone){
+            font-size: $font-size-nav-mobile;
+            height: 25px;
+            line-height: 25px;
+            position: absolute;
+            top:50%;
+            margin-top: -12.5px;
+
+          }
+
+        }
+
       }
 
     }

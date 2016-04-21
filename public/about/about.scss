@@ -1,0 +1,396 @@
+.about{
+  width: 100vw;
+  height: 100vh;
+
+}
+
+
+
+.about-ul{
+  display: block;
+  position: relative;
+  margin: auto;
+  width:100vw;
+  .about-li{
+    width:100vw;
+    height:40vw;
+    position: relative;
+    .about-li-image{
+      width: 50%;
+      height: 70%;
+      margin: 15% auto;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      @include respond-to (phone){
+        width: 100%;
+        height: 100%;
+        margin: auto auto;
+        background-size: 60% auto;
+      }
+    }
+    .about-li-name{
+      position: absolute;
+      width:100%;
+      height: 100%;
+      line-height:40vw;
+      font-family: gtWalsheimPro-black;
+      color: $light-grey;
+      font-size: 150px;
+      top:0;
+      text-align: center;
+      @include respond-to(phone){
+        font-size: 40px;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//.....................................................................................................//
+//.....................................................................................................//
+//..................................................DETAIL.............................................//
+//.....................................................................................................//
+//.....................................................................................................//
+.about-detail{
+
+}
+.about-header{
+  width: 100vw;
+  height: 200px;
+  position: relative;
+  @include respond-to(phone){
+    height: 120px;
+  }
+  .about-header-image{
+    background-position:bottom right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    width: 40vw;
+    height:200px;
+    right: $margin-sides;
+    bottom: 0;
+    @include respond-to(phone){
+      background-position: 0% bottom;
+      background-repeat: no-repeat;
+      background-size: 120% auto;
+      position: absolute;
+      width: 30vw;
+      height: 50%;
+      right: $margin-sides-mobile;
+      bottom: 0;
+    }
+
+  }//about-header-image
+  .about-header-text{
+    width:50%;
+    height: inherit;
+    .about-header-name{
+      width: auto;
+      position: absolute;
+      left:$margin-sides;
+      top: $margin-sides;
+      color: $light-grey;
+      font-size: $font-size-title;
+      font-family: gtWalsheimPro-black;
+
+      @include respond-to(phone){
+        position: absolute;
+        left:$margin-sides-mobile;
+        top: $margin-sides-mobile;
+      }
+
+    }
+    .about-header-ul{
+      width: auto;
+      position: absolute;
+      left:$margin-sides;
+      bottom: $margin-sides;
+      .about-header-li{
+        width: 80px;
+        height:50px;
+        display: inline-block;
+        @include respond-to(phone){
+          width: 30px;
+          height: 30px;
+          left:$margin-sides-mobile;
+          bottom: $margin-sides-mobile;
+          margin-right: 10px;
+        }
+        a{
+          width: 100%;
+          height: 100%;
+          display: block;
+          svg{
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+      }
+    }
+  }//about-header-text
+}
+
+
+
+
+.about-youtube{
+  width: 100vw;
+  height: 100vh;
+  @include respond-to(phone){
+    height: auto;
+  }
+
+}
+
+.about-video-main{
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  left: 0%;
+  top:0;
+  @include respond-to(phone){
+    height: 50vh;
+  }
+  .iframe{
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    left: 0%;
+    z-index: $z-about-video;
+    @include respond-to(phone){
+      height: 50vh;
+    }
+  }
+  .about-video-main-title{
+    position: absolute;
+    left: $margin-sides;
+    top: $margin-sides;
+    font-family: gtWalsheimPro-light, Helvetica;
+    font-size: $font-size-paragraph;
+    z-index: $z-about-title;
+  }
+}
+
+.about-video-related{
+  position: relative;
+  width: 100%;
+  height: 20vh;
+  left:0;
+  top: 0;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space:nowrap;
+  background-color: $light-grey;
+  .about-video-ul{
+    display: table;
+    position: relative;
+    width:auto;
+    height: 15vh;
+    margin-top: -7.5vh;
+    top: 50%;
+    left: 0;
+    padding-right: 20px;
+    @include respond-to(phone){
+      height: 12vh;
+      margin-top: -6vh;
+    }
+    .about-video-li{
+      display: inline-block;
+      position: relative;
+      word-wrap: break-word;
+      height:100%;
+      width: 17vw;
+      margin-left: 20px;
+      &:hover{
+        @include raised(0, 0, 10px, 0.4);
+      }
+      @include respond-to(phone){
+        width: 32vw;
+      }
+      .about-video-img{
+        width:100%;
+        height: 100%;
+        display: block;
+        background-size: 140% auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: $z-related-image;
+      }
+      .about-video-title{
+        display: block;
+        position: absolute;
+        top:0;
+        left: 0;
+        width:100%;
+        height: 100%;
+        display: block;
+        background-color: rgba(255, 255, 255, 0.9);
+        width: 100%;
+        z-index: $z-related-title;
+        table{
+          width: 100%;
+          height: 100%;
+          tr{
+            td{
+              vertical-align: middle;
+              height: 100%;
+              p{
+                display: block;
+                width: 15vw;
+                position: relative;
+                margin-left: -7.5vw;
+                left: 50%;
+                word-break:keep-all;
+                word-wrap: break-word;
+                text-align: center;
+                white-space: pre-wrap;
+                // overflow: scroll;
+                color: #000000;
+                height: auto;
+                font-family: gtWalsheimPro-light;
+                line-height: $line-height-paragraph;
+                font-size: $font-size-paragraph;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+#tour-dates{
+  width:50vw;
+  margin: $margin-top auto;
+  margin-bottom: 0;
+  @include respond-to(phone){
+    width: 90vw;
+
+  }
+}
+
+.bit-rsvp{
+  display: none !important;
+}
+.bit-track-about-header{
+  display: none !important;
+}
+
+.bit-header{
+  display: none !important;
+}
+
+.bit-events{
+  tbody{
+    tr:nth-child(2){
+      display: none !important;
+    }
+  }
+
+}
+
+
+td>a{
+  font-family: gtWalsheimPro-light !important;
+  line-height: $line-height-paragraph !important;
+  font-size: $font-size-paragraph !important;
+  font-weight: normal !important;
+}
+
+
+
+
+
+
+
+
+
+
+//instagram
+.about-instagram{
+  width:100vw;
+  height: auto;
+  .about-instagram-ul{
+    width:100vw;
+    height: auto;
+    .about-instagram-li{
+      width:100vw;
+      height: auto;
+      margin-top: 100px;
+      .about-instagram-li-a{
+        .about-instagram-img{
+          width:600px;
+          height: auto;
+          margin: auto;
+          display: block;
+          @include respond-to(phone){
+              width:100vw;
+          }
+        }
+        .about-instagram-caption{
+          font-size: $font-size-paragraph;
+          line-height: $line-height-paragraph;
+          color:$black;
+          font-family: $font-family-paragraph;
+          // margin-left: $margin-sides;
+          //   margin-top: $margin-sides;
+          width: 600px;
+          height: auto;
+          margin: auto;
+          display: block;
+          @include respond-to(phone){
+            width: 100%;
+            margin-left: $margin-sides-mobile;
+            margin-top: $margin-sides-mobile;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.load-more-li{
+  width:100vw;
+  height: 100vh;
+  .load-more-button{
+    width:100px;
+    height:100px;
+    margin: auto;
+
+  }
+}

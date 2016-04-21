@@ -7,19 +7,22 @@ module.exports = function (grunt) {
                 src: [
                      'bower_components/modernizer/modernizr.js',
                      'bower_components/soundcloud.min.js',
+                     'components/eliasInstagramModule.js',
+                     'bower_components/angular-mailchimp.js',
                      'https://connect.soundcloud.com/sdk/sdk-3.0.0.js',
                      'http://widget.bandsintown.com/javascripts/bit_widget.js',
-                    'app.js',
-                    'routes.js',
-                    'services.js',
-                   'components/**/*.js',
-                   'home/home.js',
-                   'artist/artist.js',
-                   'subscribe/subscribe.js',
-                   'about/about.js',
-                   'contact/contact.js'
+                      'js/app.js',
+                      'routes.js',
+                      'services.js',
+                      'components/**/*.js',
+                      'home/home.js',
+                      'artist/artist.js',
+                      'subscribe/subscribe.js',
+                      'about/about.js',
+                      'tour/tour.js',
+                      'contact/contact.js'
                     ],
-                dest: 'concat.js'
+                dest: 'js/concat.js'
             }
         },
         // uglify: {
@@ -39,6 +42,7 @@ module.exports = function (grunt) {
                   files: [
                     'bower_components/angular/angular.min.js',
                      'bower_components/modernizer/modernizr.js',
+
                      'bower_components/jquery/jquery.js',
                      'bower_components/angular-touch/angular-touch.min.js',
                      'bower_components/angular-sanitize/angular-sanitize.min.js',
@@ -48,20 +52,23 @@ module.exports = function (grunt) {
                      'bower_components/angular-touch/angular-touch.js',
                      'bower_components/video.js/dist/video-js/video.dev.js',
                      'bower_components/soundcloud.min.js',
+                     'components/eliasInstagramModule.js',
+                     'bower_components/angular-mailchimp.js',
                      'https://connect.soundcloud.com/sdk/sdk-3.0.0.js',
                      'http://widget.bandsintown.com/javascripts/bit_widget.js',
 
 
 
-                    'app.js',
-                    'routes.js',
-                    'services.js',
-                   'components/**/*.js',
-                    'home/home.js',
-                    'artist/artist.js',
-                    'subscribe/subscribe.js',
-                    'about/about.js',
-                    'contact/contact.js'
+                      'js/app.js',
+                      'routes.js',
+                      'services.js',
+                      'components/**/*.js',
+                      'home/home.js',
+                      'artist/artist.js',
+                      'subscribe/subscribe.js',
+                      'about/about.js',
+                      'tour/tour.js',
+                      'contact/contact.js'
 
                   ],
                   // tasks: ['concat', 'uglify']

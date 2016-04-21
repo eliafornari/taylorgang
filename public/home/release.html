@@ -1,0 +1,60 @@
+<div class="release" ng-controller="homeCtrl">
+  <table class="release-table">
+    <tr class="release-tr">
+      <td class="release-td">
+        <div class="release-li-main">
+
+          <div class="release-main-left">
+            <table style="width: 100%;height: 100%;">
+              <tr>
+                <td style="vertical-align:middle; height:100%;">
+                  <p class="release-main-left-artist">{{mainRelease.data['release.artist'].value[0].text}}</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="release-main-video">
+            <iframe class="release-main-video-iframe" ng-src="{{mainRelease.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'youtube'"></iframe>
+            <iframe class="release-main-video-iframe" ng-src="{{mainRelease.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'soundcloud'"></iframe>
+            <iframe class="release-main-video-iframe" ng-src="{{mainRelease.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'vimeo'"></iframe>
+            <div class="release-main-video-iframe" style="background-image: url('{{mainRelease.data['release.embed'].value[0].value.value.main.url || trustUrl}}')" ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'image'"></div>
+          </div>
+          <div class="release-main-right">
+            <table style="width: 100%;height: 100%;">
+              <tr>
+                <td style="vertical-align:middle; height:100%;">
+                  <p class="release-main-right-name">{{mainRelease.data['release.name'].value[0].text}}</p>
+                    <div class="home-main-share">
+                      <p ng-click="shareOpen=!shareOpen" class="home-main-share-p">share</p>
+                      <ul class="home-main-share-ul" ng-show="shareOpen">
+                        <li class="home-main-share-li">
+                          <a href="#" id="home-social-li-instagram">
+                            <instagram-icon-directive></instagram-icon-directive>
+                          </a>
+                        </li>
+                        <li class="home-main-share-li">
+                          <a href="#" id="home-social-li-twitter">
+                            <twitter-icon-directive></twitter-icon-directive>
+                          </a>
+                        </li>
+                        <li class="home-main-share-li">
+                          <a href="#" id="home-social-li-facebook">
+                            <facebook-icon-directive></facebook-icon-directive>
+                          </a>
+                        </li>
+                      </ul>
+
+                    </div>
+
+                </td>
+              </tr>
+            </table>
+          </div>
+
+
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -55,6 +55,9 @@ a:active {
 
 
 
+*{
+  -webkit-overflow-scrolling: touch;
+}
 
 
 
@@ -68,7 +71,15 @@ a:active {
 
 
 
+html{
+  box-sizing: border-box;
+}
 
+
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 
 
 
@@ -89,6 +100,7 @@ body {
   height: 100%;
   margin: 0, 0;
   padding: 0, 0;
+  display: table;
   text-transform: uppercase;
 /* Set the background color of the HTML page to black */
 background-color: #FFFFFF;
@@ -116,10 +128,94 @@ a{
 
 
 
+//
+// @keyframes myfirst
+// {
+// 0%   {background:red;}
+// 25%  {background:yellow;}
+// 50%  {background:blue;}
+// 100% {background:green;}
+// }
+//
+// @-moz-keyframes myfirst /* Firefox */
+// {
+// 0%   {background:red;}
+// 25%  {background:yellow;}
+// 50%  {background:blue;}
+// 100% {background:green;}
+// }
+//
+// @-webkit-keyframes myfirst /* Safari and Chrome */
+// {
+// 0%   {background:red;}
+// 25%  {background:yellow;}
+// 50%  {background:blue;}
+// 100% {background:green;}
+// }
+//
+// @-o-keyframes myfirst /* Opera */
+// {
+// 0%   {background:red;}
+// 25%  {background:yellow;}
+// 50%  {background:blue;}
+// 100% {background:green;}
+// }
 
 
+@keyframes myfirst
+{
+0%   {@include transform-element(translateX(0vw));}
+100% {@include transform-element(translateX(-100vw));}
+}
 
+@-moz-keyframes myfirst /* Firefox */
+{
+  0%   {@include transform-element(translateX(0vw));}
+  100% {@include transform-element(translateX(-100vw));}
+}
 
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+  0%   {@include transform-element(translateX(0vw));}
+  100% {@include transform-element(translateX(-100vw));}
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+  0%   {@include transform-element(translateX(0vw));}
+  100% {@include transform-element(translateX(-550vw));}
+}
+
+@keyframes myfirst_m
+{
+0%   {@include transform-element(translateX(0vw));}
+100% {@include transform-element(translateX(-550vw));}
+}
+
+@-moz-keyframes myfirst_m /* Firefox */
+{
+  0%   {@include transform-element(translateX(0vw));}
+  100% {@include transform-element(translateX(-550vw));}
+}
+
+@-webkit-keyframes myfirst_m /* Safari and Chrome */
+{
+  0%   {@include transform-element(translateX(0vw));}
+  100% {@include transform-element(translateX(-550vw));}
+}
+
+@-o-keyframes myfirst_m /* Opera */
+{
+  0%   {@include transform-element(translateX(0vw));}
+  100% {@include transform-element(translateX(-550vw));}
+}
+
+// @mixin transform-element($coordinate){
+//   transform: $coordinate;
+//   -ms-transform: $coordinate; /* IE 9 */
+//  	-webkit-transform: $coordinate; /* Safari */
+//   transform-origin: 0 0;
+// }
 
 
 
@@ -127,11 +223,11 @@ a{
 
 /*.........................MAIN............................*/
 main {
-  width:  calc(100vw - 100px);
   height: auto;
   position: relative;
   display: block;
   list-style-type: none;
+      display: table;
   // z-index: $z-main;
 }
 
@@ -155,40 +251,83 @@ main {
   position: fixed;
   .loading-p{
     position: fixed;
-    top:50%;
-    left:50%;
-    width:100px;
-    height:50px;
-    margin-top:-25px;
-    margin-left:-50px;
-    line-height: 50px;
+    width:100vw;
+    height:100vh;
+    // top:50%;
+    // left:50%;
+    // width:100px;
+    // height:50px;
+    // margin-top:-25px;
+    // margin-left:-50px;
+    // line-height: 50px;
     vertical-align: middle;
     text-align: center;
     font-size: $font-size-subtitle;
     font-family: camptonSemiBold;
   }
-
 }
 
 
 .loading-logo{
-  width:100px;
-  height:100px;
-  position: fixed;
-  left:50%;
-  top:50%;
-  margin-left: -50px;
-  margin-top:-50px;
+  width:100vw;
+  height: 100vh;
+  // width:100px;
+  // height:100px;
+  // position: fixed;
+  // left:50%;
+  // top:50%;
+  // margin-left: -50px;
+  // margin-top:-50px;
   svg{
-    width:100%;
+    animation:myfirst 2s linear infinite;
+    // width:100%;
     height:100%;
+    @include respond-to(phone){
+      height:90%;
+      animation:myfirst_m 1.6s linear infinite;
+
+
+    }
   }
 
 }
 
 
 
+/**
+ * Loading animation like the one seen on http://www.freeger.com/projects/contextad/ with CSS
+ * Caveat: Not DRY. The content needs to be repeated in a data- attribute (or directly in the CSS).
+ */
 
+// body {
+// 	background: #ccc51c;
+// 	min-height: 100%;
+// }
+//
+// h1 {
+// 	position: absolute;
+// 	left: 50%;
+// 	margin-left: -1.9em;
+// 	color: hsla(0,0%,100%,.3);
+// 	font: 900 800% Baskerville, 'Palatino Linotype', Palatino, serif;
+// }
+//
+// @keyframes loading {
+// 	from { max-width: 0; }
+//     font-family: $font-family-title;
+// }
+//
+// .contad:before {
+// 	content: attr(data-content);
+// 	position: absolute;
+// 	overflow: hidden;
+// 	max-width: 5em;
+// 	color: white;
+// 	animation: loading 5s linear;
+//   // @include title();
+//     // font-family: $font-family-title;
+//
+// }
 
 
 

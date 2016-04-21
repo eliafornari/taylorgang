@@ -1,0 +1,518 @@
+.artist{
+  width: 100vw;
+  // height: 100vh;
+  display: table;
+
+}
+
+
+
+.artist-ul{
+  display: block;
+  position: relative;
+  margin: auto;
+  width:100vw;
+  display: table;
+  .artist-li{
+    width:100vw;
+    height: 100vh;
+    position: relative;
+    @include hover-effect-saturation(100%, 0%);
+    @include respond-to(phone){
+      height: 30vh;
+    }
+    .artist-li-image{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-position: center bottom;
+      background-size: auto 79%;
+      background-repeat: no-repeat;
+      z-index: $z-artist-image;
+
+      @include respond-to (phone){
+        width: 100%;
+        height: 100%;
+        margin: auto auto;
+        background-size: auto 70%;
+      }
+    }
+    .artist-li-name{
+      display:block;
+      position: absolute;
+      width:100%;
+      height: 100%;
+      line-height: 100vh;
+      font-family: gtWalsheimPro-black;
+      color: $light-grey;
+      font-size: 12vw;
+      top:0;
+      text-align: center;
+      z-index: $z-artist-name;
+      @include respond-to(phone){
+        font-size: 40px;
+        height: 20vh;
+        line-height: 20vh;
+        margin-top: 10vh;
+      }
+    }
+  }
+}
+
+
+
+
+
+#courtneynoelle{
+  font-size: 120px;
+  @include respond-to(phone){
+    font-size: 30px;
+  }
+
+}
+
+
+
+#artist-li-image-tukicarter{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//.....................................................................................................//
+//.....................................................................................................//
+//..................................................DETAIL.............................................//
+//.....................................................................................................//
+//.....................................................................................................//
+.artist-detail{
+
+}
+
+.artist-header{
+  width: 100vw;
+  height: 200px;
+  position: relative;
+  @include respond-to(phone){
+    height: 100px;
+  }
+  .artist-header-name{
+    width: auto;
+    position: absolute;
+    right:$margin-sides;
+    top: 0;
+    color: $light-grey;
+    font-size: 9vw;
+    font-family: gtWalsheimPro-black;
+    height: 100%;
+    line-height: 120px;
+
+    @include respond-to(phone){
+      position: absolute;
+      right:$margin-sides-mobile;
+      top: $margin-sides-mobile;
+      height: 80px;
+      line-height: 80px;
+      font-size: 8vw;
+    }
+  }
+  .artist-header-image{
+    background-position:bottom right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    width: 40vw;
+    height:200px;
+    right: $margin-sides;
+    bottom: 0;
+    @include respond-to(phone){
+      background-position: 0% bottom;
+      background-repeat: no-repeat;
+      background-size: 120% auto;
+      position: absolute;
+      width: 30vw;
+      height: 100%;
+      right: $margin-sides-mobile;
+      top: 0;
+    }
+
+  }//artist-header-image
+  .artist-header-text{
+    width:50%;
+    height: inherit;
+
+    .artist-header-ul{
+      width: auto;
+      position: absolute;
+      left:$margin-sides;
+      bottom: $margin-sides;
+      @include respond-to(phone){
+        position: absolute;
+        height:30px;
+        left:$margin-sides-mobile;
+        bottom: $margin-sides-mobile;
+      }
+      .artist-header-li{
+        width: 80px;
+        height:50px;
+        display: inline-block;
+        @include respond-to(phone){
+          width: 30px;
+          height: 30px;
+          margin-right: 10px;
+        }
+        a{
+          width: 100%;
+          height: 100%;
+          display: block;
+          svg{
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+      }
+    }
+  }//artist-header-text
+}
+
+
+
+#artist-header-image-tukicarter{
+  background-size: auto 80%;
+}
+
+#artist-header-image-juicyj{
+  background-size: auto 90%;
+  @include respond-to(phone){
+    background-size: auto 80%;
+  }
+}
+
+
+
+
+.artist-youtube{
+  width: 100vw;
+  height: 100vh;
+  @include respond-to(phone){
+    height: auto;
+  }
+
+}
+
+.artist-video-main{
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  left: 0%;
+  top:0;
+  @include respond-to(phone){
+    height: 53vh;
+  }
+  .iframe{
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    left: 0%;
+    z-index: $z-artist-video;
+    @include respond-to(phone){
+      height: 53vh;
+    }
+  }
+  .artist-video-main-title{
+    position: absolute;
+    left: $margin-sides;
+    top: $margin-sides;
+    font-family: gtWalsheimPro-light, Helvetica;
+    font-size: $font-size-paragraph;
+    z-index: $z-artist-title;
+  }
+}
+
+.artist-video-related{
+  position: relative;
+  width: 100%;
+  height: 20vh;
+  left:0;
+  top: 0;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space:nowrap;
+  background-color: $black;
+  .artist-video-ul{
+    display: table;
+    position: relative;
+    width:auto;
+    height: 15vh;
+    margin-top: -7.5vh;
+    top: 50%;
+    left: 0;
+    padding-right: 20px;
+    @include respond-to(phone){
+      height: 12vh;
+      margin-top: -6vh;
+    }
+    .artist-video-li{
+      display: inline-block;
+      position: relative;
+      word-wrap: break-word;
+      height:100%;
+      width: 17vw;
+      margin-left: 20px;
+      &:hover{
+        @include raised(0, 0, 10px, 0.4);
+      }
+      @include respond-to(phone){
+        width: 32vw;
+      }
+      .artist-video-img{
+        width:100%;
+        height: 100%;
+        display: block;
+        background-size: 140% auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: $z-related-image;
+      }
+      .artist-video-title{
+        display: block;
+        position: absolute;
+        top:0;
+        left: 0;
+        width:100%;
+        height: 100%;
+        display: block;
+        background-color: rgba(255, 255, 255, 0.9);
+        width: 100%;
+        z-index: $z-related-title;
+        table{
+          width: 100%;
+          height: 100%;
+          tr{
+            td{
+              vertical-align: middle;
+              height: 100%;
+              p{
+                display: block;
+                width: 15vw;
+                position: relative;
+                margin-left: -7.5vw;
+                left: 50%;
+                word-break:keep-all;
+                word-wrap: break-word;
+                text-align: center;
+                white-space: pre-wrap;
+                // overflow: scroll;
+                color: #000000;
+                height: auto;
+                font-family: gtWalsheimPro-light;
+                line-height: $line-height-paragraph;
+                font-size: $font-size-paragraph;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+.artist-releases{
+  width:100vw;
+  position: relative;
+  height:200px;
+  margin-top: $margin-top;
+  margin-bottom: $margin-top;
+  .artist-releases-ul{
+    width:auto;
+    display: table;
+    height:100%;
+    .artist-releases-li{
+      position: relative;
+      display: inline-block;
+      float:left;
+      width:200px;
+      height:200px;
+      .artist-releases-li-a{
+        display:block;
+        position: absolute;
+        width:100%;
+        height:100%;
+        top:0;
+        left:0;
+        .artist-releases-li-p{
+          position: absolute;
+          top:50%;
+          height:30px;
+          line-height: 30px;
+          margin-top: -15px;
+          left:0;
+          width:100%;
+          text-align: center;
+          @include paragraph();
+          z-index: $z-index-artist-release;
+
+        }
+        .artist-releases-li-cover{
+          position: absolute;
+          width:100%;
+          height:100%;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 98% 98%;
+
+        }
+
+      }
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#tour-dates{
+  width:50vw;
+  margin: $margin-top auto;
+  margin-bottom: 0;
+  @include respond-to(phone){
+    width: 90vw;
+
+  }
+}
+
+.bit-rsvp{
+  display: none !important;
+}
+.bit-track-artist-header{
+  display: none !important;
+}
+
+.bit-header{
+  display: none !important;
+}
+
+.bit-events{
+  tbody{
+    tr:nth-child(2){
+      display: none !important;
+    }
+  }
+
+}
+
+
+td>a{
+  font-family: gtWalsheimPro-light !important;
+  line-height: $line-height-paragraph !important;
+  font-size: $font-size-paragraph !important;
+  font-weight: normal !important;
+}
+
+
+
+
+
+
+
+
+
+
+//instagram
+.artist-instagram{
+  width:100vw;
+  height: auto;
+  .artist-instagram-ul{
+    width:100vw;
+    height: auto;
+    .artist-instagram-li{
+      width:100vw;
+      height: auto;
+      margin-top: 100px;
+      .artist-instagram-li-a{
+        .artist-instagram-img{
+          width:600px;
+          height: auto;
+          margin: auto;
+          display: block;
+          @include respond-to(phone){
+              width:100vw;
+          }
+        }
+        .artist-instagram-caption{
+          font-size: $font-size-paragraph;
+          line-height: $line-height-paragraph;
+          color:$black;
+          font-family: $font-family-paragraph;
+          // margin-left: $margin-sides;
+          //   margin-top: $margin-sides;
+          width: 600px;
+          height: auto;
+          margin: auto;
+          display: block;
+          @include respond-to(phone){
+            width: calc(100vw - 10px);
+            margin-left: $margin-sides-mobile;
+            font-size: $font-size-paragraph-mobile;
+            line-height: $line-height-paragraph-mobile;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.load-more-li{
+  width:100vw;
+  height: 100vh;
+  .load-more-button{
+    width:100px;
+    height:100px;
+    margin: auto;
+
+  }
+}
+
+
+
+
+
+
+
+.artist-backtotop{
+  position: fixed;
+  left: $margin-sides;
+  bottom: $margin-sides;
+  @include respond-to(phone){
+    left: $margin-sides-mobile;
+    bottom: $margin-sides-mobile;
+  }
+  p{
+    width:100%;
+    @include subtitle();
+  }
+}

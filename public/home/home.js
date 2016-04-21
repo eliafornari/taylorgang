@@ -1,56 +1,21 @@
 
 var Home = angular.module('myApp');
 
+Home.filter('youtubeEmbed', function ($sce) {
+    return function(url) {
+      if (url){
+        var riskyVideo = "https://www.youtube.com/embed/"+url+"?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque";
+        console.log(riskyVideo);
+        return $sce.trustAsResourceUrl(riskyVideo);
+        $scope.$apply();
+      }
+    };
+  })
 
 Home.controller('homeCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce){
 
-
-
-
-
-
-
-
-//..........................................................MESSAGE
-$rootScope.thisIndex=0;
-$scope.showingMessage=true;
-$scope.messageArray=[];
-$scope.isDone=false;
-$scope.final_messageArray=[];
-
-$scope.message = "AN INDEPENDENT AMERICAN RECORD LABEL";
-
-$scope.$watch('pageLoading' ,function(){
-
-  for (i =0; i < ($scope.message.length); i++){
-
-
-    // setTimeout(function(){
-        // jQuery("#msg").append($scope.message[i]);
-
-        if($scope.message[i]==" "){
-          $scope.messageArray.push("");
-        }else{
-          $scope.messageArray.push($scope.message[i]);
-
-        }
-
-        $scope.isDone=true;
-
-        // $scope.$apply();
-    // }, 300);
-
-    if($scope.isDone){
-      $scope.final_messageArray =$scope.messageArray;
-    }
-  }
-
-});
-
-
-
-
-
+$scope.mainRelease;
+$rootScope.Filter, $rootScope.Release, $rootScope.Artist;
 
 
 
@@ -59,12 +24,15 @@ $scope.$watch('pageLoading' ,function(){
 
   $rootScope.firstLoading = false;
 
-$rootScope.getContentType = function(type){
+$rootScope.getContentType = function(type, orderField){
 
       Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
           Api.form('everything')
               .ref(Api.master())
-              .query(Prismic.Predicates.at("document.type", type)).submit(function (err, response) {
+
+              .query(Prismic.Predicates.at("document.type", type))
+              .orderings('['+orderField+']')
+              .submit(function (err, response) {
 
                   var Data = response;
 
@@ -72,15 +40,16 @@ $rootScope.getContentType = function(type){
 
                     $rootScope.pageLoading = false;
                     $scope.$apply();
-                  }, 2000);
+                  }, 1000);
 
 
                   if (type =='artist'){
                     $rootScope.Artist = response.results;
                   }else if(type=='release'){
                     $rootScope.Release = response.results;
-                  }else if(type =='journal'){
-                    $rootScope.Journal = response.results;
+                    $scope.$broadcast('releaseDone');
+                  }else if(type =='filter'){
+                    $rootScope.Filter = response.results;
                   }
 
                   // The documents object contains a Response object with all documents of type "product".
@@ -97,12 +66,13 @@ $rootScope.getContentType = function(type){
                     return results;
               });
         });
-
-
 };
 
 if ($rootScope.firstLoading == false){
-  $rootScope.getContentType('artist');
+  $rootScope.getContentType('filter', 'my.filter.index');
+  $rootScope.getContentType('release', 'my.release.date desc');
+  $rootScope.getContentType('artist', 'my.artist.index');
+
 }
 
 
@@ -117,22 +87,51 @@ if ($rootScope.firstLoading == false){
 
 
 
-  $rootScope.openArtists = function(artist, number){
 
-    $location.path('artist', false);
-    $rootScope.whatArtist = artist;
-    $rootScope.thisArtist(artist, number);
 
+$scope.windowWidth= window.innerWidth;
+
+  $scope.$watch(function(){
+     $scope.windowWidth = window.innerWidth;
+  }, function(value) {
+     console.log(value);
+  });
+
+
+
+$scope.selectedIndex =0;
+$scope.moveBox=3;
+$scope.mainReleaseYoutube="";
+$rootScope.mainRelease={};
+
+$rootScope.thisRelease=function(uid){
+    var index = this.$index;
+
+    $scope.selectedIndex=index;
+    // $rootScope.mainRelease = $rootScope.Release[index];
+
+}
+
+
+
+
+
+
+$rootScope.releaseDetail=function(){
+  var uid = $routeParams.name;
+    console.log("uid: "+uid)
+
+  if($location.path() == '/release/'+$routeParams.name){
+    for (i in $rootScope.Release){
+      if ($rootScope.Release[i].uid == uid){
+        $rootScope.mainRelease = $rootScope.Release[i];
+          console.log($rootScope.mainRelease);
+          console.log("uid: "+uid);
+
+      }
+    }
   }
-
-
-  $rootScope.openRelease = function(release, number){
-
-    $location.path('release', false);
-    $rootScope.whatRelease = release;
-    $rootScope.thisRelease(release, number);
-
-  }
+}
 
 
 
@@ -140,56 +139,11 @@ if ($rootScope.firstLoading == false){
 
 
 
+$scope.$on('$routeChangeSuccess', function(next, current) {
 
-
-
-
-
-
-
-
-
-// $rootScope.channel_statistics;
-//
-//
-//
-//   $.get(
-//     "https://www.googleapis.com/youtube/v3/channels?",{
-//       part: 'statistics',
-//       // maxResults: 50,
-//       id: 'UClO3VS7C-pHAoRh6fYddbLQ',
-//       key: 'AIzaSyBmZ8Wa0u4cbP_kI_LYDQ-xT521xTeKcFo'
-//     },
-//       function(data){
-//
-//         $rootScope.channel_statistics = data.items[0].statistics;
-//         console.log($rootScope.channel_statistics);
-//
-//
-//         // $scope.baseUrl = 'https://www.youtube.com/embed/'+$rootScope.channel_data[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
-//         // $scope.main_video = $sce.trustAsResourceUrl($scope.baseUrl);
-//         // $scope.main_title = $rootScope.channel_data[0].title;
-//
-// // part=subscriberSnippet&channelId=UClO3VS7C-pHAoRh6fYddbLQ&mySubscribers=false&key={YOUR_API_KEY}
-//
-//       }
-//   );
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  $scope.$on('releaseDone', function(){
+       $rootScope.releaseDetail();
+  })
 
 
 });
@@ -200,118 +154,107 @@ if ($rootScope.firstLoading == false){
 
 
 
+$scope.selectedFilter = '';
+$scope.setFilter = function(group) {
+    $scope.selectedFilter = group;
+}
 
 
 
 
-// $scope.formData = {};
+});//controller
 
-//   $scope.searchFunction = function () {
-//     $http({
-//       method: 'GET',
-//       url: 'https://api.spotify.com/v1/tracks/' + $scope.formData.artist
-//     }).then(function successCallback(response) {
-//         // this callback will be called asynchronously
-//         // when the response is available
-//
-//         $scope.response = response;
-//         $scope.data = response.data;
-//
-//       }, function errorCallback(response) {
-//         // called asynchronously if an error occurs
-//         // or server returns response with an error status.
-//       });
+
+// Home.filter('startsWithLetter', function () {
+//   return function (items, click, input) {
+//     var filtered = [];
+//     // var letterMatch = new RegExp(letter, 'i');
 //
 //
-//       console.log($scope.data);
-// };
-
-
-
-
-//.......................................CONTENTFUL
-
-
-
-// var request = new XMLHttpRequest();
+//     console.log('click: '+click);
+//     console.log('input: '+input);
 //
-// request.open('GET', 'https://cdn.contentful.com/spaces/wnrvjkdhaqmd/entries?access_token=b2e4949056c52a21c1142781b5ada1d1226bfbc578cd191ec591375d95f0dca5');
-
-
-// var contentful = require('contentful');
-// var client = contentful.createClient({
-//   accessToken: 'b2e4949056c52a21c1142781b5ada1d1226bfbc578cd191ec591375d95f0dca5',
-//   space: 'mql5rhikew08'
+//     for (i in items) {
+//       var item = items[i];
+//
+//
+//       // if (item.uid == click ){
+//       //   filtered.push(item);
+//       //
+//       //   this.specificItem = item;
+//       //
+//       //   // data['artistLink'].value.document.uid
+//       // }
+//
+//       // if(item.data['release.artistlink']){
+//       //         console.log(item.data['release.artistlink'].value.document.uid);
+//       //
+//       //         if (this.specificItem.uid != item.uid){
+//       //
+//       //           if(item.data['release.artistlink'].value.document.uid == 'wizkhalifa'){
+//       //             filtered.push(item);
+//       //           }
+//       //
+//       //         }
+//       //
+//       //
+//       // }
+//
+//
+//
+//       // if (item.data['artistLink'].value.document.uid && (item.data['artistLink'].value.document.uid == 'wizkhalifa')){
+//       //   filtered.push(item);
+//       //   console.log(item.data['artistLink'].value.document.uid);
+//       //
+//       // }
+//       // if (letterMatch.test(item.name.substring(0, 1))) {
+//       //   filtered.push(item);
+//       // }
+//     }
+//     return filtered;
+//   };
 // });
 
 
+Home.filter('isArtGroup', function(){
+  return function(items, filter) {
+    var filtered = [];
+    var specificItem={};
+
+    if(!filter) {
+      // initially don't filter
+      return items;
+    }
 
 
+        for (i in items) {
+          var item = items[i];
 
-// $scope.getContentType = function(content_type){
-//   //  var request = new XMLHttpRequest();
-//    var access_token = 'b2e4949056c52a21c1142781b5ada1d1226bfbc578cd191ec591375d95f0dca5';
-//    var get = "https://cdn.contentful.com/spaces/mql5rhikew08/entries?access_token="+ access_token +"&content_type="+content_type;
-//
-//
-//    $http({
-//      method: 'GET',
-//      url: get
-//     }).then(function successCallback(response) {
-//        // this callback will be called asynchronously
-//        // when the response is available
-//
-//           if(content_type=='artist'){
-//             $rootScope.Artist = response.data.items;
-//           }else if(content_type=='release'){
-//             $rootScope.Release = response.data.items;
-//           }else if(content_type=='journal'){
-//             $rootScope.Journal = response.data.items;
-//           }
-//
-//           setTimeout(function(){
-//             $rootScope.firstLoading = false;
-//             $scope.$apply();
-//           }, 200);
-//
-//
-//
-//
-//
-//      }, function errorCallback(response) {
-//        // called asynchronously if an error occurs
-//        // or server returns response with an error status.
-//      });
-//
-//
-//
-//   //  request.open('GET', get);
-//   //  request.onreadystatechange = function () {
-//   //    if (this.readyState === 4) {
-//   //     //  console.log('Status:', this.status);
-//   //     //  console.log('Headers:', this.getAllResponseHeaders());
-//   //     //  console.log('Body:', this.response);
-//    //
-//   //      if(content_type=='artist'){
-//   //        $rootScope.Artist = JSON.parse(this.response.items);
-//   //        console.log(this.response.items);
-//   //      }else if(content_type=='release'){
-//   //        $rootScope.Release = this.responseText.items;
-//   //      }else if(content_type=='journal'){
-//   //        $rootScope.Journal = this.responseText.items;
-//   //      }
-//   //      setTimeout(function(){
-//   //        $rootScope.firstLoading = false;
-//   //        $scope.$apply();
-//   //      }, 2000);
-//    //
-//   //    }
-//   //  };
-//   //  request.send();
-// }
-//
 
-//
-// // $scope.getContentType('artist');
-// // $scope.getContentType('release');
-// // $scope.getContentType('journal');
+          if (item.uid == filter ){
+
+            filtered.push(item);
+            specificItem = item;
+
+          }
+
+          if((item.data['release.artistlink']) && (specificItem)){
+
+
+                if (specificItem.uid != item.uid){
+                  if(item.data['release.artistlink'].value.document.uid == filter){
+                    console.log(item.data['release.artistlink'].value.document.uid);
+                    filtered.push(item);
+                  }
+                }
+
+
+          }else if(!specificItem){
+            console.log(item.data['release.artistlink'].value.document.uid);
+            filtered.push(item);
+          }
+
+        }
+        return filtered;
+  }
+})

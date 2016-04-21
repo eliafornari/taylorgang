@@ -19,15 +19,34 @@ $font-size-title:35px;
 $font-size-subtitle:16px;
 $font-size-paragraph: 12px;
 
+$font-size-nav-mobile:25px;
+$font-size-title-mobile:30px;
+$font-size-subtitle-mobile:14px;
+$font-size-paragraph-mobile: 12px;
+
+
 $letter-spacing: 1px;
+
+
+
+
+
+$font-family-nav: gtWalsheimPro-black;
+$font-family-title: gtWalsheimPro-black;
+$font-family-subtitle: gtWalsheimPro-regular;
+$font-family-paragraph: gtWalsheimPro-light;
 
 
 
 // ........................................................FONT LINEHEIGHTS
 $line-height-title: 50px;
 $line-height-subtitle: 30px;
+$line-height-paragraph: 22px;
 
 
+$line-height-title-mobile: 40px;
+$line-height-subtitle-mobile: 24px;
+$line-height-paragraph-mobile: 18px;
 
 // ........................................................TEXT PADDINGS
 $padding-text: 5px;
@@ -37,19 +56,17 @@ $padding-headline-bottom: 20px;
 
 
 // ........................................................COLORS
-
+$black: #000000;
+$white: #FFFFFF;
 $yellow: #ede611;
-$red-rgba: rgba(230, 0, 0, 1);
-$red-opaque: rgba(206, 17, 17, 0.4);
-
-
+// f0e928
+$light-grey: rgba(0,0,0, 0.3);
 
 // ........................................................MARGINS
 $margin-sides: 20px;
 $margin-bottom: 35px;
-$margin-top: 20px;
-
-
+$margin-top: 100px;
+$margin-sides-mobile:10px;
 
 // ........................................................TRANSITION TIMINGS
 $transition-extreme-slow: 1.4s;
@@ -75,15 +92,23 @@ $z-loader: 999;
 $z-header: 13;
 $z-nav: 12;
 
-$z-journal:11;
+$z-artist-image:11;
+$z-artist-name:12;
+$z-artist-title:11;
+$z-artist-video:11;
+$z-about-video:11;
+$z-about-title:11;
+$z-index-artist-release:11;
+
+$z-related-title: 7;
+$z-related-image: 6;
+
 
 $z-close:10;
 $z-home: 10;
 
-$z-home-artist:7;
 $z-main: 6;
-$z-home-live: 6;
 $z-artist: 6;
-$z-home-journal:6;
+
 
 /*....................................................................................*/
