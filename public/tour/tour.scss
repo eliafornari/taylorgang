@@ -1,0 +1,66 @@
+.tour{
+  width:100vw;
+  height:auto;
+}
+
+
+.tour-ul{
+  width:768px;
+  margin: $margin-top auto;
+  margin-bottom: 0;
+  @include respond-to(tablet-portrait){
+    width: 468px;
+  }
+  @include respond-to(tablet-landscape){
+    width: 468px;
+  }
+  @include respond-to(phone){
+    width: 468px;
+  }
+  .tour-li{
+    width:100%;
+    height: auto;
+    min-height: 50px;
+
+    p{
+      @include paragraph();
+      text-align: left;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .tour-date{
+      display: inline-block;
+      width: 100px;
+    }
+    .tour-artist{
+      display: inline-block;
+      width: 100px;
+    }
+    .tour-venue{
+      display: inline-block;
+      width: 300px;
+      @include respond-to(tablet-portrait){
+        display:none;
+      }
+      @include respond-to(tablet-landscape){
+        display:none;
+      }
+      @include respond-to(phone){
+        display:none;
+      }
+    }
+
+    .tour-location{
+      display: inline-block;
+      width: 200px;
+    }
+    .tour-rsvp{
+      display: inline-block;
+      margin-right: 0;
+      width: 50px;
+      a{
+        @include hover-effect-color($black, $yellow);
+      }
+    }
+  }
+}

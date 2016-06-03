@@ -16,7 +16,7 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
   //................................................................................................................................................//
 
   $rootScope.about_data;
-  $rootScope.about_channel_data = [];
+  $rootScope.about_playlist_data = [];
   $rootScope.about_main_video, $scope.about_main_title;
   $rootScope.about_main_video_show =false;
   $rootScope.about_baseUrl;
@@ -29,27 +29,27 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
 
-  $scope.about_getYoutubeChannel = function(channelid){
-
+  $scope.about_getYoutubePlaylist = function(playid){
+// GET https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S&key={YOUR_API_KEY}
                 $.get(
-                  "https://www.googleapis.com/youtube/v3/search",{
+                  "https://www.googleapis.com/youtube/v3/playlistItems",{
                     part: 'snippet',
                     maxResults: 50,
-                    channelId: channelid,
+                    playlistId: playid,
                     key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
                   },
                     function(data){
 
-                      $rootScope.about_channel_data = data.items;
+                      $rootScope.about_playlist_data = data.items;
                       // console.log(data);
                       // $.each(data.items, function(i, item){
                       //   // var videoTitle = item.snippet.title;
                       // })
 
 
-                      $rootScope.about_baseUrl = 'https://www.youtube.com/embed/'+$rootScope.about_channel_data[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+                      $rootScope.about_baseUrl = 'https://www.youtube.com/embed/'+$rootScope.about_playlist_data[0].snippet.resourceId.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
                       $rootScope.about_main_video = $scope.about_baseUrl;
-                      $rootScope.about_main_title = $rootScope.channel_data[0].title;
+                      $rootScope.about_main_title = $rootScope.about_playlist_data[0].title;
 
                       $rootScope.$apply();
 
@@ -71,58 +71,9 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
     $rootScope.baseUrl = 'https://www.youtube.com/embed/'+id+'?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
     $rootScope.main_video = $scope.baseUrl;
-    $rootScope.main_title = $rootScope.channel_data[index].title;
+    $rootScope.main_title = $rootScope.about_playlist_data[index].title;
 
   }
-
-
-
-
-
-
-
-
-
-    //BANDSINTOWN
-
-  $rootScope.about_bandsInTown = function(artistname){
-
-
-          if($rootScope.isMobile){
-            // $scope.showTour = function(){
-              new BIT.Widget({
-                "artist": "artistname",
-                "div_id":"tour-dates",
-                "text_color": "#000000",
-                "share_links":false,
-                "bg_color": "#FFFFFF",
-                "force_narrow_layout": true,
-
-                "separator_color": "#FFFFFF",
-                "link_color": "#000000"
-                // "force_narrow_layout":"true"
-              }).insert_events();
-            // }
-
-          }else if(!$rootScope.isMobile){
-            // $scope.showTour = function(){
-              new BIT.Widget({
-                "artist": artistname,
-                "div_id":"tour-dates",
-                "text_color": "#000000",
-                "share_links":false,
-                "bg_color": "#FFFFFF",
-                // "force_narrow_layout": false,
-                "separator_color": "#FFFFFF",
-                "link_color": "#000000"
-                // "force_narrow_layout":"true"
-              }).insert_events();
-            // }
-          }
-  }//end of bandsintown
-
-
-
 
 
 
@@ -131,47 +82,164 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
   //DETAIL CHECK
-
-  if ($location.path() == '/about'){
-    console.log("detail");
-
-
-
-    $rootScope.about_bandsInTown('taylorgang');
-    $scope.about_getYoutubeChannel('UCceZc-Bn_geUR5sQRlCKQow');
-
-
-
-            instaFactory.pullimages('taylorgang', 4).then( function(data) {
-
-                  $scope.artistInstagram = $rootScope.instaTotal;
-
-                  console.log(data);
-
-
-
-                }, function(error) {
-                  // promise rejected, could log the error with: console.log('error', error);
-
-              });
-
-
-  }
+    $scope.about_getYoutubePlaylist('PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S');
 
 
 
 
 
+    $rootScope.g_instaTotal  =[];
+    $rootScope.g_instapics = [];
+
+    $rootScope.g_totalDisplayed;
+    $rootScope.g_loadMoreImage="";
+    $rootScope.g_loadMoreNumber;
+
+
+      //..............................................................................loading new pictures
+      // $rootScope.noMore = false;
+      // $rootScope.gang_globalLoadMore = function(i){
+      //   $rootScope.loadMoreNumber = i;
+      //     if ($rootScope.totalDisplayed > 0){
+      //
+      //     }else {
+      //       //the controller
+      //       $rootScope.totalDisplayed = i;
+      //       setTimeout(function(){
+      //         $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
+      //       }, 3000);
+      //     }
+      // }
+
+
+      //
+      //
+      //
+      // $rootScope.loadMore = function () {
+      //   $rootScope.totalDisplayed += $rootScope.loadMoreNumber;
+      //   $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
+      //   console.log("$rootScope.totalDisplayed : "+$rootScope.totalDisplayed +" "+$rootScope.loadMoreImage);
+      //
+      //
+      //   if ($rootScope.totalDisplayed >= ((loops)*20)){
+      //     $rootScope.filterRemovesLoadMore();
+      //     console.log("removed");
+      //   }
+      // };
 
 
 
+
+
+
+
+      //.......different loaded pictures for every device
+        // if ($rootScope.isDevice){
+        //   $rootScope.globalLoadMore(14);
+        // } else if (!$rootScope.isDevice) {
+        //   $rootScope.globalLoadMore(20);
+        // }
+
+
+
+      // $rootScope.hideLoadMore = true;
+      // setTimeout(function(){
+      //   $rootScope.hideLoadMore = false;
+      // }, 2000);
+      //
+      //
+      // $rootScope.filterRemovesLoadMore = function(){
+      //   $rootScope.hideLoadMore = true;
+      // }
+      //
+      // $rootScope.filterAllLoadMore = function(){
+      //   $rootScope.hideLoadMore = false;
+      // }
+
+
+
+    // ACCESS TOKEN = 20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da
+
+var thisData;
+var thisArtist;
+
+
+//
+$rootScope.g_instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
+
+
+
+$scope.$watch('artistReady' ,function(){
+  setTimeout(function(){
+      $scope.aboutLoop();
+  }, 900);
 });
 
-  // About.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
-  //   return {
-  //     restrict: 'A',
-  //     link: function(scope, elem, attrs) {
-  //
-  //     }
-  //   };
-  // });
+
+$scope.aboutLoop = function(){
+
+  for ( i = 0; i < ($rootScope.Artist.length); i++ ){
+    var id = "";
+    id = $rootScope.Artist[i].data['artist.instagramId'].value;
+
+    if (id != ""){
+
+var config = {method: 'JSONP', cache: true, isArray: true};
+    var g_endpoint = "";
+    g_endpoint = "https://api.instagram.com/v1/users/"+id+"/media/recent?access_token="+$rootScope.g_instaAccessToken+"&callback=JSON_CALLBACK";
+
+    $http.jsonp(g_endpoint, config)
+
+    // $http({url: g_endpoint, method: 'JSONP', cache: true, isArray: true})
+
+    .then(function(response){
+          thisData = [];
+          thisData = response.data.data;
+          $rootScope.g_instaTotal = $rootScope.g_instaTotal.concat(thisData);
+
+          // if(thisArtist != response.data[0].user.id){
+          //
+          //   console.log(thisArtist);
+          // }else{
+          //   console.log("same");
+          //
+          // }
+          //
+          // var done = true;
+          //
+          // thisArtist = response.data[0].user.id;
+
+      })
+
+
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$scope.showAboutLinks = false;
+
+$scope.g_mobileLinks = function(){
+  $scope.showAboutLinks = !$scope.showAboutLinks
+}
+
+
+
+
+
+
+});//end od controller

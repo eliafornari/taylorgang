@@ -3,13 +3,14 @@ var Tour = angular.module('myApp');
 Tour.controller('tourCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, getService){
 
 
-  $rootScope.pageLoading = true;
-$rootScope.tour=[];
-  setTimeout(function(){
-    $rootScope.viewLoaded = true;
-    $rootScope.pageLoading = false;
-    $scope.$apply();
-  }, 500);
+  $rootScope.pageLoading = false;
+    setTimeout(function(){
+      $rootScope.viewLoaded = true;
+      $rootScope.pageLoading = false;
+      $scope.$apply();
+    }, 500);
+
+    $rootScope.tour=[];
 
 
 
@@ -20,9 +21,11 @@ $rootScope.bandsintownJSONP = function(artist){
     $http.jsonp(url).
         success(function(data, status, headers, config) {
 
+          var thisData = [];
+          var thisData = data;
+
 
           $rootScope.tour = $rootScope.tour.concat(data);
-          console.log($rootScope.tour);
 
             //what do I do here?
         }).
@@ -33,23 +36,18 @@ $rootScope.bandsintownJSONP = function(artist){
 }
 
 
-for (i in $rootScope.Artist){
-  console.log($rootScope.Artist[i].data['artist.name'].value[0].text);
-  $rootScope.bandsintownJSONP($rootScope.Artist[i].data['artist.name'].value[0].text);
+$scope.$watch('artistReady' ,function(){
+  setTimeout(function(){
+      $scope.tourLoop();
+  }, 900);
+});
+
+$scope.tourLoop = function(){
+  for (i in $rootScope.Artist){
+    $rootScope.bandsintownJSONP($rootScope.Artist[i].data['artist.name'].value[0].text);
+  }
 }
 
-// getService.get('http://api.bandsintown.com/artists/Skrillex.json?api_version=2.0&app_id=YOUR_APP_ID')
-// .then(function(data) {
-// console.log(data);
-//
-//   $scope.$broadcast("generalReady");
-//
-// }, function(error) {
-//     // promise rejected, could log the error with: console.log('error', error);
-//
-// });
-//
-//
 
 
 });

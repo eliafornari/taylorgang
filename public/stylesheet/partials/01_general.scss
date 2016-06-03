@@ -72,7 +72,7 @@ a:active {
 
 
 html{
-  box-sizing: border-box;
+
 }
 
 
@@ -87,9 +87,10 @@ html{
 /*.....................GENERAL STYLES......................*/
 
 html{
-  font-family: camptonSemiBold;
+  box-sizing: border-box;
+  font-family: $font-family-paragraph;
   width: 100%;
-  height: 100%;
+  height: auto;
   margin: 0, 0;
   padding: 0, 0;
 }
@@ -97,7 +98,7 @@ html{
 
 body {
   width: 100%;
-  height: 100%;
+  height: auto;
   margin: 0, 0;
   padding: 0, 0;
   display: table;
@@ -122,9 +123,7 @@ input, textarea, select, a, li {
   text-decoration: none;
 }
 
-a{
-  font-family: gtWalsheimPro-black;
-}
+
 
 
 

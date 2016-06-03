@@ -38,18 +38,24 @@
         margin-left: -20px;
         margin-top: -20px;
       }
-      svg{
+      & > svg{
         width: 100%;
-        height: auto;
+        height: 80px;
+        @include respond-to(phone){
+          height: 100%;
+        }
         // @include hover-effect-fill(#FFFFFF, $yellow, 'fill');
       }
       .menu-icon-svg{
-        width: auto;
+        width: 15px;
         height: 50%;
         position: absolute;
         top:50%;
         right: -20px;
         margin-top: -25%;
+        @include respond-to(phone){
+          width: 100%;
+        }
       }
     }
   }
@@ -127,7 +133,7 @@
   .nav-ul{
     width:100vw;
     height:100vh;
-    @include respond-to(phone){
+    @include respond-to(phone-device){
       height: calc(100vh - 140px);
     }
     .nav-li{
@@ -147,6 +153,7 @@
         width: 100%;
         height: 100%;
         p{
+          @include title();
           color: #FFFFFF;
           width: 100%;
           height: 100%;
@@ -155,6 +162,7 @@
           vertical-align: middle;
           display: block;
           font-size: $font-size-nav;
+
 
           @include respond-to(phone){
             font-size: $font-size-nav-mobile;

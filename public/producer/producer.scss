@@ -1,7 +1,92 @@
-.about{
+.producer{
   width: 100vw;
-  height: 100vh;
+  // height: 100vh;
+  display: table;
+
 }
+
+
+
+.producer-ul{
+  display: block;
+  position: relative;
+  margin: auto;
+  width:100vw;
+  display: table;
+  .producer-li{
+    width:100vw;
+    height: 100vh;
+    position: relative;
+    @include hover-effect-saturation(100%, 0%);
+    @include respond-to(phone){
+      height: 30vh;
+    }
+    .producer-li-image{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-position: center center;
+      background-size: auto 79%;
+      background-repeat: no-repeat;
+      z-index: $z-producer-image;
+
+      @include respond-to (phone){
+        width: 100%;
+        height: 100%;
+        margin: auto auto;
+        background-size: auto 70%;
+      }
+    }
+    .producer-li-name{
+      display:block;
+      position: absolute;
+      width:100%;
+      height: 100%;
+      line-height: 100vh;
+      font-family: gtWalsheimPro-black;
+      color: $light-grey-transparent;
+      font-size: 12vw;
+      top:0;
+      text-align: center;
+      z-index: $z-producer-name;
+      @include respond-to(phone){
+        font-size: 40px;
+        height: 20vh;
+        line-height: 20vh;
+        margin-top: 10vh;
+      }
+    }
+  }
+}
+
+
+
+
+
+#courtneynoelle{
+  font-size: 120px;
+  @include respond-to(phone){
+    font-size: 30px;
+  }
+
+}
+
+
+
+#producer-li-image-tukicarter{
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -10,17 +95,18 @@
 //..................................................DETAIL.............................................//
 //.....................................................................................................//
 //.....................................................................................................//
-.about-detail{
+.producer-detail{
 
 }
-.about-header{
+
+.producer-header{
   width: 100vw;
   height: 120px;
   position: relative;
   @include respond-to(phone){
     height: 80px;
   }
-  .about-header-name{
+  .producer-header-name{
     width: auto;
     position: absolute;
     right:$margin-sides;
@@ -40,10 +126,10 @@
       font-size: 8vw;
     }
   }
-  .about-header-image{
-    background-position: top right;
+  .producer-header-image{
+    background-position:bottom right;
     background-repeat: no-repeat;
-    background-size: auto 157%;
+    background-size: contain;
     position: absolute;
     width: 40vw;
     height:120px;
@@ -52,33 +138,40 @@
     @include respond-to(phone){
       background-position: 0% bottom;
       background-repeat: no-repeat;
-      background-size: 100% auto;
+      background-size: 120% auto;
       position: absolute;
-      width: 35vw;
+      width: 30vw;
       height: 100%;
       right: $margin-sides-mobile;
-      bottom: 0;
+      top: 0;
     }
 
-  }//about-header-image
-  .about-header-text{
+  }//producer-header-image
+  .producer-header-text{
     width:50%;
     height: inherit;
+    @include respond-to(phone){
+      width:100%;
+    }
 
-    .about-header-ul{
+    .producer-header-ul{
       width: auto;
       position: absolute;
       left:$margin-sides;
       bottom: $margin-sides;
-      .about-header-li{
+      @include respond-to(phone){
+        position: absolute;
+        height:30px;
+        left:$margin-sides-mobile;
+        bottom: $margin-sides-mobile;
+      }
+      .producer-header-li{
         width: 80px;
         height:50px;
         display: inline-block;
         @include respond-to(phone){
           width: 30px;
           height: 30px;
-          left:$margin-sides-mobile;
-          bottom: $margin-sides-mobile;
           margin-right: 10px;
         }
         a{
@@ -93,13 +186,26 @@
 
       }
     }
-  }//about-header-text
+  }//producer-header-text
+}
+
+
+
+#producer-header-image-tukicarter{
+  background-size: auto 80%;
+}
+
+#producer-header-image-juicyj{
+  background-size: auto 90%;
+  @include respond-to(phone){
+    background-size: auto 80%;
+  }
 }
 
 
 
 
-.about-youtube{
+.producer-youtube{
   width: 100vw;
   height: 100vh;
   @include respond-to(phone){
@@ -107,14 +213,13 @@
   }
 }
 
-.about-video{
-  height: 100vh;
-  @include respond-to(phone-device){
+.producer-video{
+  @include respond-to(phone){
     height: calc(100vh - 80px);
   }
 }
 
-.about-video-main{
+.producer-video-main{
   position: relative;
   width: 100%;
   height: 80vh;
@@ -129,26 +234,26 @@
     width: 100vw;
     height: 80vh;
     left: 0%;
-    z-index: $z-about-video;
+    z-index: $z-producer-video;
     @include respond-to(phone){
       height: 80%;
       margin-top:10%;
     }
   }
-  .about-video-main-title{
+  .producer-video-main-title{
     position: absolute;
     left: $margin-sides;
     top: $margin-sides;
     font-family: gtWalsheimPro-light, Helvetica;
     font-size: $font-size-paragraph;
-    z-index: $z-artist-title;
+    z-index: $z-producer-title;
     @include respond-to(phone){
       height: 60%;
     }
   }
 }
 
-.about-video-related{
+.producer-video-related{
   position: relative;
   width: 100%;
   height: 20vh;
@@ -161,7 +266,7 @@
   @include respond-to(phone){
     height: 30%;
   }
-  .about-video-ul{
+  .producer-video-ul{
     display: table;
     position: relative;
     width:auto;
@@ -170,7 +275,10 @@
     top: 50%;
     left: 0;
     padding-right: 20px;
-    .about-video-li{
+    @include respond-to(phone){
+
+    }
+    .producer-video-li{
       display: inline-block;
       position: relative;
       word-wrap: break-word;
@@ -183,7 +291,7 @@
       @include respond-to(phone){
         width: 32vw;
       }
-      .about-video-img{
+      .producer-video-img{
         width:100%;
         height: 100%;
         display: block;
@@ -192,7 +300,7 @@
         background-repeat: no-repeat;
         z-index: $z-related-image;
       }
-      .about-video-title{
+      .producer-video-title{
         display: block;
         position: absolute;
         top:0;
@@ -238,6 +346,61 @@
 
 
 
+.producer-releases{
+  width:100vw;
+  position: relative;
+  height:200px;
+  margin-top: $margin-top;
+  margin-bottom: $margin-top;
+  .producer-releases-ul{
+    width:auto;
+    display: table;
+    height:100%;
+    .producer-releases-li{
+      position: relative;
+      display: inline-block;
+      float:left;
+      width:200px;
+      height:200px;
+      .producer-releases-li-a{
+        display:block;
+        position: absolute;
+        width:100%;
+        height:100%;
+        top:0;
+        left:0;
+        .producer-releases-li-p{
+          position: absolute;
+          top:50%;
+          height:30px;
+          text-align: center;
+          @include subtitle();
+          // z-index: $z-index-producer-release;
+
+        }
+        .producer-releases-li-cover{
+          position: absolute;
+          width:100%;
+          height:100%;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: 98% 98%;
+          @include hover-effect-opacity();
+
+        }
+
+      }
+
+    }
+  }
+}
+
+
+
+
+
+
+
 
 
 
@@ -249,14 +412,13 @@
   margin-bottom: 0;
   @include respond-to(phone){
     width: 90vw;
-
   }
 }
 
-.bit-rsvp{
-  display: none !important;
-}
-.bit-track-about-header{
+// .bit-rsvp{
+//   display: none !important;
+// }
+.bit-track-producer-header{
   display: none !important;
 }
 
@@ -270,7 +432,6 @@
       display: none !important;
     }
   }
-
 }
 
 
@@ -291,38 +452,25 @@ td>a{
 
 
 //instagram
-.about-instagram{
+.producer-instagram{
   width:100vw;
   height: auto;
-  .about-instagram-ul{
+  @include respond-to(phone){
+    overflow: hidden;
+  }
+  .producer-instagram-ul{
     width:100vw;
     height: auto;
-
-
-    .about-instagram-li{
+    padding-bottom: 100px;
+    .producer-instagram-li{
       width:100vw;
       height: auto;
       margin-top: $margin-top;
-
       @include respond-to(phone){
-        overflow: hidden;
         margin-top: $margin-top-mobile;
       }
-      .about-instagram-li-a{
-        .about-instagram-user{
-          width:600px;
-          @include subtitle;
-          text-align: right;
-          color:$light-grey;
-          display: block;
-          margin: auto;
-          @include respond-to(phone){
-            width:calc(100vw - 10px);
-            margin-right: 10px;
-          }
-
-        }
-        .about-instagram-img{
+      .producer-instagram-li-a{
+        .producer-instagram-img{
           width:600px;
           height: auto;
           margin: auto;
@@ -331,22 +479,78 @@ td>a{
               width:100vw;
           }
         }
-        .about-instagram-caption{
+        .producer-instagram-caption{
           font-size: $font-size-paragraph;
           line-height: $line-height-paragraph;
           color:$black;
           font-family: $font-family-paragraph;
+          // margin-left: $margin-sides;
+          //   margin-top: $margin-sides;
           width: 600px;
           height: auto;
           margin: auto;
           display: block;
           @include respond-to(phone){
-            width: 100%;
+            width: calc(100vw - 10px);
             margin-left: $margin-sides-mobile;
-            margin-top: $margin-sides-mobile;
+            font-size: $font-size-paragraph-mobile;
+            line-height: $line-height-paragraph-mobile;
           }
         }
       }
     }
+  }
+}
+
+
+.load-more-li{
+  width:600px;
+  height:600px;
+  margin:auto;
+  margin-top: 100px;
+    @include raised(0.6);
+    border: 0;
+    &:hover{
+      // opacity:0.4;
+
+      p{
+        @include hover-effect-color($black, $yellow);
+      }
+
+    }
+  .load-more-button{
+    width:600px;
+    height:600px;
+    margin: auto;
+    p{
+      height:600px;
+      width:600px;
+      text-align: center;
+      vertical-align: middle;
+      @include title();
+      line-height:600px;
+    }
+  }
+}
+
+
+
+
+
+
+
+.producer-backtotop{
+  position: fixed;
+  left: $margin-sides;
+  bottom: $margin-sides;
+  @include respond-to(phone){
+    left: $margin-sides-mobile;
+    bottom: $margin-sides-mobile;
+  }
+  p{
+    width:100%;
+    @include subtitle();
+    @include hover-effect-color($black, $yellow);
+    line-height: inherit;
   }
 }

@@ -12,10 +12,6 @@ Artist.controller('artistCtrl', function($scope, $location, $rootScope, $routePa
 
 
 
-
-
-
-
 //................................................................................................................................................//
 //................................................................................................................................................//
 //................................................................DETAIL..........................................................................//
@@ -27,20 +23,23 @@ $rootScope.channel_data = [];
 $rootScope.main_video, $scope.main_title;
 $rootScope.main_video_show =false;
 $rootScope.baseUrl = '';
+$rootScope.mainArtist;
 // https://www.youtube.com/embed/8d0cm_hcQes
 $rootScope.main_video = $rootScope.baseUrl;
 $scope.artistInstagram=[];
 
-$rootScope.thisArtist = function(thisArtist, thisNumber){
+$rootScope.thisArtist = function(thisArtist){
 
 
     for (a in $rootScope.Artist){
+
       if($rootScope.Artist[a].uid==thisArtist){
         $rootScope.mainArtist = $rootScope.Artist[a];
         $rootScope.bandsInTown($rootScope.Artist[a].data['artist.name'].value[0].text);
         $scope.getYoutubeChannel($rootScope.Artist[a].data['artist.youtubeChannelID'].value);
       }
     }
+    $scope.instagram_a();
 };
 
 
@@ -56,7 +55,6 @@ $scope.getYoutubeChannel = function(channelid){
                   function(data){
 
                     $rootScope.channel_data = data.items;
-                    // console.log(data);
                     // $.each(data.items, function(i, item){
                     //   // var videoTitle = item.snippet.title;
                     // })
@@ -145,25 +143,17 @@ $rootScope.bandsInTown = function(artistname){
 
 //DETAIL CHECK
 
-if ($location.path() == '/artist/'+$routeParams.id){
-  console.log("detail");
+if ($location.path() == '/artists/'+$routeParams.id){
+
+var artistParam = $routeParams.id;
 
 
+  $rootScope.$watch('artistReady' ,function(){
+    setTimeout(function(){
+        $rootScope.thisArtist(artistParam);
 
-          instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 10).then( function(data) {
-
-                $scope.artistInstagram = $rootScope.instaTotal;
-                console.log("data");
-
-                console.log(data);
-
-
-
-              }, function(error) {
-                // promise rejected, could log the error with: console.log('error', error);
-
-            });
-
+    }, 900);
+  });
 
 }
 
@@ -171,7 +161,12 @@ if ($location.path() == '/artist/'+$routeParams.id){
 
 
 
-
+$scope.instagram_a = function(){
+  instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 2).then( function(data) {
+        $scope.artistInstagram = $rootScope.instaTotal;
+      }, function(error) {
+    });
+}
 
 
 
@@ -185,7 +180,6 @@ if ($location.path() == '/artist/'+$routeParams.id){
 
 //..................................................changing anchor link on click
 $scope.gotoAnchor = function(x) {
-  // call $anchorScroll()
   anchorSmoothScroll.scrollTo(x);
 };
 
@@ -193,8 +187,6 @@ $scope.gotoAnchor = function(x) {
 $rootScope.scroll;
 $scope.hideBacktotop = true;
 $scope.windowHeight = $window.innerHeight;
-console.log($scope.windowHeight);
-
 
   angular.element($window).bind("scroll", function() {
 
@@ -214,6 +206,18 @@ console.log($scope.windowHeight);
   });
 
 
+
+
+
+
+
+
+
+$scope.showArtistLinks = false;
+
+$scope.a_mobileLinks = function(){
+  $scope.showArtistLinks = !$scope.showArtistLinks
+}
 
 
 

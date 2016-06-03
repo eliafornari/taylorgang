@@ -16,7 +16,7 @@ $font-weight-regular: 400;
 // ........................................................FONT SIZES
 $font-size-nav:35px;
 $font-size-title:35px;
-$font-size-subtitle:16px;
+$font-size-subtitle:20px;
 $font-size-paragraph: 12px;
 
 $font-size-nav-mobile:25px;
@@ -33,14 +33,14 @@ $letter-spacing: 1px;
 
 $font-family-nav: gtWalsheimPro-black;
 $font-family-title: gtWalsheimPro-black;
-$font-family-subtitle: gtWalsheimPro-regular;
+$font-family-subtitle: gtWalsheimPro-black;
 $font-family-paragraph: gtWalsheimPro-light;
 
 
 
 // ........................................................FONT LINEHEIGHTS
 $line-height-title: 50px;
-$line-height-subtitle: 30px;
+$line-height-subtitle: 40px;
 $line-height-paragraph: 22px;
 
 
@@ -60,12 +60,15 @@ $black: #000000;
 $white: #FFFFFF;
 $yellow: #ede611;
 // f0e928
-$light-grey: rgba(0,0,0, 0.3);
+$light-grey: #d3d3d3;
+$light-grey-transparent: rgba(0,0,0, 0.3);
+$light-light-grey: rgba(0,0,0, 0.1);
 
 // ........................................................MARGINS
 $margin-sides: 20px;
 $margin-bottom: 35px;
 $margin-top: 100px;
+$margin-top-mobile: 50px;
 $margin-sides-mobile:10px;
 
 // ........................................................TRANSITION TIMINGS
@@ -91,11 +94,17 @@ $collection-fade-in: 1.4s;
 $z-loader: 999;
 $z-header: 13;
 $z-nav: 12;
+$z-artist-name:12;
+$z-producer-name:12;
+$z-mobile-links:11;
 
 $z-artist-image:11;
-$z-artist-name:12;
+$z-producer-image:11;
+
 $z-artist-title:11;
 $z-artist-video:11;
+$z-producer-title:11;
+$z-producer-video:11;
 $z-about-video:11;
 $z-about-title:11;
 $z-index-artist-release:11;

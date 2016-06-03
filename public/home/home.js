@@ -5,84 +5,15 @@ Home.filter('youtubeEmbed', function ($sce) {
     return function(url) {
       if (url){
         var riskyVideo = "https://www.youtube.com/embed/"+url+"?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque";
-        console.log(riskyVideo);
         return $sce.trustAsResourceUrl(riskyVideo);
         $scope.$apply();
       }
     };
   })
 
-Home.controller('homeCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce){
+Home.controller('homeCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, $document, anchorSmoothScroll){
 
-$scope.mainRelease;
-$rootScope.Filter, $rootScope.Release, $rootScope.Artist;
-
-
-
-//..........................................................GET
-
-
-  $rootScope.firstLoading = false;
-
-$rootScope.getContentType = function(type, orderField){
-
-      Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
-          Api.form('everything')
-              .ref(Api.master())
-
-              .query(Prismic.Predicates.at("document.type", type))
-              .orderings('['+orderField+']')
-              .submit(function (err, response) {
-
-                  var Data = response;
-
-                  setTimeout(function(){
-
-                    $rootScope.pageLoading = false;
-                    $scope.$apply();
-                  }, 1000);
-
-
-                  if (type =='artist'){
-                    $rootScope.Artist = response.results;
-                  }else if(type=='release'){
-                    $rootScope.Release = response.results;
-                    $scope.$broadcast('releaseDone');
-                  }else if(type =='filter'){
-                    $rootScope.Filter = response.results;
-                  }
-
-                  // The documents object contains a Response object with all documents of type "product".
-                  var page = response.page; // The current page number, the first one being 1
-                  var results = response.results; // An array containing the results of the current page;
-                  console.log(results);
-                  // you may need to retrieve more pages to get all results
-                  var prev_page = response.prev_page; // the URL of the previous page (may be null)
-                  var next_page = response.next_page; // the URL of the next page (may be null)
-                  var results_per_page = response.results_per_page; // max number of results per page
-                  var results_size = response.results_size; // the size of the current page
-                  var total_pages = response.total_pages; // the number of pages
-                  var total_results_size = response.total_results_size; // the total size of results across all pages
-                    return results;
-              });
-        });
-};
-
-if ($rootScope.firstLoading == false){
-  $rootScope.getContentType('filter', 'my.filter.index');
-  $rootScope.getContentType('release', 'my.release.date desc');
-  $rootScope.getContentType('artist', 'my.artist.index');
-
-}
-
-
-
-
-
-
-
-
-
+$rootScope.firstLoading = false;
 
 
 
@@ -94,7 +25,6 @@ $scope.windowWidth= window.innerWidth;
   $scope.$watch(function(){
      $scope.windowWidth = window.innerWidth;
   }, function(value) {
-     console.log(value);
   });
 
 
@@ -105,10 +35,25 @@ $scope.mainReleaseYoutube="";
 $rootScope.mainRelease={};
 
 $rootScope.thisRelease=function(uid){
-    var index = this.$index;
+      // $location.hash(uid);
+    // var index = this.$index;
 
-    $scope.selectedIndex=index;
-    // $rootScope.mainRelease = $rootScope.Release[index];
+    $scope.thisIndex = angular.element(document.getElementById(uid)).scope();
+var polishedIndex;
+    for (i in $scope.thisIndex){
+     polishedIndex = $scope.thisIndex['$index'];
+    }
+
+    $scope.selectedIndex=polishedIndex;
+    $rootScope.mainRelease = $rootScope.Release[polishedIndex];
+
+setTimeout(function(){
+  if ($location.path() == '/' || $location.path()=='home/'+$routeParams.name) {
+    anchorSmoothScroll.scrollTo(uid);
+  }
+}, 900);
+
+
 
 }
 
@@ -119,18 +64,20 @@ $rootScope.thisRelease=function(uid){
 
 $rootScope.releaseDetail=function(){
   var uid = $routeParams.name;
-    console.log("uid: "+uid)
 
-  if($location.path() == '/release/'+$routeParams.name){
     for (i in $rootScope.Release){
-      if ($rootScope.Release[i].uid == uid){
-        $rootScope.mainRelease = $rootScope.Release[i];
-          console.log($rootScope.mainRelease);
-          console.log("uid: "+uid);
+
+      if ($rootScope.Release[i].uid === $routeParams.name){
+
+          $rootScope.mainRelease = $rootScope.Release[i];
+          console.log($rootScope.mainRelease.uid);
+
+
+
 
       }
     }
-  }
+
 }
 
 
@@ -139,14 +86,24 @@ $rootScope.releaseDetail=function(){
 
 
 
-$scope.$on('$routeChangeSuccess', function(next, current) {
+//DETAIL CHECK
+$scope.$on("$routeChangeSuccess", function(){
+  if ($location.path() == '/release/'+$routeParams.name){
+    $scope.$watch('Release', function(){
+      if($rootScope.Release){
+        console.log("releaseDone for real");
+        console.log($rootScope.Release);
+        setTimeout(function(){
+          $rootScope.releaseDetail();
+          $scope.$apply();
+        }, 0);
+      }else{
+        console.log("release gone");
+      }
+    });
+  }
+})
 
-  $scope.$on('releaseDone', function(){
-       $rootScope.releaseDetail();
-  })
-
-
-});
 
 
 
@@ -155,10 +112,79 @@ $scope.$on('$routeChangeSuccess', function(next, current) {
 
 
 $scope.selectedFilter = '';
-$scope.setFilter = function(group) {
+$scope.setFilter = function(group, index) {
     $scope.selectedFilter = group;
+
+    jQuery('.home-filters-predefined-li-a').removeClass('filterClicked');
+    jQuery('#filter-'+index).addClass('filterClicked');
+
+    jQuery('#filter-clear').removeClass('filterClicked');
+
+    // if(index=='clear'){
+    //   jQuery('#filter-clear').addClass('filterClicked');
+    // }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$scope.goToHash = function(){
+  
+  if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.id){
+
+  $scope.$watch('releaseDone', function(){
+    console.log("hash?");
+    setTimeout(function(){
+      var thisHash = $location.path();
+      thisHash = thisHash.substring(6, thisHash.length);
+      if (thisHash){
+        $rootScope.thisRelease(thisHash);
+        $scope.$apply();
+      }
+    }, 900);
+  })
+  }
+
+}
+
+
+$scope.goToHash();
+
+
+
+
+
+
+
+
+
+$scope.showHomeLinks=false;
+$scope.mobileLinks = function(){
+  $scope.showHomeLinks = !$scope.showHomeLinks;
+}
+
+$scope.totalShown = [1,2,3,4,5,6,7,8];
+
+$rootScope.pagingHome = function(){
+  console.log("hellow rold");
+
+  var last = $scope.totalShown[$scope.totalShown.length - 1];
+  for(var i = 1; i <= 8; i++) {
+    $scope.totalShown.push(last + i);
+    console.log(last+i);
+  }
+}
 
 
 
@@ -171,8 +197,6 @@ $scope.setFilter = function(group) {
 //     // var letterMatch = new RegExp(letter, 'i');
 //
 //
-//     console.log('click: '+click);
-//     console.log('input: '+input);
 //
 //     for (i in items) {
 //       var item = items[i];
@@ -230,27 +254,21 @@ Home.filter('isArtGroup', function(){
         for (i in items) {
           var item = items[i];
 
-
-          if (item.uid == filter ){
-
+          if (item.uid == filter){
             filtered.push(item);
             specificItem = item;
-
           }
 
           if((item.data['release.artistlink']) && (specificItem)){
 
-
                 if (specificItem.uid != item.uid){
                   if(item.data['release.artistlink'].value.document.uid == filter){
-                    console.log(item.data['release.artistlink'].value.document.uid);
                     filtered.push(item);
                   }
                 }
 
 
           }else if(!specificItem){
-            console.log(item.data['release.artistlink'].value.document.uid);
             filtered.push(item);
           }
 

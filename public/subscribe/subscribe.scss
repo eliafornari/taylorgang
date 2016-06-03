@@ -3,6 +3,9 @@
   position: relative;
   height: 100vh;
   display: block;
+  @include respond-to(phone) {
+  height: calc(100vh - 60px);
+  }
 }
 
 .subscribe-table{
@@ -28,7 +31,7 @@
   position: relative;
   display: block !important;
   width: 40vw;
-  height: 32%;
+  height: auto;
   margin-left: -20vw;
   left: 50%;
   @include respond-to(phone) {
@@ -63,6 +66,7 @@
         font-size:10px;
         font-family: gtWalsheimPro-light;
         color:#000000;
+        background-color: rgba(0,0,0,0.1);
         text-transform: uppercase;
         -webkit-appearance: none;
         border-radius: 0;
@@ -76,9 +80,10 @@
     }
     .subscribe-submit-button{
       display:block;
-      color: #000000;
-      background-color:transparent;
-      height:10%;
+      color: #FFFFFF;
+      background-color:#000000;
+      height:30px;
+      width: 100%;
       letter-spacing:$letter-spacing;
       padding-bottom: 2px;
       font-size: 11px;
@@ -86,16 +91,15 @@
       border-style:none;
       outline:0;
       text-transform: uppercase;
-      margin: 15px auto 20px;
+      margin: 0px auto 20px;
       cursor: pointer;
-      @include hover-effect-color($black, $yellow);
-      a{
-        @include hover-effect-color($black, $yellow);
+      @include paragraph();
+      @include hover-effect-color($white, $yellow);
+      &.subscribeDisabled{
+          cursor:default;
+          color: $light-grey !important;
       }
-      &.contactDisabled{
-        cursor:default;
-        color: $light-grey;
-      }
+
       @include respond-to(phone) {
         margin-top: 25px;
         font-size: 12px;
@@ -132,9 +136,7 @@
   line-height: 16px;
   font-size: 11px;
   text-align: left;
-  position: fixed;
   width:40vw;
-  top: 50%;
   font-family: gtWalsheimPro-light;
   color: #606060;
   letter-spacing: 1px;
@@ -169,8 +171,6 @@
     font-size: 11px;
     width:40vw;
     text-align: left;
-    position: FIXED;
-    top: 50%;
     font-family: gtWalsheimPro-light, Helvetica;
     color: #606060;
     letter-spacing: 1px;

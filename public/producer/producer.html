@@ -1,0 +1,13 @@
+<div class="producer" ng-controller="producerCtrl">
+
+
+  <ul class="producer-ul">
+    <li class="producer-li" ng-repeat="a in Producer | orderBy: 'producer.index.value'">
+      <a href="producers/{{a.uid}}" ng-click="thisProducer(a.uid, $index)" ng-mouseover="showProducerName=true" ng-mouseout="showProducerName=false">
+        <div class="producer-li-image" id="producer-li-image-{{a.uid}}" style="background-image: url('{{a.data['producer.image'].value.main.url}}')" ></div>
+        <p class="producer-li-name" id="{{a.uid}}" ng-hide="!showProducerName" >{{a.data['producer.name'].value[0].text}}</p>
+      </a>
+    </li>
+  </ul>
+
+</div>

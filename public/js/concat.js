@@ -20,7 +20,7 @@ angular.module('eliasInstagramModule', [])
     })
 
 // 4. define a module component
-    .factory('instaFactory', function($rootScope, $http) {/* stuff here */
+    .factory('instaFactory', function($rootScope, $http, $q) {/* stuff here */
 
       return {
                 pullimages: function(userId, loops) {
@@ -31,30 +31,52 @@ angular.module('eliasInstagramModule', [])
                   $rootScope.instapics1= [];
                   $rootScope.urlFound = [];
                   $rootScope.totalDisplayed;
+                  $rootScope.loadMoreImage="";
+                  $rootScope.loadMoreNumber;
+                  var deferred;
 
-                        // var p1 = new Promise(function(resolve, reject) {
+
                                 //..............................................................................loading new pictures
                                 $rootScope.noMore = false;
                                 $rootScope.globalLoadMore = function(i){
+                                  $rootScope.loadMoreNumber = i;
                                     if ($rootScope.totalDisplayed > 0){
 
                                     }else {
                                       //the controller
                                       $rootScope.totalDisplayed = i;
+                                      setTimeout(function(){
+                                        $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
+                                      }, 1000);
                                     }
-
-                                    $rootScope.loadMore = function () {
-                                      $rootScope.totalDisplayed += i;
-                                    };
-
                                 }
+
+
+
+
+
+                                $rootScope.loadMore = function () {
+                                  $rootScope.totalDisplayed += $rootScope.loadMoreNumber;
+                                  $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
+
+                                  if ($rootScope.totalDisplayed >= ((loops)*20)){
+                                    $rootScope.filterRemovesLoadMore();
+                                  }
+                                };
+
+
+
+
+
+
 
                                 //.......different loaded pictures for every device
                                   if ($rootScope.isDevice){
                                     $rootScope.globalLoadMore(14);
                                   } else if (!$rootScope.isDevice) {
-                                    $rootScope.globalLoadMore(30);
+                                    $rootScope.globalLoadMore(20);
                                   }
+
 
 
                                 $rootScope.hideLoadMore = true;
@@ -63,84 +85,71 @@ angular.module('eliasInstagramModule', [])
                                 }, 2000);
 
 
-                                // $rootScope.filterRemovesLoadMore = function(){
-                                //   $rootScope.hideLoadMore = true;
-                                // }
-                                //
-                                // $rootScope.filterAllLoadMore = function(){
-                                //   $rootScope.hideLoadMore = false;
-                                // }
+                                $rootScope.filterRemovesLoadMore = function(){
+                                  $rootScope.hideLoadMore = true;
+                                }
+
+                                $rootScope.filterAllLoadMore = function(){
+                                  $rootScope.hideLoadMore = false;
+                                }
 
 
 
-                              // ACCESS TOKEN =    235523787.f8f64ba.2c7aa7c5b3d64499aab9b53573f0be89
+                              // ACCESS TOKEN = 20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da
 
                           var n=0;
                           var maxID;
                           var theData;
 
-                          console.log("userId: "+userId);
 
 
 
 
+                          $rootScope.instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
 
-                          $rootScope.instaAccessToken = "20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da";
-
-                          var endpoint = "https://api.instagram.com/v1/users/"+"20694160"+"/media/recent?access_token="+$rootScope.instaAccessToken+"&callback=JSON_CALLBACK";
+                          var endpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&callback=JSON_CALLBACK";
 
                           return $http({url: endpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response){
+                            deferred = $q.defer();
                                 $rootScope.instaTotal = response.data;
                                 theData = response.data;
-                                console.log("theData");
-                                console.log(response);
-                                // maxID = response.pagination.next_max_id;
+                                maxID = response.pagination.next_max_id;
 
-                                // while (n <= loops) {
-                                // n++;
-                                // var thisEndpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&max_id=" + maxID + "&callback=JSON_CALLBACK";
-                                //
-                                //         // $http({url: thisEndpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response1){
-                                //         //
-                                //         //       $rootScope.instapics1 = response1.data;
-                                //         //       theData = theData.concat(response1.data);
-                                //         //       $rootScope.instaTotal = $rootScope.instaTotal.concat(response1.data);
-                                //         //       maxID = ""
-                                //         //       maxID = response.pagination.next_max_id;
-                                //         //       console.log(response);
-                                //         //       console.log(maxID);
-                                //         //
-                                //         //       //secondm is loaded so the load more can now be shown
-                                //         //       $rootScope.hideLoadMore = false;
-                                //         //     });
-                                //
-                                //       // if (n==8){
-                                //       //   //  $rootScope.instaTotal;
-                                //       //   console.log(n);
-                                //       //
-                                //       //   console.log(theData);
-                                //       //    resolve(theData);
-                                //       // }
-                                //
-                                // }
+                                while (n <= loops) {
+                                n++;
+
+                                var thisEndpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&max_id=" + maxID + "&callback=JSON_CALLBACK";
+                                        $http({url: thisEndpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response1){
+
+                                              $rootScope.instapics1 = response1.data;
+                                              theData = theData.concat(response1.data);
+                                              $rootScope.instaTotal = $rootScope.instaTotal.concat(response1.data);
+                                              maxID = response.pagination.next_max_id;
+
+
+
+                                              //secondm is loaded so the load more can now be shown
+                                              $rootScope.hideLoadMore = false;
+                                            });
+
+                                      if (n==loops){
+                                        //  $rootScope.instaTotal;
+
+                                        deferred.resolve('Hello, ' + name + '!');
+                                        // return $rootScope.instaTotal;
+                                        //  resolve(theData);
+                                      }
+
+                                }
 
 
 
 
                             }).then(function(response) {
 
-                              var thisData = theData
-                              // if (typeof response.data === 'object') {
-                                      return thisData;
-                              //     } else {
-                              //         // invalid response
-                              //         console.log('rejected');
-                              //         return $q.reject(response.data);
-                              //     }
-                              //
-                              // }, function(response) {
-                              //     // something went wrong
-                              //     return $q.reject(response.data);
+                                var thisData = theData
+                                return thisData;
+
                               });
 
 
@@ -164,9 +173,11 @@ angular.module('eliasInstagramModule', [])
 
 
 
-            }
+            }//pullimages
 
-    }
+
+
+      }//return
 
     })
 
@@ -174,8 +185,7 @@ angular.module('eliasInstagramModule', [])
     .directive('directiveName', function() {/* stuff here */
 
 
-    })
-;// and so on
+    });// and so on
 
 /**
  * angular-mailchimp
@@ -268,7 +278,8 @@ angular.module('myApp', [
   'myApp.routes',
   'myapp.Service',
   'eliasInstagramModule',
-  'mailchimp'
+  'mailchimp',
+  'infinite-scroll'
 ])
 
 .directive('googleAnalytics', function(){
@@ -296,7 +307,6 @@ $rootScope.pageLoading = true;
   $rootScope.showTime=false;
   $rootScope.time="";
   var date = new Date();
-  console.log(date);
   var n = date.toTimeString();
   $rootScope.time = n;
 
@@ -344,6 +354,12 @@ $rootScope.pageLoading = true;
       };
     })
 
+
+// .filter('date', )
+
+
+
+
 .config(['$routeProvider', '$locationProvider' ,'$sceProvider', function($routeProvider, $locationProvider, $sceProvider) {
 
 $sceProvider.enabled(false);
@@ -357,14 +373,29 @@ $sceProvider.enabled(false);
   // $locationChangeStart
 
 
-    .when('/artist/:id', {
+    // .when('/home/:id', {
+    //   templateUrl: 'home/home.html',
+    //   controller: 'homeCtrl',
+    //   })
+
+    .when('/artists/:id', {
       templateUrl: 'artist/artist-detail.html',
       controller: 'artistCtrl'
       })
 
-    .when('/artist', {
+    .when('/artists', {
       templateUrl: 'artist/artist.html',
       controller: 'artistCtrl'
+      })
+
+    .when('/producers/:producer', {
+      templateUrl: 'producer/producer-detail.html',
+      controller: 'producerCtrl'
+      })
+
+    .when('/producers', {
+      templateUrl: 'producer/producer.html',
+      controller: 'producerCtrl'
       })
 
     .when('/tour', {
@@ -372,7 +403,7 @@ $sceProvider.enabled(false);
       controller: 'tourCtrl'
       })
 
-    .when('/about', {
+    .when('/gang', {
       templateUrl: 'about/about.html',
       controller: 'aboutCtrl'
       })
@@ -423,10 +454,9 @@ $sceProvider.enabled(false);
 
 }])
 
-.controller('routeController', function($scope, $location, $rootScope, $routeParams, $timeout, $interval){
+.controller('routeController', function($scope, $location, $rootScope, $routeParams, $timeout, $interval, $window){
 
-  $rootScope.location = $location.path();
-
+$rootScope.location = $location.path();
 $rootScope.firstLoading = true;
 
 
@@ -434,6 +464,66 @@ $rootScope.firstLoading = true;
 
 
 
+$rootScope.Filter, $rootScope.Release, $rootScope.Artist, $rootScope.Producer;
+
+
+
+    //..........................................................GET
+
+    $rootScope.getContentType = function(type, orderField){
+
+          Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+              Api.form('everything')
+                  .ref(Api.master())
+
+                  .query(Prismic.Predicates.at("document.type", type))
+                  .orderings('['+orderField+']')
+                  .submit(function (err, response) {
+
+                      var Data = response;
+
+                      setTimeout(function(){
+
+                        $rootScope.pageLoading = false;
+                        $scope.$apply();
+                      }, 1500);
+
+                      if(type =='release'){
+                        $rootScope.Release = response.results;
+                        $scope.$broadcast('releaseDone');
+                      }
+                      else if (type =='artist'){
+                        $rootScope.Artist = response.results;
+                        $rootScope.$broadcast('artistReady');
+                      }else if(type=='producer'){
+                        $rootScope.Producer = response.results;
+                        $scope.$broadcast('producerReady');
+                      }else if(type =='filter'){
+                        $rootScope.Filter = response.results;
+                      }
+
+                      // The documents object contains a Response object with all documents of type "product".
+                      var page = response.page; // The current page number, the first one being 1
+                      var results = response.results; // An array containing the results of the current page;
+                      // you may need to retrieve more pages to get all results
+                      var prev_page = response.prev_page; // the URL of the previous page (may be null)
+                      var next_page = response.next_page; // the URL of the next page (may be null)
+                      var results_per_page = response.results_per_page; // max number of results per page
+                      var results_size = response.results_size; // the size of the current page
+                      var total_pages = response.total_pages; // the number of pages
+                      var total_results_size = response.total_results_size; // the total size of results across all pages
+                      return results;
+                  });
+            });
+    };
+
+    // if ($rootScope.firstLoading == false){
+      $rootScope.getContentType('release', 'my.release.date desc');
+      $rootScope.getContentType('filter', 'my.filter.index');
+      $rootScope.getContentType('artist', 'my.artist.index');
+      $rootScope.getContentType('producer', 'my.producer.index');
+    //
+    // }
 
 
 
@@ -447,142 +537,129 @@ $rootScope.firstLoading = true;
 
 
 
+    $rootScope.windowHeight = $window.innerHeight;
+
+    jQuery($window).resize(function(){
+      $rootScope.windowHeight = $window.innerHeight;
+      // windowHeight = angular.element($window).height(); // Window Height
+      $rootScope.checkSize();
+      $scope.landscapeFunction();
+
+        $scope.$apply();
+    });
+
+    //..............................................................................mobile
+
+
+    //....this is the function that checks the header of the browser and sees what device it is
+
+    $rootScope.isMobile, $rootScope.isDevice, $rootScope.isMobileDevice;
+    $rootScope.checkSize = function(){
+
+
+        $rootScope.checkDevice = {
+              Android: function() {
+                  return navigator.userAgent.match(/Android/i);
+              },
+              BlackBerry: function() {
+                  return navigator.userAgent.match(/BlackBerry/i);
+              },
+              iOS: function() {
+                  return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+              },
+              Opera: function() {
+                  return navigator.userAgent.match(/Opera Mini/i);
+              },
+              Windows: function() {
+                  return navigator.userAgent.match(/IEMobile/i);
+              },
+              any: function() {
+                  return ($rootScope.checkDevice.Android() || $rootScope.checkDevice.BlackBerry() || $rootScope.checkDevice.iOS() || $rootScope.checkDevice.Opera() || $rootScope.checkDevice.Windows());
+              }
+          };
+
+        //........checks the width
+
+          $scope.mobileQuery=window.matchMedia( "(max-width: 767px)" );
+          $rootScope.isMobile=$scope.mobileQuery.matches;
+
+
+        //.........returning true if device
+
+          if ($scope.checkDevice.any()){
+            $rootScope.isDevice= true;
+
+          }else{
+              $rootScope.isDevice=false;
+          }
+
+          if (($rootScope.isDevice==true)&&($scope.isMobile==true)){
+            $rootScope.isMobileDevice= true;
+          }else{
+              $rootScope.isMobileDevice=false;
+          }
+
+
+            if ($rootScope.isDevice){
+
+                $rootScope.mobileLocation = function(url){
+                  $location.path(url).search();
+                }
+
+                $rootScope.mobileExternalLocation = function(url){
+                  $window.open(url, '_blank');
+                }
+
+            } else if (!$rootScope.isDevice){
+
+                $rootScope.mobileLocation = function(url){
+                  return false;
+                }
+
+                $rootScope.mobileExternalLocation = function(url){
+                  return false;
+                }
+            }
+
+      }//checkSize
+
+
+    $rootScope.checkSize();
 
 
 
-//..............................................................................mobile
+
+     $rootScope.landscapeView = false;
 
 
-//....this is the function that checks the header of the browser and sees what device it is
+     //function removing website if landscape
 
-$rootScope.checkDevice = {
-      Android: function() {
-          return navigator.userAgent.match(/Android/i);
-      },
-      BlackBerry: function() {
-          return navigator.userAgent.match(/BlackBerry/i);
-      },
-      iOS: function() {
-          return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-      },
-      Opera: function() {
-          return navigator.userAgent.match(/Opera Mini/i);
-      },
-      Windows: function() {
-          return navigator.userAgent.match(/IEMobile/i);
-      },
-      any: function() {
-          return ($rootScope.checkDevice.Android() || $rootScope.checkDevice.BlackBerry() || $rootScope.checkDevice.iOS() || $rootScope.checkDevice.Opera() || $rootScope.checkDevice.Windows());
+      $scope.landscapeFunction = function(){
+
+        if ($rootScope.isMobile==true){
+            if(window.innerHeight < window.innerWidth){
+              $rootScope.landscapeView = true;
+              $rootScope.pageLoading = true;
+              jQuery(".landscape-view-wrapper").css({
+                "width":"100vw",
+                "height": "100vh",
+                "display": "block"
+            });
+
+            }else{
+              $rootScope.landscapeView = false;
+              $rootScope.pageLoading = false;
+
+            }
+        }
+
       }
-  };
 
-//........checks the width
-
-  $scope.mobileQuery=window.matchMedia( "(max-width: 767px)" );
-  $rootScope.isMobile=$scope.mobileQuery.matches;
-
-
-//.........returning true if device
-
-  if ($scope.checkDevice.any()){
-    $rootScope.isDevice= true;
-
-  }else{
-      $rootScope.isDevice=false;
-  }
-
-  if (($rootScope.isDevice==true)&&($scope.isMobile==true)){
-    $rootScope.isMobileDevice= true;
-  }else{
-      $rootScope.isMobileDevice=false;
-  }
-
-
-
-
-    if ($rootScope.isDevice){
-
-        $rootScope.mobileLocation = function(url){
-          $location.path(url).search();
-        }
-
-        $rootScope.mobileExternalLocation = function(url){
-          $window.open(url, '_blank');
-        }
-
-
-    } else if (!$rootScope.isDevice){
-
-
-        $rootScope.mobileLocation = function(url){
-          return false;
-        }
-
-        $rootScope.mobileExternalLocation = function(url){
-          return false;
-        }
-    }
-
-
-
-
-
+    $scope.landscapeFunction();
 
 
 
 })//......end of the route controller
-
-
-.directive('closeRightDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
-  return {
-    restrict: 'E',
-    templateUrl: 'components/close-right.html',
-    replace: true,
-    link: function(scope, elem, attrs) {
-
-    }
-  };
-})
-.directive('closeLeftDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
-  return {
-    restrict: 'E',
-    templateUrl: 'components/close-left.html',
-    replace: true,
-    link: function(scope, elem, attrs) {
-
-    }
-  };
-})
-
-.directive('pageLoadingSpinner', function($rootScope, $location, $window, $routeParams, $timeout) {
-  return {
-    restrict: 'A',
-    // templateUrl: 'components/loader.html',
-    replace: true,
-    link: function(scope, elem, attrs) {
-
-      //
-      // $rootScope.$on('$routeChangeStart', function() {
-      //
-      //     $rootScope.pageLoading = true;
-      //     scope.logoHide = true;
-      //
-      // });
-      //
-      //
-      // $rootScope.$on('$routeChangeSuccess', function() {
-      //
-      //   // $timeout(function () {
-      //     scope.logoHide = false;
-      //     $rootScope.pageLoading = false;
-      //   // }, 1000);
-      //
-      //
-      // });
-
-    }
-  };
-});
 
 'use strict';
 
@@ -791,6 +868,80 @@ Service.service('MetaInformation', function() {
 
      });
 
+/* ng-infinite-scroll - v1.0.0 - 2013-02-23 */
+var mod;
+
+mod = angular.module('infinite-scroll', []);
+
+mod.directive('infiniteScroll', [
+  '$rootScope', '$window', '$timeout', function($rootScope, $window, $timeout) {
+    return {
+      link: function(scope, elem, attrs) {
+
+        setTimeout(function(){
+
+        var checkWhenEnabled, handler, scrollDistance, scrollEnabled;
+        // window = angular.element($window);
+        scrollDistance = 0;
+        if (attrs.infiniteScrollDistance != null) {
+          scope.$watch(attrs.infiniteScrollDistance, function(value) {
+            return scrollDistance = parseInt(value, 10);
+          });
+        }
+        scrollEnabled = true;
+        checkWhenEnabled = false;
+        if (attrs.infiniteScrollDisabled != null) {
+          scope.$watch(attrs.infiniteScrollDisabled, function(value) {
+            scrollEnabled = !value;
+            if (scrollEnabled && checkWhenEnabled) {
+              checkWhenEnabled = false;
+              return handler();
+            }
+          });
+        }
+        handler = function() {
+
+
+          var elementBottom, remaining, shouldScroll, windowBottom;
+          windowBottom = $(window).height() + $(window).scrollTop();
+          elementBottom = elem[0].offsetTop + elem[0].clientHeight;
+          remaining = elementBottom - windowBottom;
+          shouldScroll = remaining <= 0;
+          // $(window).height() * scrollDistance;
+
+
+          if (shouldScroll && scrollEnabled) {
+            if ($rootScope.$$phase) {
+
+              return scope.$eval(attrs.infiniteScroll);
+            } else {
+              return scope.$apply(attrs.infiniteScroll);
+            }
+          } else if (shouldScroll) {
+            return checkWhenEnabled = true;
+          }
+        };
+        $(window).bind('scroll.infiniteScroll', handler);
+
+        scope.$on('$destroy', function() {
+          return $(window).unbind('scroll.infiniteScroll', handler);
+        });
+        return $timeout((function() {
+          if (attrs.infiniteScrollImmediateCheck) {
+            if (scope.$eval(attrs.infiniteScrollImmediateCheck)) {
+              return handler();
+            }
+          } else {
+            return handler();
+          }
+        }), 0);
+      }, 2600);
+      }//link function
+
+    };
+  }
+]);
+
 
 angular.module('myApp')
 
@@ -929,6 +1080,17 @@ $rootScope.isNavOpen = false;
   };
 })
 
+.directive('tumblrIconDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
+  return {
+    restrict: 'E',
+    templateUrl: 'components/icon/tumblr-icon.html',
+    replace: true,
+    link: function(scope, elem, attrs) {
+
+    }
+  };
+})
+
 
 .directive('menuIconDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
   return {
@@ -962,84 +1124,15 @@ Home.filter('youtubeEmbed', function ($sce) {
     return function(url) {
       if (url){
         var riskyVideo = "https://www.youtube.com/embed/"+url+"?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque";
-        console.log(riskyVideo);
         return $sce.trustAsResourceUrl(riskyVideo);
         $scope.$apply();
       }
     };
   })
 
-Home.controller('homeCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce){
+Home.controller('homeCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, $document, anchorSmoothScroll){
 
-$scope.mainRelease;
-$rootScope.Filter, $rootScope.Release, $rootScope.Artist;
-
-
-
-//..........................................................GET
-
-
-  $rootScope.firstLoading = false;
-
-$rootScope.getContentType = function(type, orderField){
-
-      Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
-          Api.form('everything')
-              .ref(Api.master())
-
-              .query(Prismic.Predicates.at("document.type", type))
-              .orderings('['+orderField+']')
-              .submit(function (err, response) {
-
-                  var Data = response;
-
-                  setTimeout(function(){
-
-                    $rootScope.pageLoading = false;
-                    $scope.$apply();
-                  }, 1000);
-
-
-                  if (type =='artist'){
-                    $rootScope.Artist = response.results;
-                  }else if(type=='release'){
-                    $rootScope.Release = response.results;
-                    $scope.$broadcast('releaseDone');
-                  }else if(type =='filter'){
-                    $rootScope.Filter = response.results;
-                  }
-
-                  // The documents object contains a Response object with all documents of type "product".
-                  var page = response.page; // The current page number, the first one being 1
-                  var results = response.results; // An array containing the results of the current page;
-                  console.log(results);
-                  // you may need to retrieve more pages to get all results
-                  var prev_page = response.prev_page; // the URL of the previous page (may be null)
-                  var next_page = response.next_page; // the URL of the next page (may be null)
-                  var results_per_page = response.results_per_page; // max number of results per page
-                  var results_size = response.results_size; // the size of the current page
-                  var total_pages = response.total_pages; // the number of pages
-                  var total_results_size = response.total_results_size; // the total size of results across all pages
-                    return results;
-              });
-        });
-};
-
-if ($rootScope.firstLoading == false){
-  $rootScope.getContentType('filter', 'my.filter.index');
-  $rootScope.getContentType('release', 'my.release.date desc');
-  $rootScope.getContentType('artist', 'my.artist.index');
-
-}
-
-
-
-
-
-
-
-
-
+$rootScope.firstLoading = false;
 
 
 
@@ -1051,7 +1144,6 @@ $scope.windowWidth= window.innerWidth;
   $scope.$watch(function(){
      $scope.windowWidth = window.innerWidth;
   }, function(value) {
-     console.log(value);
   });
 
 
@@ -1062,10 +1154,25 @@ $scope.mainReleaseYoutube="";
 $rootScope.mainRelease={};
 
 $rootScope.thisRelease=function(uid){
-    var index = this.$index;
+      // $location.hash(uid);
+    // var index = this.$index;
 
-    $scope.selectedIndex=index;
-    // $rootScope.mainRelease = $rootScope.Release[index];
+    $scope.thisIndex = angular.element(document.getElementById(uid)).scope();
+var polishedIndex;
+    for (i in $scope.thisIndex){
+     polishedIndex = $scope.thisIndex['$index'];
+    }
+
+    $scope.selectedIndex=polishedIndex;
+    $rootScope.mainRelease = $rootScope.Release[polishedIndex];
+
+setTimeout(function(){
+  if ($location.path() == '/' || $location.path()=='home/'+$routeParams.name) {
+    anchorSmoothScroll.scrollTo(uid);
+  }
+}, 900);
+
+
 
 }
 
@@ -1076,18 +1183,20 @@ $rootScope.thisRelease=function(uid){
 
 $rootScope.releaseDetail=function(){
   var uid = $routeParams.name;
-    console.log("uid: "+uid)
 
-  if($location.path() == '/release/'+$routeParams.name){
     for (i in $rootScope.Release){
-      if ($rootScope.Release[i].uid == uid){
-        $rootScope.mainRelease = $rootScope.Release[i];
-          console.log($rootScope.mainRelease);
-          console.log("uid: "+uid);
+
+      if ($rootScope.Release[i].uid === $routeParams.name){
+
+          $rootScope.mainRelease = $rootScope.Release[i];
+          console.log($rootScope.mainRelease.uid);
+
+
+
 
       }
     }
-  }
+
 }
 
 
@@ -1096,14 +1205,24 @@ $rootScope.releaseDetail=function(){
 
 
 
-$scope.$on('$routeChangeSuccess', function(next, current) {
+//DETAIL CHECK
+$scope.$on("$routeChangeSuccess", function(){
+  if ($location.path() == '/release/'+$routeParams.name){
+    $scope.$watch('Release', function(){
+      if($rootScope.Release){
+        console.log("releaseDone for real");
+        console.log($rootScope.Release);
+        setTimeout(function(){
+          $rootScope.releaseDetail();
+          $scope.$apply();
+        }, 0);
+      }else{
+        console.log("release gone");
+      }
+    });
+  }
+})
 
-  $scope.$on('releaseDone', function(){
-       $rootScope.releaseDetail();
-  })
-
-
-});
 
 
 
@@ -1112,10 +1231,79 @@ $scope.$on('$routeChangeSuccess', function(next, current) {
 
 
 $scope.selectedFilter = '';
-$scope.setFilter = function(group) {
+$scope.setFilter = function(group, index) {
     $scope.selectedFilter = group;
+
+    jQuery('.home-filters-predefined-li-a').removeClass('filterClicked');
+    jQuery('#filter-'+index).addClass('filterClicked');
+
+    jQuery('#filter-clear').removeClass('filterClicked');
+
+    // if(index=='clear'){
+    //   jQuery('#filter-clear').addClass('filterClicked');
+    // }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$scope.goToHash = function(){
+  
+  if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.id){
+
+  $scope.$watch('releaseDone', function(){
+    console.log("hash?");
+    setTimeout(function(){
+      var thisHash = $location.path();
+      thisHash = thisHash.substring(6, thisHash.length);
+      if (thisHash){
+        $rootScope.thisRelease(thisHash);
+        $scope.$apply();
+      }
+    }, 900);
+  })
+  }
+
+}
+
+
+$scope.goToHash();
+
+
+
+
+
+
+
+
+
+$scope.showHomeLinks=false;
+$scope.mobileLinks = function(){
+  $scope.showHomeLinks = !$scope.showHomeLinks;
+}
+
+$scope.totalShown = [1,2,3,4,5,6,7,8];
+
+$rootScope.pagingHome = function(){
+  console.log("hellow rold");
+
+  var last = $scope.totalShown[$scope.totalShown.length - 1];
+  for(var i = 1; i <= 8; i++) {
+    $scope.totalShown.push(last + i);
+    console.log(last+i);
+  }
+}
 
 
 
@@ -1128,8 +1316,6 @@ $scope.setFilter = function(group) {
 //     // var letterMatch = new RegExp(letter, 'i');
 //
 //
-//     console.log('click: '+click);
-//     console.log('input: '+input);
 //
 //     for (i in items) {
 //       var item = items[i];
@@ -1187,27 +1373,21 @@ Home.filter('isArtGroup', function(){
         for (i in items) {
           var item = items[i];
 
-
-          if (item.uid == filter ){
-
+          if (item.uid == filter){
             filtered.push(item);
             specificItem = item;
-
           }
 
           if((item.data['release.artistlink']) && (specificItem)){
 
-
                 if (specificItem.uid != item.uid){
                   if(item.data['release.artistlink'].value.document.uid == filter){
-                    console.log(item.data['release.artistlink'].value.document.uid);
                     filtered.push(item);
                   }
                 }
 
 
           }else if(!specificItem){
-            console.log(item.data['release.artistlink'].value.document.uid);
             filtered.push(item);
           }
 
@@ -1230,10 +1410,6 @@ Artist.controller('artistCtrl', function($scope, $location, $rootScope, $routePa
 
 
 
-
-
-
-
 //................................................................................................................................................//
 //................................................................................................................................................//
 //................................................................DETAIL..........................................................................//
@@ -1245,20 +1421,23 @@ $rootScope.channel_data = [];
 $rootScope.main_video, $scope.main_title;
 $rootScope.main_video_show =false;
 $rootScope.baseUrl = '';
+$rootScope.mainArtist;
 // https://www.youtube.com/embed/8d0cm_hcQes
 $rootScope.main_video = $rootScope.baseUrl;
 $scope.artistInstagram=[];
 
-$rootScope.thisArtist = function(thisArtist, thisNumber){
+$rootScope.thisArtist = function(thisArtist){
 
 
     for (a in $rootScope.Artist){
+
       if($rootScope.Artist[a].uid==thisArtist){
         $rootScope.mainArtist = $rootScope.Artist[a];
         $rootScope.bandsInTown($rootScope.Artist[a].data['artist.name'].value[0].text);
         $scope.getYoutubeChannel($rootScope.Artist[a].data['artist.youtubeChannelID'].value);
       }
     }
+    $scope.instagram_a();
 };
 
 
@@ -1274,7 +1453,6 @@ $scope.getYoutubeChannel = function(channelid){
                   function(data){
 
                     $rootScope.channel_data = data.items;
-                    // console.log(data);
                     // $.each(data.items, function(i, item){
                     //   // var videoTitle = item.snippet.title;
                     // })
@@ -1363,29 +1541,328 @@ $rootScope.bandsInTown = function(artistname){
 
 //DETAIL CHECK
 
-if ($location.path() == '/artist/'+$routeParams.id){
-  console.log("detail");
+if ($location.path() == '/artists/'+$routeParams.id){
+
+var artistParam = $routeParams.id;
 
 
+  $rootScope.$watch('artistReady' ,function(){
+    setTimeout(function(){
+        $rootScope.thisArtist(artistParam);
 
-          instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 10).then( function(data) {
-
-                $scope.artistInstagram = $rootScope.instaTotal;
-                console.log("data");
-
-                console.log(data);
-
-
-
-              }, function(error) {
-                // promise rejected, could log the error with: console.log('error', error);
-
-            });
-
+    }, 900);
+  });
 
 }
 
 
+
+
+
+$scope.instagram_a = function(){
+  instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 2).then( function(data) {
+        $scope.artistInstagram = $rootScope.instaTotal;
+      }, function(error) {
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+//..................................................changing anchor link on click
+$scope.gotoAnchor = function(x) {
+  anchorSmoothScroll.scrollTo(x);
+};
+
+
+$rootScope.scroll;
+$scope.hideBacktotop = true;
+$scope.windowHeight = $window.innerHeight;
+
+  angular.element($window).bind("scroll", function() {
+
+
+      var scroll = this.pageYOffset;
+
+      $rootScope.scroll = scroll;
+      if(scroll<($scope.windowHeight*3)){
+        $scope.hideBacktotop = true;
+        // angular.element($window).unbind("scroll");
+      }else if (scroll>=($scope.windowHeight*3)){
+        $scope.hideBacktotop = false;
+
+      }
+
+      $scope.$apply();
+  });
+
+
+
+
+
+
+
+
+
+$scope.showArtistLinks = false;
+
+$scope.a_mobileLinks = function(){
+  $scope.showArtistLinks = !$scope.showArtistLinks
+}
+
+
+
+
+
+});//end of the controller.... .... ...... ..... ....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Artist.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attrs) {
+
+    }
+  };
+});
+
+
+
+var Producer = angular.module('myApp');
+
+Producer.controller('producerCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, instaFactory, anchorSmoothScroll, $window){
+
+
+
+
+
+
+//................................................................................................................................................//
+//................................................................................................................................................//
+//................................................................DETAIL..........................................................................//
+//................................................................................................................................................//
+//................................................................................................................................................//
+
+$rootScope.producer_data;
+$rootScope.channel_data_p = [];
+$rootScope.main_video_p, $scope.main_title_p;
+$rootScope.main_video_show_p =false;
+$rootScope.baseUrl = '';
+$rootScope.mainProducer;
+// https://www.youtube.com/embed/8d0cm_hcQes
+$rootScope.main_video_p = $rootScope.baseUrl;
+$scope.producerInstagram=[];
+
+$rootScope.thisProducer = function(thisProducer){
+
+    for (a in $rootScope.Producer){
+      if($rootScope.Producer[a].uid==thisProducer){
+        $rootScope.mainProducer = $rootScope.Producer[a];
+        $rootScope.bandsInTown_p($rootScope.Producer[a].data['producer.name'].value[0].text);
+        if($rootScope.Producer[a].data['producer.youtubeChannelID']){
+          $scope.getYoutubeChannel_p($rootScope.Producer[a].data['producer.youtubeChannelID'].value);
+        }
+      }
+    }
+    $scope.instagram_p();
+};
+
+
+$scope.getYoutubeChannel_p = function(channelid){
+
+              $.get(
+                "https://www.googleapis.com/youtube/v3/search",{
+                  part: 'snippet',
+                  maxResults: 50,
+                  channelId: channelid,
+                  key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+                },
+                  function(data){
+
+                    $rootScope.channel_data_p = data.items;
+
+                    $rootScope.baseUrl_p = 'https://www.youtube.com/embed/'+$rootScope.channel_data_p[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+                    $rootScope.main_video_p = $rootScope.baseUrl_p;
+                    $rootScope.main_title_p = $rootScope.channel_data_p[0].title;
+
+                    $rootScope.$apply();
+
+                    setTimeout(function(){
+                      $rootScope.viewLoaded = true;
+                      $rootScope.pageLoading = false;
+                      $rootScope.$apply();
+                      $rootScope.main_video_show_p =true;
+                    }, 2000);
+
+                  });
+
+}
+
+
+
+
+$scope.thisVideo = function(id, index){
+
+  $rootScope.baseUrl_p = 'https://www.youtube.com/embed/'+id+'?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+  $rootScope.main_video_p = $scope.baseUrl;
+  $rootScope.main_title_p = $rootScope.channel_data_p[index].title;
+
+}
+
+
+
+
+
+
+
+
+
+  //BANDSINTOWN
+
+$rootScope.bandsInTown_p = function(producername){
+
+
+        if($rootScope.isMobile){
+          // $scope.showTour = function(){
+            new BIT.Widget({
+              "producer": producername,
+              "div_id":"tour-dates",
+              "text_color": "#000000",
+              "share_links":false,
+              "bg_color": "#FFFFFF",
+              "force_narrow_layout": false,
+
+              "separator_color": "#FFFFFF",
+              "link_color": "#000000"
+              // "force_narrow_layout":"true"
+            }).insert_events();
+          // }
+
+        }else if(!$rootScope.isMobile){
+          // $scope.showTour = function(){
+            new BIT.Widget({
+              "producer": producername,
+              "div_id":"tour-dates",
+              "text_color": "#000000",
+              "share_links":false,
+              "bg_color": "#FFFFFF",
+              // "force_narrow_layout": false,
+              "separator_color": "#FFFFFF",
+              "link_color": "#000000"
+              // "force_narrow_layout":"true"
+            }).insert_events();
+          // }
+        }
+}//end of bandsintown
+
+
+
+
+
+
+//DETAIL CHECK
+
+if ($location.path() == '/producers/'+$routeParams.producer){
+
+var producerParam = $routeParams.producer;
+  $rootScope.$watch('producerReady' ,function(){
+    setTimeout(function(){
+      $rootScope.thisProducer(producerParam);
+
+
+    }, 900);
+  });
+
+}
+
+$scope.instagram_p = function(){
+  instaFactory.pullimages($rootScope.mainProducer.data['producer.instagramId'].value, 2).then( function(data) {
+        $scope.producerInstagram = $rootScope.instaTotal;
+      }, function(error) {
+    });
+}
+
+
+//..............................................................................loading new pictures
+$rootScope.noMore_p = false;
+$rootScope.totalDisplayed_p,$rootScope.loadMoreNumber_p, $rootScope.loadMoreImage_p
+$rootScope.globalLoadMore_p = function(i){
+  $rootScope.loadMoreNumber_p = i;
+    if ($rootScope.totalDisplayed_p > 0){
+
+    }else {
+      //the controller
+      $rootScope.totalDisplayed_p= i;
+      setTimeout(function(){
+        $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
+      }, 1000);
+    }
+}
+
+
+
+
+
+$rootScope.loadMore_p = function () {
+  $rootScope.totalDisplayed_p += $rootScope.loadMoreNumber_p;
+  $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
+  if ($rootScope.totalDisplayed_p >= ((loops)*20)){
+    $rootScope.filterRemovesLoadMore();
+  }
+};
+
+
+
+
+//.......different loaded pictures for every device
+  if ($rootScope.isDevice){
+    $rootScope.globalLoadMore_p(14);
+  } else if (!$rootScope.isDevice) {
+    $rootScope.globalLoadMore_p(20);
+  }
+
+
+
+$rootScope.hideLoadMore_p = true;
+setTimeout(function(){
+  $rootScope.hideLoadMore_p = false;
+}, 2000);
+
+
+$rootScope.filterRemovesLoadMore_p = function(){
+  $rootScope.hideLoadMore_p = true;
+}
+
+$rootScope.filterAllLoadMore_p = function(){
+  $rootScope.hideLoadMore_p = false;
+}
 
 
 
@@ -1411,8 +1888,6 @@ $scope.gotoAnchor = function(x) {
 $rootScope.scroll;
 $scope.hideBacktotop = true;
 $scope.windowHeight = $window.innerHeight;
-console.log($scope.windowHeight);
-
 
   angular.element($window).bind("scroll", function() {
 
@@ -1430,6 +1905,18 @@ console.log($scope.windowHeight);
 
       $scope.$apply();
   });
+
+
+
+$scope.showProducerLinks =false;
+
+  $scope.p_mobileLinks = function(){
+    $scope.showProducerLinks = !$scope.showProducerLinks
+  }
+
+
+
+
 
 
 
@@ -1460,7 +1947,7 @@ console.log($scope.windowHeight);
 
 
 
-Artist.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
+Producer.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
   return {
     restrict: 'A',
     link: function(scope, elem, attrs) {
@@ -1526,7 +2013,7 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
   //................................................................................................................................................//
 
   $rootScope.about_data;
-  $rootScope.about_channel_data = [];
+  $rootScope.about_playlist_data = [];
   $rootScope.about_main_video, $scope.about_main_title;
   $rootScope.about_main_video_show =false;
   $rootScope.about_baseUrl;
@@ -1539,27 +2026,27 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
 
-  $scope.about_getYoutubeChannel = function(channelid){
-
+  $scope.about_getYoutubePlaylist = function(playid){
+// GET https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S&key={YOUR_API_KEY}
                 $.get(
-                  "https://www.googleapis.com/youtube/v3/search",{
+                  "https://www.googleapis.com/youtube/v3/playlistItems",{
                     part: 'snippet',
                     maxResults: 50,
-                    channelId: channelid,
+                    playlistId: playid,
                     key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
                   },
                     function(data){
 
-                      $rootScope.about_channel_data = data.items;
+                      $rootScope.about_playlist_data = data.items;
                       // console.log(data);
                       // $.each(data.items, function(i, item){
                       //   // var videoTitle = item.snippet.title;
                       // })
 
 
-                      $rootScope.about_baseUrl = 'https://www.youtube.com/embed/'+$rootScope.about_channel_data[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+                      $rootScope.about_baseUrl = 'https://www.youtube.com/embed/'+$rootScope.about_playlist_data[0].snippet.resourceId.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
                       $rootScope.about_main_video = $scope.about_baseUrl;
-                      $rootScope.about_main_title = $rootScope.channel_data[0].title;
+                      $rootScope.about_main_title = $rootScope.about_playlist_data[0].title;
 
                       $rootScope.$apply();
 
@@ -1581,58 +2068,9 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
     $rootScope.baseUrl = 'https://www.youtube.com/embed/'+id+'?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
     $rootScope.main_video = $scope.baseUrl;
-    $rootScope.main_title = $rootScope.channel_data[index].title;
+    $rootScope.main_title = $rootScope.about_playlist_data[index].title;
 
   }
-
-
-
-
-
-
-
-
-
-    //BANDSINTOWN
-
-  $rootScope.about_bandsInTown = function(artistname){
-
-
-          if($rootScope.isMobile){
-            // $scope.showTour = function(){
-              new BIT.Widget({
-                "artist": "artistname",
-                "div_id":"tour-dates",
-                "text_color": "#000000",
-                "share_links":false,
-                "bg_color": "#FFFFFF",
-                "force_narrow_layout": true,
-
-                "separator_color": "#FFFFFF",
-                "link_color": "#000000"
-                // "force_narrow_layout":"true"
-              }).insert_events();
-            // }
-
-          }else if(!$rootScope.isMobile){
-            // $scope.showTour = function(){
-              new BIT.Widget({
-                "artist": artistname,
-                "div_id":"tour-dates",
-                "text_color": "#000000",
-                "share_links":false,
-                "bg_color": "#FFFFFF",
-                // "force_narrow_layout": false,
-                "separator_color": "#FFFFFF",
-                "link_color": "#000000"
-                // "force_narrow_layout":"true"
-              }).insert_events();
-            // }
-          }
-  }//end of bandsintown
-
-
-
 
 
 
@@ -1641,63 +2079,181 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
   //DETAIL CHECK
-
-  if ($location.path() == '/about'){
-    console.log("detail");
-
-
-
-    $rootScope.about_bandsInTown('taylorgang');
-    $scope.about_getYoutubeChannel('UCceZc-Bn_geUR5sQRlCKQow');
-
-
-
-            instaFactory.pullimages('taylorgang', 4).then( function(data) {
-
-                  $scope.artistInstagram = $rootScope.instaTotal;
-
-                  console.log(data);
-
-
-
-                }, function(error) {
-                  // promise rejected, could log the error with: console.log('error', error);
-
-              });
-
-
-  }
+    $scope.about_getYoutubePlaylist('PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S');
 
 
 
 
 
+    $rootScope.g_instaTotal  =[];
+    $rootScope.g_instapics = [];
+
+    $rootScope.g_totalDisplayed;
+    $rootScope.g_loadMoreImage="";
+    $rootScope.g_loadMoreNumber;
+
+
+      //..............................................................................loading new pictures
+      // $rootScope.noMore = false;
+      // $rootScope.gang_globalLoadMore = function(i){
+      //   $rootScope.loadMoreNumber = i;
+      //     if ($rootScope.totalDisplayed > 0){
+      //
+      //     }else {
+      //       //the controller
+      //       $rootScope.totalDisplayed = i;
+      //       setTimeout(function(){
+      //         $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
+      //       }, 3000);
+      //     }
+      // }
+
+
+      //
+      //
+      //
+      // $rootScope.loadMore = function () {
+      //   $rootScope.totalDisplayed += $rootScope.loadMoreNumber;
+      //   $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
+      //   console.log("$rootScope.totalDisplayed : "+$rootScope.totalDisplayed +" "+$rootScope.loadMoreImage);
+      //
+      //
+      //   if ($rootScope.totalDisplayed >= ((loops)*20)){
+      //     $rootScope.filterRemovesLoadMore();
+      //     console.log("removed");
+      //   }
+      // };
 
 
 
+
+
+
+
+      //.......different loaded pictures for every device
+        // if ($rootScope.isDevice){
+        //   $rootScope.globalLoadMore(14);
+        // } else if (!$rootScope.isDevice) {
+        //   $rootScope.globalLoadMore(20);
+        // }
+
+
+
+      // $rootScope.hideLoadMore = true;
+      // setTimeout(function(){
+      //   $rootScope.hideLoadMore = false;
+      // }, 2000);
+      //
+      //
+      // $rootScope.filterRemovesLoadMore = function(){
+      //   $rootScope.hideLoadMore = true;
+      // }
+      //
+      // $rootScope.filterAllLoadMore = function(){
+      //   $rootScope.hideLoadMore = false;
+      // }
+
+
+
+    // ACCESS TOKEN = 20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da
+
+var thisData;
+var thisArtist;
+
+
+//
+$rootScope.g_instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
+
+
+
+$scope.$watch('artistReady' ,function(){
+  setTimeout(function(){
+      $scope.aboutLoop();
+  }, 900);
 });
 
-  // About.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
-  //   return {
-  //     restrict: 'A',
-  //     link: function(scope, elem, attrs) {
-  //
-  //     }
-  //   };
-  // });
+
+$scope.aboutLoop = function(){
+
+  for ( i = 0; i < ($rootScope.Artist.length); i++ ){
+    var id = "";
+    id = $rootScope.Artist[i].data['artist.instagramId'].value;
+
+    if (id != ""){
+
+var config = {method: 'JSONP', cache: true, isArray: true};
+    var g_endpoint = "";
+    g_endpoint = "https://api.instagram.com/v1/users/"+id+"/media/recent?access_token="+$rootScope.g_instaAccessToken+"&callback=JSON_CALLBACK";
+
+    $http.jsonp(g_endpoint, config)
+
+    // $http({url: g_endpoint, method: 'JSONP', cache: true, isArray: true})
+
+    .then(function(response){
+          thisData = [];
+          thisData = response.data.data;
+          $rootScope.g_instaTotal = $rootScope.g_instaTotal.concat(thisData);
+
+          // if(thisArtist != response.data[0].user.id){
+          //
+          //   console.log(thisArtist);
+          // }else{
+          //   console.log("same");
+          //
+          // }
+          //
+          // var done = true;
+          //
+          // thisArtist = response.data[0].user.id;
+
+      })
+
+
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$scope.showAboutLinks = false;
+
+$scope.g_mobileLinks = function(){
+  $scope.showAboutLinks = !$scope.showAboutLinks
+}
+
+
+
+
+
+
+});//end od controller
 
 var Tour = angular.module('myApp');
 
 Tour.controller('tourCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, getService){
 
 
-  $rootScope.pageLoading = true;
-$rootScope.tour=[];
-  setTimeout(function(){
-    $rootScope.viewLoaded = true;
-    $rootScope.pageLoading = false;
-    $scope.$apply();
-  }, 500);
+  $rootScope.pageLoading = false;
+    setTimeout(function(){
+      $rootScope.viewLoaded = true;
+      $rootScope.pageLoading = false;
+      $scope.$apply();
+    }, 500);
+
+    $rootScope.tour=[];
 
 
 
@@ -1708,9 +2264,11 @@ $rootScope.bandsintownJSONP = function(artist){
     $http.jsonp(url).
         success(function(data, status, headers, config) {
 
+          var thisData = [];
+          var thisData = data;
+
 
           $rootScope.tour = $rootScope.tour.concat(data);
-          console.log($rootScope.tour);
 
             //what do I do here?
         }).
@@ -1721,23 +2279,18 @@ $rootScope.bandsintownJSONP = function(artist){
 }
 
 
-for (i in $rootScope.Artist){
-  console.log($rootScope.Artist[i].data['artist.name'].value[0].text);
-  $rootScope.bandsintownJSONP($rootScope.Artist[i].data['artist.name'].value[0].text);
+$scope.$watch('artistReady' ,function(){
+  setTimeout(function(){
+      $scope.tourLoop();
+  }, 900);
+});
+
+$scope.tourLoop = function(){
+  for (i in $rootScope.Artist){
+    $rootScope.bandsintownJSONP($rootScope.Artist[i].data['artist.name'].value[0].text);
+  }
 }
 
-// getService.get('http://api.bandsintown.com/artists/Skrillex.json?api_version=2.0&app_id=YOUR_APP_ID')
-// .then(function(data) {
-// console.log(data);
-//
-//   $scope.$broadcast("generalReady");
-//
-// }, function(error) {
-//     // promise rejected, could log the error with: console.log('error', error);
-//
-// });
-//
-//
 
 
 });

@@ -8,6 +8,7 @@
             <table style="width: 100%;height: 100%;">
               <tr>
                 <td style="vertical-align:middle; height:100%;">
+                  <p class="release-main-left-name">{{mainRelease.data['release.name'].value[0].text}}</p>
                   <p class="release-main-left-artist">{{mainRelease.data['release.artist'].value[0].text}}</p>
                 </td>
               </tr>
@@ -24,28 +25,33 @@
             <table style="width: 100%;height: 100%;">
               <tr>
                 <td style="vertical-align:middle; height:100%;">
-                  <p class="release-main-right-name">{{mainRelease.data['release.name'].value[0].text}}</p>
+                  <!-- <p class="release-main-right-name">{{mainRelease.data['release.name'].value[0].text}}</p> -->
+
                     <div class="home-main-share">
-                      <p ng-click="shareOpen=!shareOpen" class="home-main-share-p">share</p>
-                      <ul class="home-main-share-ul" ng-show="shareOpen">
+                      <!-- <p ng-click="shareOpen=!shareOpen" class="home-main-share-p">share</p> -->
+                       <!-- ng-show="shareOpen" -->
+                      <ul class="home-main-share-ul">
                         <li class="home-main-share-li">
-                          <a href="#" id="home-social-li-instagram">
+                          <a href="http://tumblr.com/widgets/share/tool?canonicalUrl=taylorgang.com/home/{{r.uid}}" target="_blank" id="home-social-li-instagram">
                             <instagram-icon-directive></instagram-icon-directive>
                           </a>
                         </li>
                         <li class="home-main-share-li">
-                          <a href="#" id="home-social-li-twitter">
+                          <a href="https://twitter.com/share?url=http%3A%2F%2Ftaylorgang.com%2Fhome%2F{{r.uid}}&via=taylorgang&related=twitterapi%2Ctwitter" target="_blank" id="home-social-li-twitter">
                             <twitter-icon-directive></twitter-icon-directive>
                           </a>
                         </li>
                         <li class="home-main-share-li">
-                          <a href="#" id="home-social-li-facebook">
+                          <a href="http://www.facebook.com/share.php?u=taylorgang.com/home/{{r.uid}}.com&title=taylor+gang" target="_blank" id="home-social-li-facebook">
                             <facebook-icon-directive></facebook-icon-directive>
                           </a>
                         </li>
                       </ul>
 
                     </div>
+
+                    <a class="home-main-right-read" href="home/{{mainRelease.uid}}">home</a>
+
 
                 </td>
               </tr>
@@ -57,4 +63,12 @@
       </td>
     </tr>
   </table>
+
+
+
+
+  <!-- <div class="release-back">
+    <a href="home/{{mainRelease.uid}}">HOME</a>
+
+  </div> -->
 </div>

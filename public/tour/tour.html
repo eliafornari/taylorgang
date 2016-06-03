@@ -1,10 +1,16 @@
 <div class="tour" ng-controller="tourCtrl">
 
 
-<ul>
-  <li ng-repeat="t in tour">
-    {{t.datetime}}
-    {{t.artists[0].name}}
+<ul class="tour-ul">
+  <li ng-repeat="t in tour | orderBy: 'datetime' track by $index" class="tour-li">
+    <!-- {{t.datetime}} -->
+      <p class="tour-date" ng-if="t.formatted_location">{{t.datetime | date}}</p>
+      <p class="tour-artist" ng-if="t.formatted_location">{{t.artists[0].name}}</p>
+      <p class="tour-venue" ng-if="t.formatted_location">{{t.venue.name}}</p>
+      <p class="tour-location" ng-if="t.formatted_location">{{t.formatted_location}}</p>
+      <p class="tour-rsvp" ng-if="t.formatted_location"><a href="{{t.facebook_rsvp_url}}">RSVP</a></p>
+
+
   </li>
 </ul>
 

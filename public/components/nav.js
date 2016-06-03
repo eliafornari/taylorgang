@@ -136,6 +136,17 @@ $rootScope.isNavOpen = false;
   };
 })
 
+.directive('tumblrIconDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
+  return {
+    restrict: 'E',
+    templateUrl: 'components/icon/tumblr-icon.html',
+    replace: true,
+    link: function(scope, elem, attrs) {
+
+    }
+  };
+})
+
 
 .directive('menuIconDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
   return {

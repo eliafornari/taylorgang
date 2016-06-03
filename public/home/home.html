@@ -1,52 +1,65 @@
 <div class="home" summary="home" ng-controller="homeCtrl">
 
   <div class="home-filters" >
-
-    <!-- <p class="home-title" ng-hide="pageLoading">
-      TAYLOR GANG RELEASES
-    </p> -->
-
-    <div class="home-filters-predefined">
-      <!-- <a href="#" ng-click="setFilter('longtime')">longtime</a>
-      <a href="#" ng-click="setFilter()">hello</a> -->
-
-      <ul class="home-filters-predefined-ul" ng-init="click">
-        <li class="home-filters-predefined-li" ng-repeat="f in Filter" >
-          <a ng-click="setFilter(f.uid)">{{f.data['filter.value'].value[0].text}}</a>
-          <!-- <label ng-click="click = 'longtime' ">longtime<input type="hidden" ng-model="click" ></label><br> -->
-        </li>
-        <li class="home-filters-predefined-li" >
-          <a ng-click="setFilter()">clear</a>
-          <!-- <label ng-click="click = 'longtime' ">longtime<input type="hidden" ng-model="click" ></label><br> -->
-        </li>
-      </ul>
+    <div class="home-filters-clear">
+      <a id="filter-clear" ng-click="setFilter('', 'clear'); searchText=''">clear</a>
     </div>
 
-    <input class="home-filters-input" type="text" name="name" value="" ng-model="searchText" placeholder="filter">
 
-    <ul class="home-social">
+      <div class="home-filters-content">
+        <div class="home-filters-predefined">
 
-      <li class="home-social-li">
-        <a class="home-social-li-a" href="https://www.instagram.com/taylorgang/" target="_blank"  id="home-social-li-instagram">
+          <ul class="home-filters-predefined-ul" ng-init="click">
+            <li class="home-filters-predefined-li" ng-repeat="f in Filter" >
+              <a class="home-filters-predefined-li-a" ng-click="setFilter(f.uid, $index)" id="filter-{{$index}}" ng-class="{'filterClicked': colorFilter}">#{{f.uid}}</a>
+            </li>
+
+          </ul>
+        </div>
+        <input class="home-filters-input" type="text" name="name" value="" ng-model="searchText" placeholder="search" ng-show="!isMobile"/>
+      </div>
+
+
+
+    <ul class="home-social" ng-if="!isMobile">
+      <li class="home-social-li" id="home-social-li-instagram">
+        <a class="home-social-li-a" href="https://www.instagram.com/taylorgang/" target="_blank">
           <instagram-icon-directive></instagram-icon-directive>
         </a>
       </li>
-      <li class="home-social-li" >
-        <a class="home-social-li-a" href="https://twitter.com/TaylorGang" target="_blank" id="home-social-li-twitter">
-          <twitter-icon-directive></twitter-icon-directive>
-        </a>
-      </li>
-      <li class="home-social-li" >
-        <a class="home-social-li-a" href="https://www.facebook.com/TaylorGang" target="_blank" id="home-social-li-facebook">
+      <li class="home-social-li" id="home-social-li-facebook">
+        <a class="home-social-li-a" href="https://www.facebook.com/TaylorGang" target="_blank">
           <facebook-icon-directive></facebook-icon-directive>
         </a>
       </li>
-
-
-
-
-
+      <li class="home-social-li" id="home-social-li-twitter">
+        <a class="home-social-li-a" href="https://twitter.com/TaylorGang" target="_blank" >
+          <twitter-icon-directive></twitter-icon-directive>
+        </a>
+      </li>
+      <li class="home-social-li" id="home-social-li-soundcloud">
+        <a class="home-social-li-a" href="https://soundcloud.com/taylorgang" target="_blank"><soundcloud-icon-directive></soundcloud-icon-directive></a>
+      </li>
     </ul>
+
+  <!-- mobile -->
+
+  <div class="home-mobile-links" ng-if="isMobile" ng-click="mobileLinks()">
+    <a>LINKS</a>
+  </div>
+
+  <div class="home-social-background-mobile" ng-if="isMobile" ng-show="showHomeLinks">
+    <ul class="home-social">
+      <li class="home-social-li" id="home-social-li-instagram"><a class="home-social-li-a" href="https://www.instagram.com/taylorgang/" target="_blank"><instagram-icon-directive></instagram-icon-directive></a></li>
+      <li class="home-social-li" id="home-social-li-twitter"><a class="home-social-li-a" href="https://twitter.com/TaylorGang" target="_blank" ><twitter-icon-directive></twitter-icon-directive></a></li>
+      <li class="home-social-li" id="home-social-li-facebook"><a class="home-social-li-a" href="https://www.facebook.com/TaylorGang" target="_blank"><facebook-icon-directive></facebook-icon-directive></a></li>
+      <li class="home-social-li" id="home-social-li-soundcloud"><a class="home-social-li-a" href="https://soundcloud.com/taylorgang" target="_blank"><soundcloud-icon-directive></soundcloud-icon-directive></a></li>
+    </ul>
+
+
+    <div class="home-social-back-mobile">
+      <a ng-click="mobileLinks()">FILTER</a>
+    </div>
   </div>
 
 
@@ -54,9 +67,21 @@
 
 
 
-  <div class="home-releases">
-    <ul class="home-releases-ul">
-      <article class="home-releases-li" ng-repeat="r in Release | orderBy: $index | filter:searchText | isArtGroup:selectedFilter track by $index" ng-class="{expand: $index==selectedIndex}" ng-click="thisRelease(r.uid)" id="release-{{$index}}">
+
+
+
+
+
+</div>
+
+
+
+
+
+
+  <div class="home-releases" >
+    <ul class="home-releases-ul" >
+      <article class="home-releases-li" id="{{r.uid}}" ng-repeat="r in Release | orderBy: $index | filter:searchText |limitTo: totalShown.length | isArtGroup:selectedFilter track by $index" ng-class="{expand: $index==selectedIndex}" ng-click="thisRelease(r.uid)" id="release-{{$index}}" >
         <p class="home-releases-cover-title" ng-show="showTitle">{{r.data['release.coverTitle'].value[0].text}}</p>
         <div class="home-releases-cover" style="background-image: url('{{r.data['release.cover'].value.main.url}}')" ng-mouseover="showTitle=true" ng-mouseout="showTitle=false">
         </div>
@@ -69,8 +94,6 @@
                 <td style="vertical-align:middle; height:100%;">
                   <p class="home-main-left-name">{{r.data['release.name'].value[0].text}}</p>
                   <p class="home-main-left-artist">{{r.data['release.artist'].value[0].text}}</p>
-
-
                 </td>
               </tr>
             </table>
@@ -91,28 +114,29 @@
             <table style="width: 100%;height: 100%;">
               <tr>
                 <td style="vertical-align:middle; height:100%;">
-                  <a class="home-main-right-read" href="release/{{r.uid}}">read more</a>
                   <div class="home-main-share">
-                    <p ng-click="shareOpen=!shareOpen" class="home-main-share-p">share</p>
-                    <ul class="home-main-share-ul" ng-show="shareOpen">
+                    <!-- <p class="home-main-share-p" ng-init="shareOpen=true">share</p> -->
+                    <!-- ng-click="shareOpen=!shareOpen" -->
+                    <!-- ng-show="shareOpen" -->
+                    <ul class="home-main-share-ul" >
                       <li class="home-main-share-li">
-                        <a href="#" id="home-social-li-instagram">
-                          <instagram-icon-directive></instagram-icon-directive>
+                        <a href="http://tumblr.com/widgets/share/tool?canonicalUrl=taylorgang.com/home/{{r.uid}}" target="_blank" id="home-social-li-instagram">
+                          <tumblr-icon-directive></tumblr-icon-directive>
                         </a>
                       </li>
                       <li class="home-main-share-li">
-                        <a href="#" id="home-social-li-twitter">
+                        <a href="https://twitter.com/share?url=http%3A%2F%2Ftaylorgang.com%2Fhome%2F{{r.uid}}&via=taylorgang&related=twitterapi%2Ctwitter" target="_blank" id="home-social-li-twitter">
                           <twitter-icon-directive></twitter-icon-directive>
                         </a>
                       </li>
                       <li class="home-main-share-li">
-                        <a href="#" id="home-social-li-facebook">
+                        <a href="http://www.facebook.com/share.php?u=taylorgang.com/home/{{r.uid}}.com&title=taylor+gang" target="_blank" id="home-social-li-facebook">
                           <facebook-icon-directive></facebook-icon-directive>
                         </a>
                       </li>
                     </ul>
-
                   </div>
+                  <a class="home-main-right-read" href="release/{{r.uid}}">read more</a>
                 </td>
               </tr>
             </table>
@@ -123,7 +147,9 @@
       </article>
 
 
-    </ul>
+    </ul >
+    <div class="infinite-loader" infinite-scroll="pagingHome()"  infinite-scroll-distance="1" ></div>
+    <!-- infinite-scroll-disabled="!enabled" -->
   </div>
 
 

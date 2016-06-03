@@ -16,102 +16,232 @@ home-filters-input{
 }
 .home-filters{
   width:100vw;
-  height:150px;
+  height:120px;
   position: relative;
   overflow: hidden;
   @include respond-to(phone){
     height:80px;
   }
-  .home-filters-input{
-    width:100vw;
-    height:40px;
-    border:none;
-    outline: 0;
-    font-size: $font-size-nav;
-    font-family: $font-family-nav;
-    text-align: left;
-    line-height:40px;
-    position: absolute;
-    left:$margin-sides;
-    bottom: $margin-sides;
-    // text-transform: uppercase;
-    padding:0;
-
-    @include respond-to(phone){
-      padding:0;
-      width: 40vw;
-      height:30px;
-      line-height:30px;
-      left:$margin-sides-mobile;
-      bottom: $margin-sides-mobile;
-      font-size: $font-size-nav-mobile;
-    }
-  }
-
-  .home-social{
-    width: auto;
+  .home-filters-clear{
     position: absolute;
     right:$margin-sides;
-    bottom: $margin-sides;
+    top:$margin-sides;
+    text-align: right;
     @include respond-to(phone){
-      position: absolute;
+      right:$margin-sides-mobile;
+      top: 5px;
+    }
+    a{
+      text-align: right;
+      @include subtitle();
+      line-height:40px;
+      // font-size: $font-size-nav;
+      // font-family: $font-family-nav;
+      text-transform: none;
+      @include hover-effect-color($black, $light-grey);
+    }
+  }
+  .home-filters-content{
+    position: absolute;
+    width: auto;
+    height: 40px;
+    right:$margin-sides;
+    bottom:$margin-sides;
+    @include respond-to(phone){
       right:$margin-sides-mobile;
       bottom: $margin-sides-mobile;
-      width: 128px;
-    }
-    .home-social-li{
-      width: 30px;
       height: 30px;
-      margin-left: 26px;
-      display: inline-block;
+    }
+  }
+  .home-filters-predefined{
+    width:auto;
+    height:40px;
+    position: relative;
+    float:right;
+    overflow: hidden;
+    @include respond-to(phone){
+      height:30px;
+    }
+    .home-filters-predefined-ul{
+      width:auto;
+      height:40px;
+      text-align: right;
       @include respond-to(phone){
-        width: 25px;
-        height: 25px;
-        margin-left: 15px;
+        height:30px;
       }
-      a{
-        width: 100%;
-        height: 100%;
-        display: block;
-        fill: inherit;
-        @include hover-effect-fill($black, $yellow, 'fill');
-        svg{
-          // fill: inherit;
-          width: 100%;
-          height: 100%;
-          g{
-            // fill: inherit;
-            path{
-              // fill: inherit;
-
-            }
+      .home-filters-predefined-li{
+        display:inline-block;
+        text-align: right;
+        margin-right:$margin-sides;
+        &:nth-last-child(1){
+          margin-right:0;
+        }
+        @include respond-to(phone){
+          margin-right:$margin-sides-mobile;
+        }
+        a{
+          text-align: right;
+          @include subtitle();
+          line-height:40px;
+          text-transform: none;
+          @include hover-effect-color($black, $light-grey);
+          @include respond-to(phone){
+            line-height: initial;
           }
         }
       }
     }
+  }
+  .home-filters-input{
+    width:auto;
+    margin-right:$margin-sides;
+    height:40px;
+    border:none;
+    outline: 0;
+    @include subtitle();
 
+    text-align: right;
+    line-height:40px;
+    position: relative;
+    float:right;
+    // text-transform: uppercase;
+    padding:0;
+    background-color: transparent;
+    @include respond-to(phone){
+      padding:0;
+      width: 40vw;
+      height:30px;
+      line-height:initial;
+      margin-right:$margin-sides-mobile;
+    }
+  }
+}
+
+
+
+.home-social{
+  width: auto;
+  position: absolute;
+  left:$margin-sides;
+  bottom: $margin-sides;
+  @include respond-to(phone){
+    position: absolute;
+    left:$margin-sides-mobile;
+    bottom: $margin-sides-mobile;
+    width: 100%;
+    background-color: #FFFFFF;
   }
 }
 
 
 
 
-//
-// #home-social-li-instagram{
-//   // @include raised(0.6);
-//   //   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-//   @include hover-effect-fill($black, $yellow, 'fill');
-// }
-// #home-social-li-facebook{
-//   // @include raised(0.6);
-//   //     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-//   @include hover-effect-fill($black, $yellow, 'fill');
-// }
-// #home-social-li-twitter{
-//   // @include raised(0.6);
-//   // box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-//   @include hover-effect-fill($black, $yellow, 'fill');
-// }
+
+.home-social-li{
+  width: 30px;
+  height: 30px;
+  margin-right: 26px;
+  display: inline-block;
+  @include respond-to(phone){
+    width: 25px;
+    height: 25px;
+    margin-left: 15px;
+  }
+  a{
+    width: 100%;
+    height: 100%;
+    display: block;
+    fill: inherit;
+    @include hover-effect-fill($black, $light-grey, 'fill');
+    svg{
+      width: 100%;
+      height: 100%;
+      g{
+        path{
+        }
+      }
+    }
+  }
+}
+
+
+#home-social-li-itunes{
+  width:60px;
+  @include respond-to(phone){
+    width: 40px;
+    margin-left: 15px;
+  }
+}
+
+#home-social-li-soundcloud{
+  width:60px;
+  @include respond-to(phone){
+    width: 40px;
+    margin-left: 15px;
+  }
+}
+
+
+.home-mobile-links{
+  position: absolute;
+  left:$margin-sides;
+  bottom:$margin-sides;
+  text-align: left;
+  @include respond-to(phone){
+    left:$margin-sides-mobile;
+    bottom: $margin-sides-mobile;
+  }
+  a{
+    text-align: right;
+    @include subtitle();
+    line-height: initial;
+    // font-size: $font-size-nav;
+    // font-family: $font-family-nav;
+    text-transform: none;
+    @include hover-effect-color($black, $light-grey);
+  }
+
+}
+
+.home-social-background-mobile{
+  background-color: #FFFFFF;
+  width:100%;
+  height:80px;
+  position: absolute;
+  left:0;
+  bottom: 0;
+    z-index: $z-mobile-links;
+}
+
+
+.home-social-back-mobile{
+  position: absolute;
+  right:$margin-sides;
+  bottom:$margin-sides;
+  text-align: right;
+  @include respond-to(phone){
+    right:$margin-sides-mobile;
+    bottom: $margin-sides-mobile;
+  }
+  a{
+    @include subtitle();
+    @include hover-effect-color($black, $light-grey);
+
+  }
+}
+
+
+
+.filterClicked{
+  color: $light-grey !important;
+  a{
+    color: $light-grey !important;
+  }
+}
+
+
+
+
 
 
 
@@ -121,13 +251,10 @@ home-filters-input{
   width: 100vw;
   position: relative;
   display: table;
-
   .home-releases-li{
     position: relative;
     float:left;
     width: 20vw;
-    // @include hover-effect-background-color($white, $yellow);
-
     @include respond-to(phone){
       margin-left: 0vw;
       margin-right: 0vw;
@@ -142,8 +269,6 @@ home-filters-input{
       background-position: center center;
       background-repeat: no-repeat;
       background-size: auto 98%;
-
-
       @include respond-to(phone){
         width: 50vw;
         height: 50vw;
@@ -155,9 +280,17 @@ home-filters-input{
       width: 20vw;
       height: 20vw;
       text-align: center;
+      overflow: hidden;
       @include subtitle();
       line-height: 20vw;
       vertical-align: middle;
+      @include respond-to(phone){
+        width: 50vw;
+        height: auto;
+        top: 25vw;
+        transform: translateY(-50%);
+        line-height: $line-height-subtitle-mobile;
+      }
 
     }
   }
@@ -185,7 +318,7 @@ home-filters-input{
     height: 100%;
     @include respond-to(phone){
       width: 100vw;
-      bottom: 0%;
+      bottom: 20%;
       height: 20%;
     }
     table{
@@ -194,16 +327,23 @@ home-filters-input{
     .home-main-left-artist{
         color: #FFFFFF;
         display:block;
-        @include subtitle();
+        @include paragraph();
         text-align: center;
         width:30vw;
+        @include respond-to(phone){
+          width:100vw;
+        }
     }
     .home-main-left-name{
       color: #FFFFFF;
-      @include paragraph();
+      @include subtitle();
       text-align: center;
       width: 90%;
       margin-left: 5%;
+      @include respond-to(phone){
+        width:100vw;
+        margin:0;
+      }
     }
 
   }
@@ -238,23 +378,29 @@ home-filters-input{
     height: 100%;
     @include respond-to(phone){
       width: 100vw;
-      bottom: 20%;
+      bottom: 0%;
       height: 20%;
     }
-    .home-main-right-read{
-      display:block;
-      color: #FFFFFF;
-      // @include paragraph();
-      text-align: center;
-      width: 90%;
-      margin-left: 5%;
-      margin-top: 10px;
-      @include subtitle();
-      @include hover-effect-color($white, $yellow);
-
-    }
   }
+}
 
+.home-main-right-read{
+  display:block;
+  color: #FFFFFF;
+  // @include paragraph();
+  text-align: center;
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 20px;
+  @include subtitle();
+  @include hover-effect-color($white, $yellow);
+  @include respond-to(phone){
+    position: absolute;
+    width: 30vw;
+    left:$margin-sides-mobile;
+    margin-top: 0px;
+    text-align: left;
+  }
 }
 
 
@@ -265,16 +411,24 @@ home-filters-input{
   width:30vw;
   display:block;
   height: $line-height-paragraph;
+  @include respond-to(phone){
+    position: absolute;
+    right:$margin-sides-mobile;
+    text-align: right;
+  }
   .home-main-share-p{
     color: #FFFFFF;
     @include paragraph();
     text-align: center;
     margin-top: 10px;
     @include hover-effect-color($white, $yellow);
+    @include respond-to(phone){
+      margin-top: 0px;
+    }
   }
   .home-main-share-ul{
     text-align: center;
-    margin-top: 10px;
+    // margin-top: 10px;
     .home-main-share-li{
       width: 30px;
       height: 30px;

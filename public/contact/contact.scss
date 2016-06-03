@@ -457,12 +457,17 @@ $paddingInput: 4px 4px 4px 8px;
   background-color: $yellow;
 }
 .input.ng-invalid-email.ng-touched{
-  background-color: $yellow;
+  background-color: $yellow !important;;
 }
+
 .input.ng-valid-email.ng-touched{
-  background-color: $light-grey;
+  background-color: $white;
 }
 
 .input.ng-valid.ng-touched{
-  background-color: $light-grey;
+  background-color: $white !important;
+}
+
+.input.ng-disbled{
+  background-color: $white !important;
 }

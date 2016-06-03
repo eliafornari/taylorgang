@@ -9,7 +9,8 @@ angular.module('myApp', [
   'myApp.routes',
   'myapp.Service',
   'eliasInstagramModule',
-  'mailchimp'
+  'mailchimp',
+  'infinite-scroll'
 ])
 
 .directive('googleAnalytics', function(){

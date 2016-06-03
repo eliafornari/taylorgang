@@ -1,0 +1,135 @@
+<div class="artist-detail" ng-controller="producerCtrl">
+
+
+
+    <header class="artist-header" id="top">
+      <h1 class="artist-header-name">{{mainProducer.data['producer.name'].value[0].text;}}</h1>
+      <div class="artist-header-text">
+        <ul class="artist-header-ul" ng-if="!isMobile">
+          <li class="home-social-li" id="home-social-li-instagram" ng-if="mainProducer.data['producer.instagram'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.instagram'].value.url}}" target="_blank"><instagram-icon-directive></instagram-icon-directive></a></li>
+          <li class="home-social-li" id="home-social-li-facebook" ng-if="mainProducer.data['producer.facebook'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.facebook'].value.url}}" target="_blank"><facebook-icon-directive></facebook-icon-directive></a></li>
+          <li class="home-social-li" id="home-social-li-twitter" ng-if="mainProducer.data['producer.twitter'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.twitter'].value.url}}" target="_blank"><twitter-icon-directive></twitter-icon-directive></a></li>
+
+          <li class="home-social-li" id="home-social-li-spotify" ng-if="mainProducer.data['producer.spotify'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.spotify'].value.url}}" target="_blank"><spotify-icon-directive></spotify-icon-directive></a></li>
+          <li class="home-social-li" id="home-social-li-itunes" ng-if="mainProducer.data['producer.itunes'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.itunes'].value.url}}" target="_blank"><itunes-icon-directive></itunes-icon-directive></a></li>
+          <li class="home-social-li" id="home-social-li-soundcloud" ng-if="mainProducer.data['producer.soundcloud'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.soundcloud'].value.url}}" target="_blank"><soundcloud-icon-directive></soundcloud-icon-directive></a></li>
+        </ul>
+
+        <!-- mobile -->
+
+        <div class="home-mobile-links" ng-if="isMobile" ng-click="p_mobileLinks()"><a>links</a></div>
+
+        <div class="home-social-background-mobile" ng-if="isMobile" ng-show="showProducerLinks">
+          <ul class="home-social">
+            <li class="home-social-li" id="home-social-li-instagram" ng-if="mainProducer.data['producer.instagram'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.instagram'].value.url}}" target="_blank"><instagram-icon-directive></instagram-icon-directive></a></li>
+            <li class="home-social-li" id="home-social-li-facebook" ng-if="mainProducer.data['producer.facebook'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.facebook'].value.url}}" target="_blank"><facebook-icon-directive></facebook-icon-directive></a></li>
+            <li class="home-social-li" id="home-social-li-twitter" ng-if="mainProducer.data['producer.twitter'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.twitter'].value.url}}" target="_blank"><twitter-icon-directive></twitter-icon-directive></a></li>
+
+            <li class="home-social-li" id="home-social-li-spotify" ng-if="mainProducer.data['producer.spotify'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.spotify'].value.url}}" target="_blank"><spotify-icon-directive></spotify-icon-directive></a></li>
+            <li class="home-social-li" id="home-social-li-itunes" ng-if="mainProducer.data['producer.itunes'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.itunes'].value.url}}" target="_blank"><itunes-icon-directive></itunes-icon-directive></a></li>
+            <li class="home-social-li" id="home-social-li-soundcloud" ng-if="mainProducer.data['producer.soundcloud'].value.url"><a class="home-social-li-a" href="{{mainProducer.data['producer.soundcloud'].value.url}}" target="_blank"><soundcloud-icon-directive></soundcloud-icon-directive></a></li>
+          </ul>
+          <div class="home-social-back-mobile"><a ng-click="p_mobileLinks()">close</a></div>
+        </div>
+
+      </div>
+      <div class="artist-header-image" id="producer-header-image-{{mainProducer.uid}}" style="background-image: url('{{mainProducer.data['producer.image'].value.main.url}}')"></div>
+    </header>
+
+
+
+
+
+<div class="artist-youtube" ng-if="mainProducer.data['producer.youtubeChannelID'].value">
+
+    <div class="artist-video">
+
+              <!-- main video -->
+              <div class="artist-video-main">
+                <iframe class="iframe" src="{{main_video_p | trustUrl}}" frameborder="0" allowfullscreen ></iframe>
+                <p class="artist-video-main-title">
+                  {{main_title_p}}
+                </p>
+              </div>
+
+              <!-- related video -->
+              <div class="artist-video-related">
+                <ul class="artist-video-ul">
+                  <li class="artist-video-li" ng-repeat="r in channel_data_p" ng-click="thisVideo(r.id.videoId, $index)" ng-mouseover="related_show=true" ng-mouseout="related_show=false">
+
+                    <div class="artist-video-title" id="producer-video-title-{{$index}}" ng-show="related_show">
+                      <table>
+                        <tr>
+                          <td>
+                            <p class="artist-video-title-p">{{r.snippet.title}}</p>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="artist-video-img" style="background-image: url('{{r.snippet.thumbnails.high.url}}')"></div>
+                    <!-- http://img.youtube.com/vi/{{r.id.videoId}}/0.jpg -->
+                  </li>
+                </ul>
+              </div>
+
+  </div>
+</div>
+
+
+
+
+<div class="artist-releases" ng-if="mainProducer.data['producer.releases'].value">
+  <ul class="artist-releases-ul">
+    <li class="artist-releases-li" ng-repeat="r in mainProducer.data['producer.releases'].value | orderBy: r.date.value track by $index" >
+      <a class="artist-releases-li-a" href="{{r.link.value.url}}" target="_blank">
+        <p class="artist-releases-li-p" ng-show="showRelease">{{r.title.value}}</p>
+        <div class="artist-releases-li-cover" style="background-image: url('{{r.releaseImage.value.main.url}}')" ng-mouseover="showRelease=true" ng-mouseout="showRelease=false">
+        </div>
+      </a>
+
+
+    </li>
+  </ul>
+</div>
+
+
+
+
+
+  <div class="tour" id="tour-dates" ng-if="mainProducer.data['producer.bandsintownName'].value"></div>
+
+
+
+
+
+
+  <div class="artist-instagram">
+
+    <ul class="artist-instagram-ul">
+      <li class="artist-instagram-li" ng-repeat="i in instaTotal | orderBy: $index | limitTo:totalDisplayed_p track by $index ">
+        <a class="artist-instagram-li-a" href="{{i.link}}" target="_blank">
+          <img class="artist-instagram-img" src="{{i.images.standard_resolution.url}}" alt="" />
+          <p class="artist-instagram-caption">
+            {{i.caption.text}}
+          </p>
+        </a>
+      </li>
+      <li class="load-more-li" ng-hide="hideLoadMore_p" style="background-image: url('{{loadMoreImage}}')">
+        <div class="load-more-button" ng-click="loadMore_p()" ng-hide="noMore_p">
+          <p class="load-more-button-p">Load more</p>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+
+
+
+
+  <div class="artist-backtotop" ng-hide="hideBacktotop" ng-click="gotoAnchor('top')">
+    <p>BACK TO TOP</p>
+  </div>
+
+
+
+</div>

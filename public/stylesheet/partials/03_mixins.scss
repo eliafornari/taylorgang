@@ -130,7 +130,7 @@ $transition-slow: 1s;
 /*....................................SCSS MIXINS..................................*/
 
 
-@mixin hover-effect-opacity($opacity: 1, $hover: .2){
+@mixin hover-effect-opacity($opacity: 1, $hover: .05){
   opacity: $opacity;
   transition:         all $transition-medium ease;
   -webkit-transition: all $transition-medium ease;
@@ -142,15 +142,15 @@ $transition-slow: 1s;
   &:hover {
     opacity: $hover;
 
-    @include respond-to(phone-device) {
-        opacity: $opacity !important;
-    }
-    @include respond-to(tablet-portrait-device) {
-        opacity: $opacity !important;
-    }
-    @include respond-to(tablet-landscape-device) {
-        opacity: $opacity !important;
-    }
+    // @include respond-to(phone-device) {
+    //     opacity: $opacity !important;
+    // }
+    // @include respond-to(tablet-portrait-device) {
+    //     opacity: $opacity !important;
+    // }
+    // @include respond-to(tablet-landscape-device) {
+    //     opacity: $opacity !important;
+    // }
   }
 }
 

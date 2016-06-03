@@ -36,7 +36,7 @@
     height: 100%;
     @include respond-to(phone){
       width: 100vw;
-      bottom: 0%;
+      bottom: 20%;
       height: 20%;
     }
     .release-main-left-artist{
@@ -85,10 +85,26 @@
     height: 100%;
     @include respond-to(phone){
       width: 100vw;
-      bottom: 20%;
+      bottom: 0%;
       height: 20%;
+
     }
-
   }
+}
 
+
+
+
+.release-back{
+  position: fixed;
+  bottom:$margin-sides;
+  left:$margin-sides;
+  @include respond-to(phone){
+    bottom:$margin-sides-mobile;
+    left:$margin-sides-mobile;
+  }
+  a{
+    @include subtitle();
+    @include hover-effect-color($white, $yellow);
+  }
 }
