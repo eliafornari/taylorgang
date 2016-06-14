@@ -1,6 +1,13 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        sass: {
+            dist: {
+              files: {
+                'stylesheet/app.css' : 'main.scss'
+              }
+            }
+          },
         concat: {
 
             js: {
@@ -75,37 +82,24 @@ module.exports = function (grunt) {
                   ],
                   // tasks: ['concat', 'uglify']
                 tasks: ['concat']
-                }
+              },
+              css: {
+                files: '**/*.scss',
+                tasks: ['sass']
+              }
         }
-        // compress: {
-        //     dist: {
-        //       options: {
-        //         archive: 'dist/<%= pkg.name %>-<%= pkg.version %>.zip'
-        //       },
-        //       files: [{
-        //         src: [ 'index.html' ],
-        //         dest: '/'
-        //       }, {
-        //         src: [ 'js/**' ],
-        //         dest: 'js/'
-        //       }, {
-        //         src: [ 'data/**' ],
-        //         dest: 'data/'
-        //       }, {
-        //         src: [ 'app.min.js' ],
-        //         dest: '/'
-        //       }]
-        //     }
-        //   }
+
 
     });
 
     grunt.loadNpmTasks('grunt-contrib-concat');
-    // grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.registerTask('default', ['concat:js']);
+    grunt.registerTask('default', ['watch']);
+// 'concat:js',
+
 
         // grunt.registerTask('default', ['concat:js', 'uglify:js']);
 };

@@ -31,6 +31,16 @@ $rootScope.isNavOpen = false;
 
 
 
+$rootScope.link = function(url, force){
+  $location.path(url, force);
+}
+
+$rootScope.releaseLink = function(url, force){
+  console.log('url: '+'release/'+url);
+  $location.path('release/'+url, force);
+}
+
+
 })
 
 

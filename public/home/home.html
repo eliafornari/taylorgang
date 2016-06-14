@@ -81,9 +81,9 @@
 
   <div class="home-releases" >
     <ul class="home-releases-ul" >
-      <article class="home-releases-li" id="{{r.uid}}" ng-repeat="r in Release | orderBy: $index | filter:searchText |limitTo: totalShown.length | isArtGroup:selectedFilter track by $index" ng-class="{expand: $index==selectedIndex}" ng-click="thisRelease(r.uid)" id="release-{{$index}}" >
+      <article class="home-releases-li" id="{{r.uid}}" ng-repeat="r in Release | orderBy: r.data['release.date'].value | filter:searchText |limitTo: totalShown.length | isArtGroup:selectedFilter track by $index" ng-class="{expand: $index==selectedIndex}" id="release-{{$index}}" >
         <p class="home-releases-cover-title" ng-show="showTitle">{{r.data['release.coverTitle'].value[0].text}}</p>
-        <div class="home-releases-cover" style="background-image: url('{{r.data['release.cover'].value.main.url}}')" ng-mouseover="showTitle=true" ng-mouseout="showTitle=false">
+        <div class="home-releases-cover" style="background-image: url('{{r.data['release.cover'].value.main.url}}')" ng-mouseover="showTitle=true" ng-mouseout="showTitle=false" ng-click="link(r.uid, false); thisRelease(r.uid)" >
         </div>
         <div class="home-releases-arrow" ng-class="{expand: $index==selectedIndex}"></div>
         <div class="home-releases-li-main" ng-class="{expand: $index==selectedIndex}" ng-if="$index==selectedIndex">
@@ -93,7 +93,8 @@
               <tr>
                 <td style="vertical-align:middle; height:100%;">
                   <p class="home-main-left-name">{{r.data['release.name'].value[0].text}}</p>
-                  <p class="home-main-left-artist">{{r.data['release.artist'].value[0].text}}</p>
+                  <a class="home-main-left-artist" ng-if="r.data['release.artist'].value[0]">{{r.data['release.artist'].value[0].artistName.value[0].text}}</a>
+                  <a class="home-main-left-artist" ng-if="r.data['release.producer'].value[0]">{{r.data['release.producer'].value[0].producerName.value[0].text}}</a>
                 </td>
               </tr>
             </table>
@@ -136,7 +137,7 @@
                       </li>
                     </ul>
                   </div>
-                  <a class="home-main-right-read" href="release/{{r.uid}}">read more</a>
+                  <a class="home-main-right-read" ng-click="releaseLink(r.uid, true)">read more</a>
                 </td>
               </tr>
             </table>

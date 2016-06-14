@@ -3,7 +3,7 @@
 <!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js" > <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js" ng-controller="routeController"> <!--<![endif]-->
 
 
 
@@ -11,7 +11,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
-  <title>taylorgang</title>
+  <title ng-bind="meta.title">taylorgang</title>
 
 
 <meta name="google-site-verification" content="VMKpU824mc4Q8Ke7d-9F1hVxjhqVictBp21EX80vXH4">
@@ -28,19 +28,19 @@
 <meta name="description" content="The official site of Taylor Gang Ent. Follow us on Twitter, Facebook &amp; Instagram @TaylorGang">
 <meta name="robots" content="noodp">
 <meta name="keywords" content="wiz khalifa, taylor gang, taylor gang clothing, new wiz khalifa, android, iphone, tablet, wiz khalifa taylor gang, taylor, gang, wiz, khalifa, wiz kalifah, taylor gang shirts, chevy woods, juicy j, taylor gang shirt, taylorgang, new taylor gang, taylor gang lyrics, members of taylor gang, taylor gang members, what is taylor gang, whats taylor gang, members, videos, music, mixtape, pictures, gallery, albums, songs, ty dolla sign, ty dolls $sign, chevy woods, berner, berner415, courtney noelle">
-<link rel="canonical" href="http://taylorgang.com/">
+<link rel="canonical" href="http://taylorgang.com/{{meta.url}}">
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Taylor Gang | Official Site of Taylor Gang Ent.">
-<meta property="og:description" content="The official site of Taylor Gang Ent. Follow us on Twitter, Facebook &amp; Instagram @TaylorGang">
-<meta property="og:url" content="http://taylorgang.com/">
+<meta property="og:description" content="{{meta.description}} | The official site of Taylor Gang Ent. Follow us on Twitter, Facebook &amp; Instagram @TaylorGang">
+<meta property="og:url" content="http://taylorgang.com/{{meta.url}}">
 <meta property="og:site_name" content="Taylor Gang">
 
 
 
 
 
-  <meta name=“author” title=“Elia Fornari | Qual Agency”>
+
 
   <link rel=”author” href=”https://plus.google.com/u/1/+eliafornarichannel”/>
   <link rel="icon" type="image/x-icon" href="assets/favicon/TGOD_favicon.ico" >
@@ -56,7 +56,7 @@
 =======================================================================
 
 -->
-
+  <!-- <meta name=“author” title=“Elia Fornari | Qual Agency”> -->
 
 
   <base href="/">
@@ -72,7 +72,7 @@
 
 <!-- .................................. Body ...............................-->
 
-<body ng-controller="routeController" page-loading-spinner>
+<body  page-loading-spinner>
 
 
 

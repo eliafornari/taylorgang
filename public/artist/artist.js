@@ -9,7 +9,11 @@ Artist.controller('artistCtrl', function($scope, $location, $rootScope, $routePa
 
 
 
-
+  $rootScope.meta= {
+    "title":"taylorgang | artists",
+    "url": "artists",
+    "description": "artists"
+  }
 
 
 //................................................................................................................................................//
@@ -29,17 +33,17 @@ $rootScope.main_video = $rootScope.baseUrl;
 $scope.artistInstagram=[];
 
 $rootScope.thisArtist = function(thisArtist){
-
-
     for (a in $rootScope.Artist){
 
       if($rootScope.Artist[a].uid==thisArtist){
         $rootScope.mainArtist = $rootScope.Artist[a];
         $rootScope.bandsInTown($rootScope.Artist[a].data['artist.name'].value[0].text);
         $scope.getYoutubeChannel($rootScope.Artist[a].data['artist.youtubeChannelID'].value);
+        $scope.getArtistReleases($rootScope.Artist[a].id, 1);
+
       }
     }
-    $scope.instagram_a();
+    // $scope.instagram_a();
 };
 
 
@@ -110,7 +114,6 @@ $rootScope.bandsInTown = function(artistname){
               "share_links":false,
               "bg_color": "#FFFFFF",
               "force_narrow_layout": false,
-
               "separator_color": "#FFFFFF",
               "link_color": "#000000"
               // "force_narrow_layout":"true"
@@ -125,7 +128,6 @@ $rootScope.bandsInTown = function(artistname){
               "text_color": "#000000",
               "share_links":false,
               "bg_color": "#FFFFFF",
-              // "force_narrow_layout": false,
               "separator_color": "#FFFFFF",
               "link_color": "#000000"
               // "force_narrow_layout":"true"
@@ -147,6 +149,12 @@ if ($location.path() == '/artists/'+$routeParams.id){
 
 var artistParam = $routeParams.id;
 
+$rootScope.meta= {
+  "title":"taylorgang | "+artistParam,
+  "url": "artists/"+$routeParams.id,
+  "description": "artists | "+$routeParams.id
+}
+
 
   $rootScope.$watch('artistReady' ,function(){
     setTimeout(function(){
@@ -161,12 +169,12 @@ var artistParam = $routeParams.id;
 
 
 
-$scope.instagram_a = function(){
-  instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 2).then( function(data) {
-        $scope.artistInstagram = $rootScope.instaTotal;
-      }, function(error) {
-    });
-}
+// $scope.instagram_a = function(){
+//   instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 2).then( function(data) {
+//         $scope.artistInstagram = $rootScope.instaTotal;
+//       }, function(error) {
+//     });
+// }
 
 
 
@@ -213,14 +221,84 @@ $scope.windowHeight = $window.innerHeight;
 
 
 
-$scope.showArtistLinks = false;
+  $scope.showArtistLinks = false;
 
-$scope.a_mobileLinks = function(){
-  $scope.showArtistLinks = !$scope.showArtistLinks
+  $scope.a_mobileLinks = function(){
+    $scope.showArtistLinks = !$scope.showArtistLinks
+  }
+
+
+
+
+
+
+
+
+
+
+  $scope.$on("$destroy", function() {
+    $rootScope.artistRelease=[];
+    $rootScope.totalArtistReleasePages=1;
+  });
+
+
+$rootScope.artistRelease;
+$rootScope.totalArtistReleasePages;
+
+$scope.getArtistReleases = function(id, thisPage){
+  Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+      Api.form('everything')
+          .ref(Api.master())
+          .query(
+            // Prismic.Predicates.at("document.type", "release"),
+            Prismic.Predicates.at("my.release.artist.artistlink", id)
+          )
+          .pageSize(9)
+          .page(thisPage)
+          .orderings('[my.release.date]')
+          .submit(function (err, response) {
+              // The products are now ordered by price, highest first
+              var results = response.results;
+
+              setTimeout(function(){
+
+                $rootScope.pageLoading = false;
+                $scope.$apply();
+              }, 600);
+
+
+              if (thisPage >1 ) {
+                $rootScope.artistRelease = $rootScope.artistRelease.concat(response.results);
+                $scope.$broadcast('artistReleaseDone');
+                $rootScope.totalArtistReleasePages = response.total_pages; // the number of pages
+              }else{
+
+                $rootScope.artistRelease= response.results;
+                $scope.$broadcast('artistReleaseDone');
+                $rootScope.totalArtistReleasePages = response.total_pages;
+
+              }
+
+
+
+
+          });
+  });
 }
 
 
 
+$scope.page_a =1;
+
+$scope.pagingArtist=function(){
+  $scope.page_a = $scope.page_a +1;
+
+  if($scope.page_a <= $rootScope.totalArtistReleasePages){
+    $scope.getArtistReleases($rootScope.mainArtist.id, $scope.page_a);
+  }else{
+    return false
+  }
+}
 
 
 });//end of the controller.... .... ...... ..... ....
@@ -238,19 +316,29 @@ $scope.a_mobileLinks = function(){
 
 
 
+Artist.filter('artistReleaseFilter', function(){
+  return function(items, filter) {
+    var filtered = [];
+    var specificItem={};
 
-
-
-
-
-
-
-
-Artist.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
-  return {
-    restrict: 'A',
-    link: function(scope, elem, attrs) {
-
+    if(!filter) {
+      // initially don't filter
+      return items;
     }
-  };
-});
+
+
+
+        for (i in items) {
+          var item = items[i];
+
+          if(item.data['release.artist']){
+
+              if(item.data['release.artist'].value[0].artistlink.value.document.uid == filter){
+                filtered.push(item);
+              }
+
+        }
+      }
+        return filtered;
+  }
+})

@@ -6,6 +6,12 @@ Producer.controller('producerCtrl', function($scope, $location, $rootScope, $rou
 
 
 
+    $rootScope.meta= {
+      "title":"taylorgang | producers",
+      "url": "producers",
+      "description": "producers"
+    }
+
 
 
 
@@ -34,9 +40,10 @@ $rootScope.thisProducer = function(thisProducer){
         if($rootScope.Producer[a].data['producer.youtubeChannelID']){
           $scope.getYoutubeChannel_p($rootScope.Producer[a].data['producer.youtubeChannelID'].value);
         }
+        $scope.getProducerReleases($rootScope.mainProducer.id , 1);
       }
     }
-    $scope.instagram_p();
+    // $scope.instagram_p();
 };
 
 
@@ -136,7 +143,16 @@ $rootScope.bandsInTown_p = function(producername){
 
 if ($location.path() == '/producers/'+$routeParams.producer){
 
-var producerParam = $routeParams.producer;
+  var producerParam = $routeParams.producer;
+
+  $rootScope.meta = {
+    "title":"taylorgang | "+producerParam,
+    "url": "producers/"+$routeParams.producer,
+    "description": "producers | "+$routeParams.producer
+  }
+
+
+
   $rootScope.$watch('producerReady' ,function(){
     setTimeout(function(){
       $rootScope.thisProducer(producerParam);
@@ -146,68 +162,69 @@ var producerParam = $routeParams.producer;
   });
 
 }
-
-$scope.instagram_p = function(){
-  instaFactory.pullimages($rootScope.mainProducer.data['producer.instagramId'].value, 2).then( function(data) {
-        $scope.producerInstagram = $rootScope.instaTotal;
-      }, function(error) {
-    });
-}
-
-
-//..............................................................................loading new pictures
-$rootScope.noMore_p = false;
-$rootScope.totalDisplayed_p,$rootScope.loadMoreNumber_p, $rootScope.loadMoreImage_p
-$rootScope.globalLoadMore_p = function(i){
-  $rootScope.loadMoreNumber_p = i;
-    if ($rootScope.totalDisplayed_p > 0){
-
-    }else {
-      //the controller
-      $rootScope.totalDisplayed_p= i;
-      setTimeout(function(){
-        $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
-      }, 1000);
-    }
-}
-
-
-
-
-
-$rootScope.loadMore_p = function () {
-  $rootScope.totalDisplayed_p += $rootScope.loadMoreNumber_p;
-  $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
-  if ($rootScope.totalDisplayed_p >= ((loops)*20)){
-    $rootScope.filterRemovesLoadMore();
-  }
-};
-
-
-
-
-//.......different loaded pictures for every device
-  if ($rootScope.isDevice){
-    $rootScope.globalLoadMore_p(14);
-  } else if (!$rootScope.isDevice) {
-    $rootScope.globalLoadMore_p(20);
-  }
-
-
-
-$rootScope.hideLoadMore_p = true;
-setTimeout(function(){
-  $rootScope.hideLoadMore_p = false;
-}, 2000);
-
-
-$rootScope.filterRemovesLoadMore_p = function(){
-  $rootScope.hideLoadMore_p = true;
-}
-
-$rootScope.filterAllLoadMore_p = function(){
-  $rootScope.hideLoadMore_p = false;
-}
+//
+// $scope.instagram_p = function(){
+//   instaFactory.pullimages($rootScope.mainProducer.data['producer.instagramId'].value, 2).then( function(data) {
+//         $scope.producerInstagram = $rootScope.instaTotal;
+//       }, function(error) {
+//     });
+// }
+//
+//
+// //..............................................................................loading new pictures
+// $rootScope.noMore_p = false;
+// $rootScope.totalDisplayed_p,$rootScope.loadMoreNumber_p, $rootScope.loadMoreImage_p
+// $rootScope.globalLoadMore_p = function(i){
+//   $rootScope.loadMoreNumber_p = i;
+//     if ($rootScope.totalDisplayed_p > 0){
+//
+//     }else {
+//       //the controller
+//       $rootScope.totalDisplayed_p= i;
+//       setTimeout(function(){
+//         $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
+//       }, 1000);
+//     }
+// }
+//
+//
+//
+//
+//
+// $rootScope.loadMore_p = function () {
+//   $rootScope.totalDisplayed_p += $rootScope.loadMoreNumber_p;
+//   $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
+//   if ($rootScope.totalDisplayed_p >= ((loops)*20)){
+//     $rootScope.filterRemovesLoadMore();
+//   }
+// };
+//
+//
+//
+//
+//
+// //.......different loaded pictures for every device
+//   if ($rootScope.isDevice){
+//     $rootScope.globalLoadMore_p(14);
+//   } else if (!$rootScope.isDevice) {
+//     $rootScope.globalLoadMore_p(20);
+//   }
+//
+//
+//
+// $rootScope.hideLoadMore_p = true;
+// setTimeout(function(){
+//   $rootScope.hideLoadMore_p = false;
+// }, 2000);
+//
+//
+// $rootScope.filterRemovesLoadMore_p = function(){
+//   $rootScope.hideLoadMore_p = true;
+// }
+//
+// $rootScope.filterAllLoadMore_p = function(){
+//   $rootScope.hideLoadMore_p = false;
+// }
 
 
 
@@ -253,13 +270,86 @@ $scope.windowHeight = $window.innerHeight;
 
 
 
-$scope.showProducerLinks =false;
+  $scope.showProducerLinks =false;
 
   $scope.p_mobileLinks = function(){
     $scope.showProducerLinks = !$scope.showProducerLinks
   }
 
 
+
+
+
+
+
+
+
+
+  $scope.$on("$destroy", function() {
+    $rootScope.producerRelease=[];
+    $rootScope.totalProducerReleasePages=1;
+  });
+
+
+
+
+  $rootScope.producerRelease;
+  $rootScope.totalProducerReleasePages;
+
+  $scope.getProducerReleases = function(id, thisPage){
+    Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+        Api.form('everything')
+            .ref(Api.master())
+            .query(
+              // Prismic.Predicates.at("document.type", "release"),
+              Prismic.Predicates.at("my.release.producer.producerlink", id)
+            )
+            .pageSize(9)
+            .page(thisPage)
+            .orderings('[my.release.date]')
+            .submit(function (err, response) {
+                // The products are now ordered by price, highest first
+                var results = response.results;
+
+                setTimeout(function(){
+
+                  $rootScope.pageLoading = false;
+                  $scope.$apply();
+                }, 600);
+
+
+                if (thisPage >1 ) {
+                  $rootScope.producerRelease = $rootScope.producerRelease.concat(response.results);
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalProducerReleasePages = response.total_pages; // the number of pages
+                }else{
+
+                  $rootScope.artistRelease= response.results;
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalProducerReleasePages = response.total_pages;
+
+                }
+
+
+
+
+            });
+    });
+  };
+
+
+
+  $scope.page_p =1;
+
+  $scope.pagingProducer=function(){
+    $scope.page_p = $scope.page_p +1;
+
+    if($scope.page_p <= $rootScope.totalProducerReleasePages){
+      $scope.getProducerReleases($rootScope.mainProducer.id, $scope.page_p);
+    }else{
+      return false
+    }
+  }
 
 
 
@@ -280,23 +370,33 @@ $scope.showProducerLinks =false;
 
 
 
+Producer.filter('producerReleaseFilter', function(){
+  return function(items, filter) {
+    var filtered = [];
+    var specificItem={};
 
-
-
-
-
-
-
-
-
-
-
-
-Producer.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
-  return {
-    restrict: 'A',
-    link: function(scope, elem, attrs) {
-
+    if(!filter) {
+      // initially don't filter
+      return items;
     }
-  };
-});
+
+
+
+    console.log(filter);
+
+
+        for (i in items) {
+          var item = items[i];
+
+          if(item.data['release.producer']){
+
+              if(item.data['release.producer'].value[0].producerlink.value.document.uid == filter){
+                filtered.push(item);
+                console.log(item);
+              }
+
+        }
+      }
+        return filtered;
+  }
+})

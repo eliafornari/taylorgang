@@ -1767,7 +1767,7 @@ home-filters-input .ng-valid.ng-touched {
       height: 100%;
       line-height: 100vh;
       font-family: gtWalsheimPro-black;
-      color: rgba(0, 0, 0, 0.3);
+      color: #000000;
       font-size: 12vw;
       top: 0;
       text-align: center;
@@ -2048,43 +2048,40 @@ home-filters-input .ng-valid.ng-touched {
 .artist-releases {
   width: 100vw;
   position: relative;
-  height: 200px;
+  height: auto;
   margin-top: 100px;
-  margin-bottom: 100px;
-  overflow-x: scroll; }
+  margin-bottom: 100px; }
   .artist-releases .artist-releases-ul {
-    width: auto;
+    width: 50vw;
     display: table;
-    height: 100%;
-    white-space: nowrap; }
+    height: auto;
+    margin: auto; }
     .artist-releases .artist-releases-ul .artist-releases-li {
       position: relative;
-      display: inline-block;
+      display: block;
       float: left;
-      width: 200px;
-      height: 200px; }
+      width: 100%;
+      margin-top: 100px;
+      height: auto; }
       .artist-releases .artist-releases-ul .artist-releases-li .artist-releases-li-a {
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0; }
+        display: block; }
         .artist-releases .artist-releases-ul .artist-releases-li .artist-releases-li-a .artist-releases-li-p {
           position: absolute;
           top: 50%;
           height: 30px;
           text-align: center;
+          left: 0;
+          width: 100%;
           font-size: 20px;
           line-height: 40px;
           font-family: gtWalsheimPro-black; }
         .artist-releases .artist-releases-ul .artist-releases-li .artist-releases-li-a .artist-releases-li-cover {
-          position: absolute;
-          width: 100%;
-          height: 100%;
+          position: relative;
+          width: 50vw;
+          height: 50vw;
           background-position: center;
           background-repeat: no-repeat;
-          background-size: 98% 98%;
+          background-size: 100% 100%;
           opacity: 1;
           transition: all 0.4s ease;
           -webkit-transition: all 0.4s ease;
@@ -2119,59 +2116,6 @@ td > a {
   line-height: 22px !important;
   font-size: 12px !important;
   font-weight: normal !important; }
-
-.artist-instagram {
-  width: 100vw;
-  height: auto;
-  /*  @if $media == large-desktop {
-      @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
-    }*/ }
-  @media only screen and (min-width: 0px) and (max-width: 767px) {
-    .artist-instagram {
-      overflow: hidden; } }
-  .artist-instagram .artist-instagram-ul {
-    width: 100vw;
-    height: auto;
-    padding-bottom: 100px; }
-    .artist-instagram .artist-instagram-ul .artist-instagram-li {
-      width: 100vw;
-      height: auto;
-      margin-top: 100px;
-      /*  @if $media == large-desktop {
-          @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
-        }*/ }
-      @media only screen and (min-width: 0px) and (max-width: 767px) {
-        .artist-instagram .artist-instagram-ul .artist-instagram-li {
-          margin-top: 50px; } }
-      .artist-instagram .artist-instagram-ul .artist-instagram-li .artist-instagram-li-a .artist-instagram-img {
-        width: 600px;
-        height: auto;
-        margin: auto;
-        display: block;
-        /*  @if $media == large-desktop {
-            @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
-          }*/ }
-        @media only screen and (min-width: 0px) and (max-width: 767px) {
-          .artist-instagram .artist-instagram-ul .artist-instagram-li .artist-instagram-li-a .artist-instagram-img {
-            width: 100vw; } }
-      .artist-instagram .artist-instagram-ul .artist-instagram-li .artist-instagram-li-a .artist-instagram-caption {
-        font-size: 12px;
-        line-height: 22px;
-        color: #000000;
-        font-family: gtWalsheimPro-light;
-        width: 600px;
-        height: auto;
-        margin: auto;
-        display: block;
-        /*  @if $media == large-desktop {
-            @media only screen and (min-width: $break-large-desktop + 1) and (max-width: $break-infinite) { @content; }
-          }*/ }
-        @media only screen and (min-width: 0px) and (max-width: 767px) {
-          .artist-instagram .artist-instagram-ul .artist-instagram-li .artist-instagram-li-a .artist-instagram-caption {
-            width: calc(100vw - 10px);
-            margin-left: 10px;
-            font-size: 12px;
-            line-height: 18px; } }
 
 .load-more-li {
   width: 600px;
@@ -2357,7 +2301,7 @@ td > a {
       height: 100%;
       line-height: 100vh;
       font-family: gtWalsheimPro-black;
-      color: rgba(0, 0, 0, 0.3);
+      color: #000000;
       font-size: 12vw;
       top: 0;
       text-align: center;

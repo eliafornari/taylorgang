@@ -76,7 +76,26 @@
 
 
 
-    <div class="about-instagram">
+
+    <div class="artist-releases" >
+      <ul class="artist-releases-ul">
+        <li class="artist-releases-li" ng-repeat="r in gangRelease | orderBy: r.data['release.date'].value track by $index" >
+          <a class="artist-releases-li-a" href="{{r.data['release.buyLink'].value.url}}" target="_blank">
+            <p class="artist-releases-li-p" ng-show="showRelease">{{r.data['release.coverTitle'].value[0].text}}</p>
+            <div class="artist-releases-li-cover" style="background-image: url('{{r.data['release.cover'].value.main.url}}')" ng-mouseover="showRelease=true" ng-mouseout="showRelease=false">
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="infinite-loader" infinite-scroll="pagingGang()"  infinite-scroll-distance="1" ></div>
+
+
+
+
+
+    <!-- <div class="about-instagram">
 
 
       <ul class="about-instagram-ul">
@@ -91,14 +110,10 @@
             </p>
           </a>
         </li>
-        <!-- <li class="load-more-li" ng-hide="hideLoadMore">
-          <div class="load-more-button" ng-click="loadMore()" ng-hide="noMore">
-            <p class="load-more-button-p">Load more</p>
-          </div>
-        </li> -->
+
       </ul>
 
-    </div>
+    </div> -->
 
 
 

@@ -78,31 +78,24 @@
 
 
 
-<div class="artist-releases" ng-if="mainProducer.data['producer.releases'].value">
-  <ul class="artist-releases-ul">
-    <li class="artist-releases-li" ng-repeat="r in mainProducer.data['producer.releases'].value | orderBy: r.date.value track by $index" >
-      <a class="artist-releases-li-a" href="{{r.link.value.url}}" target="_blank">
-        <p class="artist-releases-li-p" ng-show="showRelease">{{r.title.value}}</p>
-        <div class="artist-releases-li-cover" style="background-image: url('{{r.releaseImage.value.main.url}}')" ng-mouseover="showRelease=true" ng-mouseout="showRelease=false">
-        </div>
-      </a>
-
-
-    </li>
-  </ul>
-</div>
-
-
-
-
 
   <div class="tour" id="tour-dates" ng-if="mainProducer.data['producer.bandsintownName'].value"></div>
 
 
+  <div class="artist-releases" >
+    <ul class="artist-releases-ul">
+      <li class="artist-releases-li" ng-repeat="r in producerRelease | orderBy: r.data['release.date'].value track by $index" >
+        <a class="artist-releases-li-a" href="{{r.data['release.buyLink'].value.url}}" target="_blank">
+          <p class="artist-releases-li-p" ng-show="showRelease">{{r.data['release.coverTitle'].value[0].text}}</p>
+          <div class="artist-releases-li-cover" style="background-image: url('{{r.data['release.cover'].value.main.url}}')" ng-mouseover="showRelease=true" ng-mouseout="showRelease=false">
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
 
 
-
-
+<!--
   <div class="artist-instagram">
 
     <ul class="artist-instagram-ul">
@@ -121,9 +114,10 @@
       </li>
     </ul>
 
-  </div>
+  </div> -->
 
 
+  <div class="infinite-loader" infinite-scroll="pagingProducer()"  infinite-scroll-distance="1" ></div>
 
 
   <div class="artist-backtotop" ng-hide="hideBacktotop" ng-click="gotoAnchor('top')">

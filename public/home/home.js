@@ -15,6 +15,13 @@ Home.controller('homeCtrl', function($scope, $location, $rootScope, $routeParams
 
 $rootScope.firstLoading = false;
 
+$rootScope.meta= {
+  "title":"taylorgang | home",
+  "url":"",
+  "description": "home"
+}
+
+
 
 
 
@@ -35,11 +42,11 @@ $scope.mainReleaseYoutube="";
 $rootScope.mainRelease={};
 
 $rootScope.thisRelease=function(uid){
-      // $location.hash(uid);
-    // var index = this.$index;
+
+    console.log(uid);
 
     $scope.thisIndex = angular.element(document.getElementById(uid)).scope();
-var polishedIndex;
+    var polishedIndex;
     for (i in $scope.thisIndex){
      polishedIndex = $scope.thisIndex['$index'];
     }
@@ -47,11 +54,16 @@ var polishedIndex;
     $scope.selectedIndex=polishedIndex;
     $rootScope.mainRelease = $rootScope.Release[polishedIndex];
 
-setTimeout(function(){
-  if ($location.path() == '/' || $location.path()=='home/'+$routeParams.name) {
-    anchorSmoothScroll.scrollTo(uid);
-  }
-}, 900);
+    console.log($rootScope.mainRelease);
+
+
+    setTimeout(function(){
+
+      // if ($location.path() == '/' || $location.path()=='home/'+$routeParams.name || $location.path() =='/'+$routeParams.name ) {
+        anchorSmoothScroll.scrollTo(uid);
+      // }
+
+    }, 900);
 
 
 
@@ -69,11 +81,9 @@ $rootScope.releaseDetail=function(){
 
       if ($rootScope.Release[i].uid === $routeParams.name){
 
+
           $rootScope.mainRelease = $rootScope.Release[i];
           console.log($rootScope.mainRelease.uid);
-
-
-
 
       }
     }
@@ -89,6 +99,7 @@ $rootScope.releaseDetail=function(){
 //DETAIL CHECK
 $scope.$on("$routeChangeSuccess", function(){
   if ($location.path() == '/release/'+$routeParams.name){
+
     $scope.$watch('Release', function(){
       if($rootScope.Release){
         console.log("releaseDone for real");
@@ -140,14 +151,15 @@ $scope.setFilter = function(group, index) {
 
 
 $scope.goToHash = function(){
-  
-  if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.id){
+
+  if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.name || $location.path() == "/"+$routeParams.name){
 
   $scope.$watch('releaseDone', function(){
     console.log("hash?");
     setTimeout(function(){
       var thisHash = $location.path();
-      thisHash = thisHash.substring(6, thisHash.length);
+      thisHash = thisHash.substring(1, thisHash.length);
+      console.log(thisHash);
       if (thisHash){
         $rootScope.thisRelease(thisHash);
         $scope.$apply();
@@ -158,15 +170,17 @@ $scope.goToHash = function(){
 
 }
 
-
-$scope.goToHash();
-
+if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.name || $location.path() == "/"+$routeParams.name){
 
 
+  $scope.goToHash();
+
+
+}
 
 
 
-
+$scope.page = 1;
 
 
 $scope.showHomeLinks=false;
@@ -174,15 +188,20 @@ $scope.mobileLinks = function(){
   $scope.showHomeLinks = !$scope.showHomeLinks;
 }
 
-$scope.totalShown = [1,2,3,4,5,6,7,8];
+$scope.totalShown = [1,2,3,4,5,6,7,8,9];
 
 $rootScope.pagingHome = function(){
-  console.log("hellow rold");
+  $scope.page = $scope.page +1;
+
+  if($scope.page <= $rootScope.totalReleasePages){
+    $rootScope.getContentType('release', 'my.release.date desc', $scope.page);
+  }else{
+    return false
+  }
 
   var last = $scope.totalShown[$scope.totalShown.length - 1];
-  for(var i = 1; i <= 8; i++) {
+  for(var i = 1; i <= 9; i++) {
     $scope.totalShown.push(last + i);
-    console.log(last+i);
   }
 }
 

@@ -96,6 +96,7 @@ angular.module('eliasInstagramModule', [])
 
 
                               // ACCESS TOKEN = 20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da
+                              // NEW ACCESS TOKEN = 676636769.2afa5bd.28c09a19bfb44d8f961987433f81d2f8
 
                           var n=0;
                           var maxID;
@@ -105,42 +106,44 @@ angular.module('eliasInstagramModule', [])
 
 
 
-                          $rootScope.instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
+                          $rootScope.instaAccessToken = "676636769.2afa5bd.28c09a19bfb44d8f961987433f81d2f8";
 
                           var endpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&callback=JSON_CALLBACK";
 
                           return $http({url: endpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response){
-                            deferred = $q.defer();
+                            // deferred = $q.defer();
                                 $rootScope.instaTotal = response.data;
                                 theData = response.data;
-                                maxID = response.pagination.next_max_id;
+                                console.log(response);
+                                return theData;
+                                // maxID = response.pagination.next_max_id;
 
-                                while (n <= loops) {
-                                n++;
+                                // while (n <= loops) {
+                                // n++;
 
-                                var thisEndpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&max_id=" + maxID + "&callback=JSON_CALLBACK";
-                                        $http({url: thisEndpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response1){
-
-                                              $rootScope.instapics1 = response1.data;
-                                              theData = theData.concat(response1.data);
-                                              $rootScope.instaTotal = $rootScope.instaTotal.concat(response1.data);
-                                              maxID = response.pagination.next_max_id;
-
-
-
-                                              //secondm is loaded so the load more can now be shown
-                                              $rootScope.hideLoadMore = false;
-                                            });
-
-                                      if (n==loops){
-                                        //  $rootScope.instaTotal;
-
-                                        deferred.resolve('Hello, ' + name + '!');
-                                        // return $rootScope.instaTotal;
-                                        //  resolve(theData);
-                                      }
-
-                                }
+                                // var thisEndpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&max_id=" + maxID + "&callback=JSON_CALLBACK";
+                                //         $http({url: thisEndpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response1){
+                                //
+                                //               $rootScope.instapics1 = response1.data;
+                                //               theData = theData.concat(response1.data);
+                                //               $rootScope.instaTotal = $rootScope.instaTotal.concat(response1.data);
+                                //               maxID = response.pagination.next_max_id;
+                                //
+                                //
+                                //
+                                //               //secondm is loaded so the load more can now be shown
+                                //               $rootScope.hideLoadMore = false;
+                                //             });
+                                //
+                                //       if (n==loops){
+                                //         //  $rootScope.instaTotal;
+                                //
+                                //         deferred.resolve('Hello, ' + name + '!');
+                                //         // return $rootScope.instaTotal;
+                                //         //  resolve(theData);
+                                //       }
+                                //
+                                // }
 
 
 
@@ -378,6 +381,8 @@ $sceProvider.enabled(false);
     //   controller: 'homeCtrl',
     //   })
 
+
+
     .when('/artists/:id', {
       templateUrl: 'artist/artist-detail.html',
       controller: 'artistCtrl'
@@ -423,6 +428,13 @@ $sceProvider.enabled(false);
       controller: 'homeCtrl'
     })
 
+    .when('/:name', {
+      templateUrl: 'home/home.html',
+      controller: 'homeCtrl',
+      })
+
+
+
 
     /*............................. Take-all routing ........................*/
 
@@ -464,20 +476,22 @@ $rootScope.firstLoading = true;
 
 
 
-$rootScope.Filter, $rootScope.Release, $rootScope.Artist, $rootScope.Producer;
+$rootScope.Filter,
+$rootScope.Release =[], $rootScope.Artist, $rootScope.Producer;
 
 
 
     //..........................................................GET
 
-    $rootScope.getContentType = function(type, orderField){
+    $rootScope.getContentType = function(type, orderField, thisPage){
 
           Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
               Api.form('everything')
                   .ref(Api.master())
-
                   .query(Prismic.Predicates.at("document.type", type))
                   .orderings('['+orderField+']')
+                  .pageSize(9)
+                  .page(thisPage)
                   .submit(function (err, response) {
 
                       var Data = response;
@@ -486,11 +500,13 @@ $rootScope.Filter, $rootScope.Release, $rootScope.Artist, $rootScope.Producer;
 
                         $rootScope.pageLoading = false;
                         $scope.$apply();
-                      }, 1500);
+                      }, 1200);
 
                       if(type =='release'){
-                        $rootScope.Release = response.results;
+                        $rootScope.Release = $rootScope.Release.concat(response.results);
                         $scope.$broadcast('releaseDone');
+                        $rootScope.totalReleasePages = response.total_pages; // the number of pages
+
                       }
                       else if (type =='artist'){
                         $rootScope.Artist = response.results;
@@ -510,20 +526,17 @@ $rootScope.Filter, $rootScope.Release, $rootScope.Artist, $rootScope.Producer;
                       var next_page = response.next_page; // the URL of the next page (may be null)
                       var results_per_page = response.results_per_page; // max number of results per page
                       var results_size = response.results_size; // the size of the current page
-                      var total_pages = response.total_pages; // the number of pages
+
                       var total_results_size = response.total_results_size; // the total size of results across all pages
                       return results;
                   });
             });
     };
 
-    // if ($rootScope.firstLoading == false){
       $rootScope.getContentType('release', 'my.release.date desc');
       $rootScope.getContentType('filter', 'my.filter.index');
       $rootScope.getContentType('artist', 'my.artist.index');
       $rootScope.getContentType('producer', 'my.producer.index');
-    //
-    // }
 
 
 
@@ -975,6 +988,16 @@ $rootScope.isNavOpen = false;
 
 
 
+$rootScope.link = function(url, force){
+  $location.path(url, force);
+}
+
+$rootScope.releaseLink = function(url, force){
+  console.log('url: '+'release/'+url);
+  $location.path('release/'+url, force);
+}
+
+
 })
 
 
@@ -1134,6 +1157,13 @@ Home.controller('homeCtrl', function($scope, $location, $rootScope, $routeParams
 
 $rootScope.firstLoading = false;
 
+$rootScope.meta= {
+  "title":"taylorgang | home",
+  "url":"",
+  "description": "home"
+}
+
+
 
 
 
@@ -1154,11 +1184,11 @@ $scope.mainReleaseYoutube="";
 $rootScope.mainRelease={};
 
 $rootScope.thisRelease=function(uid){
-      // $location.hash(uid);
-    // var index = this.$index;
+
+    console.log(uid);
 
     $scope.thisIndex = angular.element(document.getElementById(uid)).scope();
-var polishedIndex;
+    var polishedIndex;
     for (i in $scope.thisIndex){
      polishedIndex = $scope.thisIndex['$index'];
     }
@@ -1166,11 +1196,16 @@ var polishedIndex;
     $scope.selectedIndex=polishedIndex;
     $rootScope.mainRelease = $rootScope.Release[polishedIndex];
 
-setTimeout(function(){
-  if ($location.path() == '/' || $location.path()=='home/'+$routeParams.name) {
-    anchorSmoothScroll.scrollTo(uid);
-  }
-}, 900);
+    console.log($rootScope.mainRelease);
+
+
+    setTimeout(function(){
+
+      // if ($location.path() == '/' || $location.path()=='home/'+$routeParams.name || $location.path() =='/'+$routeParams.name ) {
+        anchorSmoothScroll.scrollTo(uid);
+      // }
+
+    }, 900);
 
 
 
@@ -1188,11 +1223,9 @@ $rootScope.releaseDetail=function(){
 
       if ($rootScope.Release[i].uid === $routeParams.name){
 
+
           $rootScope.mainRelease = $rootScope.Release[i];
           console.log($rootScope.mainRelease.uid);
-
-
-
 
       }
     }
@@ -1208,6 +1241,7 @@ $rootScope.releaseDetail=function(){
 //DETAIL CHECK
 $scope.$on("$routeChangeSuccess", function(){
   if ($location.path() == '/release/'+$routeParams.name){
+
     $scope.$watch('Release', function(){
       if($rootScope.Release){
         console.log("releaseDone for real");
@@ -1259,14 +1293,15 @@ $scope.setFilter = function(group, index) {
 
 
 $scope.goToHash = function(){
-  
-  if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.id){
+
+  if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.name || $location.path() == "/"+$routeParams.name){
 
   $scope.$watch('releaseDone', function(){
     console.log("hash?");
     setTimeout(function(){
       var thisHash = $location.path();
-      thisHash = thisHash.substring(6, thisHash.length);
+      thisHash = thisHash.substring(1, thisHash.length);
+      console.log(thisHash);
       if (thisHash){
         $rootScope.thisRelease(thisHash);
         $scope.$apply();
@@ -1277,15 +1312,17 @@ $scope.goToHash = function(){
 
 }
 
-
-$scope.goToHash();
-
+if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.name || $location.path() == "/"+$routeParams.name){
 
 
+  $scope.goToHash();
+
+
+}
 
 
 
-
+$scope.page = 1;
 
 
 $scope.showHomeLinks=false;
@@ -1293,15 +1330,20 @@ $scope.mobileLinks = function(){
   $scope.showHomeLinks = !$scope.showHomeLinks;
 }
 
-$scope.totalShown = [1,2,3,4,5,6,7,8];
+$scope.totalShown = [1,2,3,4,5,6,7,8,9];
 
 $rootScope.pagingHome = function(){
-  console.log("hellow rold");
+  $scope.page = $scope.page +1;
+
+  if($scope.page <= $rootScope.totalReleasePages){
+    $rootScope.getContentType('release', 'my.release.date desc', $scope.page);
+  }else{
+    return false
+  }
 
   var last = $scope.totalShown[$scope.totalShown.length - 1];
-  for(var i = 1; i <= 8; i++) {
+  for(var i = 1; i <= 9; i++) {
     $scope.totalShown.push(last + i);
-    console.log(last+i);
   }
 }
 
@@ -1407,7 +1449,11 @@ Artist.controller('artistCtrl', function($scope, $location, $rootScope, $routePa
 
 
 
-
+  $rootScope.meta= {
+    "title":"taylorgang | artists",
+    "url": "artists",
+    "description": "artists"
+  }
 
 
 //................................................................................................................................................//
@@ -1427,17 +1473,17 @@ $rootScope.main_video = $rootScope.baseUrl;
 $scope.artistInstagram=[];
 
 $rootScope.thisArtist = function(thisArtist){
-
-
     for (a in $rootScope.Artist){
 
       if($rootScope.Artist[a].uid==thisArtist){
         $rootScope.mainArtist = $rootScope.Artist[a];
         $rootScope.bandsInTown($rootScope.Artist[a].data['artist.name'].value[0].text);
         $scope.getYoutubeChannel($rootScope.Artist[a].data['artist.youtubeChannelID'].value);
+        $scope.getArtistReleases($rootScope.Artist[a].id, 1);
+
       }
     }
-    $scope.instagram_a();
+    // $scope.instagram_a();
 };
 
 
@@ -1508,7 +1554,6 @@ $rootScope.bandsInTown = function(artistname){
               "share_links":false,
               "bg_color": "#FFFFFF",
               "force_narrow_layout": false,
-
               "separator_color": "#FFFFFF",
               "link_color": "#000000"
               // "force_narrow_layout":"true"
@@ -1523,7 +1568,6 @@ $rootScope.bandsInTown = function(artistname){
               "text_color": "#000000",
               "share_links":false,
               "bg_color": "#FFFFFF",
-              // "force_narrow_layout": false,
               "separator_color": "#FFFFFF",
               "link_color": "#000000"
               // "force_narrow_layout":"true"
@@ -1545,6 +1589,12 @@ if ($location.path() == '/artists/'+$routeParams.id){
 
 var artistParam = $routeParams.id;
 
+$rootScope.meta= {
+  "title":"taylorgang | "+artistParam,
+  "url": "artists/"+$routeParams.id,
+  "description": "artists | "+$routeParams.id
+}
+
 
   $rootScope.$watch('artistReady' ,function(){
     setTimeout(function(){
@@ -1559,12 +1609,12 @@ var artistParam = $routeParams.id;
 
 
 
-$scope.instagram_a = function(){
-  instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 2).then( function(data) {
-        $scope.artistInstagram = $rootScope.instaTotal;
-      }, function(error) {
-    });
-}
+// $scope.instagram_a = function(){
+//   instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 2).then( function(data) {
+//         $scope.artistInstagram = $rootScope.instaTotal;
+//       }, function(error) {
+//     });
+// }
 
 
 
@@ -1611,14 +1661,84 @@ $scope.windowHeight = $window.innerHeight;
 
 
 
-$scope.showArtistLinks = false;
+  $scope.showArtistLinks = false;
 
-$scope.a_mobileLinks = function(){
-  $scope.showArtistLinks = !$scope.showArtistLinks
+  $scope.a_mobileLinks = function(){
+    $scope.showArtistLinks = !$scope.showArtistLinks
+  }
+
+
+
+
+
+
+
+
+
+
+  $scope.$on("$destroy", function() {
+    $rootScope.artistRelease=[];
+    $rootScope.totalArtistReleasePages=1;
+  });
+
+
+$rootScope.artistRelease;
+$rootScope.totalArtistReleasePages;
+
+$scope.getArtistReleases = function(id, thisPage){
+  Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+      Api.form('everything')
+          .ref(Api.master())
+          .query(
+            // Prismic.Predicates.at("document.type", "release"),
+            Prismic.Predicates.at("my.release.artist.artistlink", id)
+          )
+          .pageSize(9)
+          .page(thisPage)
+          .orderings('[my.release.date]')
+          .submit(function (err, response) {
+              // The products are now ordered by price, highest first
+              var results = response.results;
+
+              setTimeout(function(){
+
+                $rootScope.pageLoading = false;
+                $scope.$apply();
+              }, 600);
+
+
+              if (thisPage >1 ) {
+                $rootScope.artistRelease = $rootScope.artistRelease.concat(response.results);
+                $scope.$broadcast('artistReleaseDone');
+                $rootScope.totalArtistReleasePages = response.total_pages; // the number of pages
+              }else{
+
+                $rootScope.artistRelease= response.results;
+                $scope.$broadcast('artistReleaseDone');
+                $rootScope.totalArtistReleasePages = response.total_pages;
+
+              }
+
+
+
+
+          });
+  });
 }
 
 
 
+$scope.page_a =1;
+
+$scope.pagingArtist=function(){
+  $scope.page_a = $scope.page_a +1;
+
+  if($scope.page_a <= $rootScope.totalArtistReleasePages){
+    $scope.getArtistReleases($rootScope.mainArtist.id, $scope.page_a);
+  }else{
+    return false
+  }
+}
 
 
 });//end of the controller.... .... ...... ..... ....
@@ -1636,22 +1756,32 @@ $scope.a_mobileLinks = function(){
 
 
 
+Artist.filter('artistReleaseFilter', function(){
+  return function(items, filter) {
+    var filtered = [];
+    var specificItem={};
 
-
-
-
-
-
-
-
-Artist.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
-  return {
-    restrict: 'A',
-    link: function(scope, elem, attrs) {
-
+    if(!filter) {
+      // initially don't filter
+      return items;
     }
-  };
-});
+
+
+
+        for (i in items) {
+          var item = items[i];
+
+          if(item.data['release.artist']){
+
+              if(item.data['release.artist'].value[0].artistlink.value.document.uid == filter){
+                filtered.push(item);
+              }
+
+        }
+      }
+        return filtered;
+  }
+})
 
 
 
@@ -1660,6 +1790,12 @@ var Producer = angular.module('myApp');
 Producer.controller('producerCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, instaFactory, anchorSmoothScroll, $window){
 
 
+
+    $rootScope.meta= {
+      "title":"taylorgang | producers",
+      "url": "producers",
+      "description": "producers"
+    }
 
 
 
@@ -1689,9 +1825,10 @@ $rootScope.thisProducer = function(thisProducer){
         if($rootScope.Producer[a].data['producer.youtubeChannelID']){
           $scope.getYoutubeChannel_p($rootScope.Producer[a].data['producer.youtubeChannelID'].value);
         }
+        $scope.getProducerReleases($rootScope.mainProducer.id , 1);
       }
     }
-    $scope.instagram_p();
+    // $scope.instagram_p();
 };
 
 
@@ -1791,7 +1928,16 @@ $rootScope.bandsInTown_p = function(producername){
 
 if ($location.path() == '/producers/'+$routeParams.producer){
 
-var producerParam = $routeParams.producer;
+  var producerParam = $routeParams.producer;
+
+  $rootScope.meta = {
+    "title":"taylorgang | "+producerParam,
+    "url": "producers/"+$routeParams.producer,
+    "description": "producers | "+$routeParams.producer
+  }
+
+
+
   $rootScope.$watch('producerReady' ,function(){
     setTimeout(function(){
       $rootScope.thisProducer(producerParam);
@@ -1801,68 +1947,69 @@ var producerParam = $routeParams.producer;
   });
 
 }
-
-$scope.instagram_p = function(){
-  instaFactory.pullimages($rootScope.mainProducer.data['producer.instagramId'].value, 2).then( function(data) {
-        $scope.producerInstagram = $rootScope.instaTotal;
-      }, function(error) {
-    });
-}
-
-
-//..............................................................................loading new pictures
-$rootScope.noMore_p = false;
-$rootScope.totalDisplayed_p,$rootScope.loadMoreNumber_p, $rootScope.loadMoreImage_p
-$rootScope.globalLoadMore_p = function(i){
-  $rootScope.loadMoreNumber_p = i;
-    if ($rootScope.totalDisplayed_p > 0){
-
-    }else {
-      //the controller
-      $rootScope.totalDisplayed_p= i;
-      setTimeout(function(){
-        $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
-      }, 1000);
-    }
-}
-
-
-
-
-
-$rootScope.loadMore_p = function () {
-  $rootScope.totalDisplayed_p += $rootScope.loadMoreNumber_p;
-  $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
-  if ($rootScope.totalDisplayed_p >= ((loops)*20)){
-    $rootScope.filterRemovesLoadMore();
-  }
-};
-
-
-
-
-//.......different loaded pictures for every device
-  if ($rootScope.isDevice){
-    $rootScope.globalLoadMore_p(14);
-  } else if (!$rootScope.isDevice) {
-    $rootScope.globalLoadMore_p(20);
-  }
-
-
-
-$rootScope.hideLoadMore_p = true;
-setTimeout(function(){
-  $rootScope.hideLoadMore_p = false;
-}, 2000);
-
-
-$rootScope.filterRemovesLoadMore_p = function(){
-  $rootScope.hideLoadMore_p = true;
-}
-
-$rootScope.filterAllLoadMore_p = function(){
-  $rootScope.hideLoadMore_p = false;
-}
+//
+// $scope.instagram_p = function(){
+//   instaFactory.pullimages($rootScope.mainProducer.data['producer.instagramId'].value, 2).then( function(data) {
+//         $scope.producerInstagram = $rootScope.instaTotal;
+//       }, function(error) {
+//     });
+// }
+//
+//
+// //..............................................................................loading new pictures
+// $rootScope.noMore_p = false;
+// $rootScope.totalDisplayed_p,$rootScope.loadMoreNumber_p, $rootScope.loadMoreImage_p
+// $rootScope.globalLoadMore_p = function(i){
+//   $rootScope.loadMoreNumber_p = i;
+//     if ($rootScope.totalDisplayed_p > 0){
+//
+//     }else {
+//       //the controller
+//       $rootScope.totalDisplayed_p= i;
+//       setTimeout(function(){
+//         $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
+//       }, 1000);
+//     }
+// }
+//
+//
+//
+//
+//
+// $rootScope.loadMore_p = function () {
+//   $rootScope.totalDisplayed_p += $rootScope.loadMoreNumber_p;
+//   $rootScope.loadMoreImage_p = $rootScope.instaTotal[$rootScope.totalDisplayed_p].images.standard_resolution.url;
+//   if ($rootScope.totalDisplayed_p >= ((loops)*20)){
+//     $rootScope.filterRemovesLoadMore();
+//   }
+// };
+//
+//
+//
+//
+//
+// //.......different loaded pictures for every device
+//   if ($rootScope.isDevice){
+//     $rootScope.globalLoadMore_p(14);
+//   } else if (!$rootScope.isDevice) {
+//     $rootScope.globalLoadMore_p(20);
+//   }
+//
+//
+//
+// $rootScope.hideLoadMore_p = true;
+// setTimeout(function(){
+//   $rootScope.hideLoadMore_p = false;
+// }, 2000);
+//
+//
+// $rootScope.filterRemovesLoadMore_p = function(){
+//   $rootScope.hideLoadMore_p = true;
+// }
+//
+// $rootScope.filterAllLoadMore_p = function(){
+//   $rootScope.hideLoadMore_p = false;
+// }
 
 
 
@@ -1908,13 +2055,86 @@ $scope.windowHeight = $window.innerHeight;
 
 
 
-$scope.showProducerLinks =false;
+  $scope.showProducerLinks =false;
 
   $scope.p_mobileLinks = function(){
     $scope.showProducerLinks = !$scope.showProducerLinks
   }
 
 
+
+
+
+
+
+
+
+
+  $scope.$on("$destroy", function() {
+    $rootScope.producerRelease=[];
+    $rootScope.totalProducerReleasePages=1;
+  });
+
+
+
+
+  $rootScope.producerRelease;
+  $rootScope.totalProducerReleasePages;
+
+  $scope.getProducerReleases = function(id, thisPage){
+    Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+        Api.form('everything')
+            .ref(Api.master())
+            .query(
+              // Prismic.Predicates.at("document.type", "release"),
+              Prismic.Predicates.at("my.release.producer.producerlink", id)
+            )
+            .pageSize(9)
+            .page(thisPage)
+            .orderings('[my.release.date]')
+            .submit(function (err, response) {
+                // The products are now ordered by price, highest first
+                var results = response.results;
+
+                setTimeout(function(){
+
+                  $rootScope.pageLoading = false;
+                  $scope.$apply();
+                }, 600);
+
+
+                if (thisPage >1 ) {
+                  $rootScope.producerRelease = $rootScope.producerRelease.concat(response.results);
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalProducerReleasePages = response.total_pages; // the number of pages
+                }else{
+
+                  $rootScope.artistRelease= response.results;
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalProducerReleasePages = response.total_pages;
+
+                }
+
+
+
+
+            });
+    });
+  };
+
+
+
+  $scope.page_p =1;
+
+  $scope.pagingProducer=function(){
+    $scope.page_p = $scope.page_p +1;
+
+    if($scope.page_p <= $rootScope.totalProducerReleasePages){
+      $scope.getProducerReleases($rootScope.mainProducer.id, $scope.page_p);
+    }else{
+      return false
+    }
+  }
 
 
 
@@ -1935,31 +2155,48 @@ $scope.showProducerLinks =false;
 
 
 
+Producer.filter('producerReleaseFilter', function(){
+  return function(items, filter) {
+    var filtered = [];
+    var specificItem={};
 
-
-
-
-
-
-
-
-
-
-
-
-Producer.directive('instagramDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
-  return {
-    restrict: 'A',
-    link: function(scope, elem, attrs) {
-
+    if(!filter) {
+      // initially don't filter
+      return items;
     }
-  };
-});
+
+
+
+    console.log(filter);
+
+
+        for (i in items) {
+          var item = items[i];
+
+          if(item.data['release.producer']){
+
+              if(item.data['release.producer'].value[0].producerlink.value.document.uid == filter){
+                filtered.push(item);
+                console.log(item);
+              }
+
+        }
+      }
+        return filtered;
+  }
+})
 
 var Subscribe = angular.module('myApp');
 
 Subscribe.controller('subscribeCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http){
 $rootScope.pageLoading = false;
+
+$rootScope.meta= {
+  "title":"taylorgang | subscribe",
+  "url": "subscribe",
+  "description": "subscribe"
+}
+
   setTimeout(function(){
     $rootScope.viewLoaded = true;
     $rootScope.pageLoading = false;
@@ -1969,20 +2206,99 @@ $rootScope.pageLoading = false;
 
 
 
+// username = taylorgangent
+//
+// dc = us3
+//
+// u = c61f8c03f7bf6006501203a45
+//
+// id = 3038d4cd68
+//
 
 
 
 
 
 
-
-
-
-
-
-
-
-
+  //
+  //
+  // <!-- Begin MailChimp Signup Form -->
+  // <div id="mc_embed_signup">
+  // <form action="//taylorgangent.us3.list-manage.com/subscribe/post?u=c61f8c03f7bf6006501203a45&amp;id=3038d4cd68" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+  //     <div id="mc_embed_signup_scroll">
+  // 	<h2>Subscribe to our mailing list</h2>
+  // <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+  // <div class="mc-field-group">
+  // 	<label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>
+  // </label>
+  // 	<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+  // </div>
+  // <div class="mc-field-group">
+  // 	<label for="mce-FNAME">First Name </label>
+  // 	<input type="text" value="" name="FNAME" class="" id="mce-FNAME">
+  // </div>
+  // <div class="mc-field-group">
+  // 	<label for="mce-LNAME">Last Name </label>
+  // 	<input type="text" value="" name="LNAME" class="" id="mce-LNAME">
+  // </div>
+  // <div class="mc-field-group size1of2">
+  // 	<label for="mce-LAST_ORDER-month">Last Order </label>
+  // 	<div class="datefield">
+  // 		<span class="subfield monthfield"><input class="datepart " type="text" pattern="[0-9]*" value="" placeholder="MM" size="2" maxlength="2" name="LAST_ORDER[month]" id="mce-LAST_ORDER-month"></span> /
+  // 		<span class="subfield dayfield"><input class="datepart " type="text" pattern="[0-9]*" value="" placeholder="DD" size="2" maxlength="2" name="LAST_ORDER[day]" id="mce-LAST_ORDER-day"></span> /
+  // 		<span class="subfield yearfield"><input class="datepart " type="text" pattern="[0-9]*" value="" placeholder="YYYY" size="4" maxlength="4" name="LAST_ORDER[year]" id="mce-LAST_ORDER-year"></span>
+  //         <span class="small-meta nowrap">( mm / dd / yyyy )</span>
+  // 	</div>
+  // </div>
+  // <div class="mc-field-group">
+  // 	<label for="mce-COMPANY">Company </label>
+  // 	<input type="text" value="" name="COMPANY" class="" id="mce-COMPANY">
+  // </div>
+  // <div class="mc-field-group size1of2">
+  // 	<label for="mce-PHONE">Phone </label>
+  // 	<input type="text" name="PHONE" class="" value="" id="mce-PHONE">
+  // </div>
+  // <div class="mc-address-group">
+  // 	<div class="mc-field-group">
+  // 	    <label for="mce-ADDRESS-addr1">Address </label>
+  // 		<input type="text" value="" maxlength="70" name="ADDRESS[addr1]" id="mce-ADDRESS-addr1" class="">
+  // 	</div>
+  // 	<div class="mc-field-group">
+  // 	    <label for="mce-ADDRESS-addr2">Address Line 2</label>
+  // 		<input type="text" value="" maxlength="70" name="ADDRESS[addr2]" id="mce-ADDRESS-addr2">
+  // 	</div>
+  // 	<div class="mc-field-group size1of2">
+  // 	    <label for="mce-ADDRESS-city">City</label>
+  // 		<input type="text" value="" maxlength="40" name="ADDRESS[city]" id="mce-ADDRESS-city" class="">
+  // 	</div>
+  // 	<div class="mc-field-group size1of2">
+  // 	    <label for="mce-ADDRESS-state">State/Province/Region</label>
+  // 	<input type="text" value="" maxlength="20" name="ADDRESS[state]" id="mce-ADDRESS-state" class="">
+  // 	</div>
+  // 	<div class="mc-field-group size1of2">
+  // 	    <label for="mce-ADDRESS-zip">Postal / Zip Code</label>
+  // 		<input type="text" value="" maxlength="10" name="ADDRESS[zip]" id="mce-ADDRESS-zip" class="">
+  // 	</div>
+  // 	<div class="mc-field-group size1of2">
+  // 	    <label for="mce-ADDRESS-country">Country</label>
+  // 		<select name="ADDRESS[country]" id="mce-ADDRESS-country" class=""><option value="164" selected>USA</option><option value="286">Aaland Islands</option><option value="274">Afghanistan</option><option value="2">Albania</option><option value="3">Algeria</option><option value="178">American Samoa</option><option value="4">Andorra</option><option value="5">Angola</option><option value="176">Anguilla</option><option value="175">Antigua And Barbuda</option><option value="6">Argentina</option><option value="7">Armenia</option><option value="179">Aruba</option><option value="8">Australia</option><option value="9">Austria</option><option value="10">Azerbaijan</option><option value="11">Bahamas</option><option value="12">Bahrain</option><option value="13">Bangladesh</option><option value="14">Barbados</option><option value="15">Belarus</option><option value="16">Belgium</option><option value="17">Belize</option><option value="18">Benin</option><option value="19">Bermuda</option><option value="20">Bhutan</option><option value="21">Bolivia</option><option value="22">Bosnia and Herzegovina</option><option value="23">Botswana</option><option value="181">Bouvet Island</option><option value="24">Brazil</option><option value="180">Brunei Darussalam</option><option value="25">Bulgaria</option><option value="26">Burkina Faso</option><option value="27">Burundi</option><option value="28">Cambodia</option><option value="29">Cameroon</option><option value="30">Canada</option><option value="31">Cape Verde</option><option value="32">Cayman Islands</option><option value="33">Central African Republic</option><option value="34">Chad</option><option value="35">Chile</option><option value="36">China</option><option value="185">Christmas Island</option><option value="37">Colombia</option><option value="204">Comoros</option><option value="38">Congo</option><option value="183">Cook Islands</option><option value="268">Costa Rica</option><option value="275">Cote D'Ivoire</option><option value="40">Croatia</option><option value="276">Cuba</option><option value="298">Curacao</option><option value="41">Cyprus</option><option value="42">Czech Republic</option><option value="318">Democratic Republic of the Congo</option><option value="43">Denmark</option><option value="44">Djibouti</option><option value="186">Dominica</option><option value="289">Dominica</option><option value="187">Dominican Republic</option><option value="45">Ecuador</option><option value="46">Egypt</option><option value="47">El Salvador</option><option value="48">Equatorial Guinea</option><option value="49">Eritrea</option><option value="50">Estonia</option><option value="51">Ethiopia</option><option value="189">Falkland Islands</option><option value="191">Faroe Islands</option><option value="52">Fiji</option><option value="53">Finland</option><option value="54">France</option><option value="193">French Guiana</option><option value="277">French Polynesia</option><option value="56">Gabon</option><option value="57">Gambia</option><option value="58">Georgia</option><option value="59">Germany</option><option value="60">Ghana</option><option value="194">Gibraltar</option><option value="61">Greece</option><option value="195">Greenland</option><option value="192">Grenada</option><option value="196">Guadeloupe</option><option value="62">Guam</option><option value="198">Guatemala</option><option value="270">Guernsey</option><option value="63">Guinea</option><option value="65">Guyana</option><option value="200">Haiti</option><option value="66">Honduras</option><option value="67">Hong Kong</option><option value="68">Hungary</option><option value="69">Iceland</option><option value="70">India</option><option value="71">Indonesia</option><option value="278">Iran</option><option value="279">Iraq</option><option value="74">Ireland</option><option value="322">Isle of Man</option><option value="75">Israel</option><option value="76">Italy</option><option value="202">Jamaica</option><option value="78">Japan</option><option value="288">Jersey  (Channel Islands)</option><option value="79">Jordan</option><option value="80">Kazakhstan</option><option value="81">Kenya</option><option value="203">Kiribati</option><option value="82">Kuwait</option><option value="83">Kyrgyzstan</option><option value="84">Lao People's Democratic Republic</option><option value="85">Latvia</option><option value="86">Lebanon</option><option value="87">Lesotho</option><option value="88">Liberia</option><option value="281">Libya</option><option value="90">Liechtenstein</option><option value="91">Lithuania</option><option value="92">Luxembourg</option><option value="208">Macau</option><option value="93">Macedonia</option><option value="94">Madagascar</option><option value="95">Malawi</option><option value="96">Malaysia</option><option value="97">Maldives</option><option value="98">Mali</option><option value="99">Malta</option><option value="207">Marshall Islands</option><option value="210">Martinique</option><option value="100">Mauritania</option><option value="212">Mauritius</option><option value="241">Mayotte</option><option value="101">Mexico</option><option value="102">Moldova, Republic of</option><option value="103">Monaco</option><option value="104">Mongolia</option><option value="290">Montenegro</option><option value="294">Montserrat</option><option value="105">Morocco</option><option value="106">Mozambique</option><option value="242">Myanmar</option><option value="107">Namibia</option><option value="108">Nepal</option><option value="109">Netherlands</option><option value="110">Netherlands Antilles</option><option value="213">New Caledonia</option><option value="111">New Zealand</option><option value="112">Nicaragua</option><option value="113">Niger</option><option value="114">Nigeria</option><option value="217">Niue</option><option value="214">Norfolk Island</option><option value="272">North Korea</option><option value="116">Norway</option><option value="117">Oman</option><option value="118">Pakistan</option><option value="222">Palau</option><option value="282">Palestine</option><option value="119">Panama</option><option value="219">Papua New Guinea</option><option value="120">Paraguay</option><option value="121">Peru</option><option value="122">Philippines</option><option value="221">Pitcairn</option><option value="123">Poland</option><option value="124">Portugal</option><option value="253">Puerto Rico</option><option value="126">Qatar</option><option value="315">Republic of Kosovo</option><option value="127">Reunion</option><option value="128">Romania</option><option value="129">Russia</option><option value="130">Rwanda</option><option value="205">Saint Kitts and Nevis</option><option value="206">Saint Lucia</option><option value="237">Saint Vincent and the Grenadines</option><option value="132">Samoa (Independent)</option><option value="227">San Marino</option><option value="255">Sao Tome and Principe</option><option value="133">Saudi Arabia</option><option value="134">Senegal</option><option value="266">Serbia</option><option value="135">Seychelles</option><option value="136">Sierra Leone</option><option value="137">Singapore</option><option value="302">Sint Maarten</option><option value="138">Slovakia</option><option value="139">Slovenia</option><option value="223">Solomon Islands</option><option value="140">Somalia</option><option value="141">South Africa</option><option value="257">South Georgia and the South Sandwich Islands</option><option value="142">South Korea</option><option value="311">South Sudan</option><option value="143">Spain</option><option value="144">Sri Lanka</option><option value="293">Sudan</option><option value="146">Suriname</option><option value="225">Svalbard and Jan Mayen Islands</option><option value="147">Swaziland</option><option value="148">Sweden</option><option value="149">Switzerland</option><option value="285">Syria</option><option value="152">Taiwan</option><option value="260">Tajikistan</option><option value="153">Tanzania</option><option value="154">Thailand</option><option value="233">Timor-Leste</option><option value="155">Togo</option><option value="232">Tonga</option><option value="234">Trinidad and Tobago</option><option value="156">Tunisia</option><option value="157">Turkey</option><option value="158">Turkmenistan</option><option value="287">Turks &amp; Caicos Islands</option><option value="159">Uganda</option><option value="161">Ukraine</option><option value="162">United Arab Emirates</option><option value="262">United Kingdom</option><option value="163">Uruguay</option><option value="165">Uzbekistan</option><option value="239">Vanuatu</option><option value="166">Vatican City State (Holy See)</option><option value="167">Venezuela</option><option value="168">Vietnam</option><option value="169">Virgin Islands (British)</option><option value="238">Virgin Islands (U.S.)</option><option value="188">Western Sahara</option><option value="170">Yemen</option><option value="173">Zambia</option><option value="174">Zimbabwe</option></select>
+  // 	</div>
+  // </div>
+  // <div class="mc-field-group">
+  // 	<label for="mce-TAGS">Tags </label>
+  // 	<input type="text" value="" name="TAGS" class="" id="mce-TAGS">
+  // </div>
+  // 	<div id="mce-responses" class="clear">
+  // 		<div class="response" id="mce-error-response" style="display:none"></div>
+  // 		<div class="response" id="mce-success-response" style="display:none"></div>
+  // 	</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+  //     <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_c61f8c03f7bf6006501203a45_3038d4cd68" tabindex="-1" value=""></div>
+  //     <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+  //     </div>
+  // </form>
+  // </div>
+  //
+  // <!--End mc_embed_signup-->
 
 
 
@@ -2005,6 +2321,11 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
 
+  $rootScope.meta= {
+    "title":"taylorgang | gang",
+    "url": "gang",
+    "description": "gang"
+  }
 
   //................................................................................................................................................//
   //................................................................................................................................................//
@@ -2078,6 +2399,71 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
 
+
+
+
+
+  $scope.$on("$destroy", function() {
+    $rootScope.gangRelease=[];
+    $rootScope.totalGangReleasePages=1;
+  });
+
+
+  $rootScope.gangRelease;
+  $rootScope.totalGangReleasePages;
+
+  $scope.getGangReleases = function(thisPage){
+    Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+        Api.form('everything')
+            .ref(Api.master())
+            .query(
+              Prismic.Predicates.at("document.type", "release")
+            )
+            .pageSize(9)
+            .page(thisPage)
+            .orderings('[my.release.date desc]')
+            .submit(function (err, response) {
+                // The products are now ordered by price, highest first
+                var results = response.results;
+
+                setTimeout(function(){
+
+                  $rootScope.pageLoading = false;
+                  $scope.$apply();
+                }, 600);
+
+
+                if (thisPage >1 ) {
+                  $rootScope.gangRelease = $rootScope.gangRelease.concat(response.results);
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalGangReleasePages = response.total_pages; // the number of pages
+                }else{
+
+                  $rootScope.gangRelease= response.results;
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalGangReleasePages = response.total_pages;
+
+                }
+
+            });
+    });
+  }
+$scope.getGangReleases(1);
+
+
+  $scope.page_g =1;
+
+  $scope.pagingGang=function(){
+    $scope.page_g = $scope.page_g +1;
+
+    if($scope.page_g <= $rootScope.totalGangReleasePages){
+      $scope.getGangReleases($scope.page_g);
+    }else{
+      return false
+    }
+  }
+
+
   //DETAIL CHECK
     $scope.about_getYoutubePlaylist('PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S');
 
@@ -2085,136 +2471,77 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
 
-    $rootScope.g_instaTotal  =[];
-    $rootScope.g_instapics = [];
-
-    $rootScope.g_totalDisplayed;
-    $rootScope.g_loadMoreImage="";
-    $rootScope.g_loadMoreNumber;
-
-
-      //..............................................................................loading new pictures
-      // $rootScope.noMore = false;
-      // $rootScope.gang_globalLoadMore = function(i){
-      //   $rootScope.loadMoreNumber = i;
-      //     if ($rootScope.totalDisplayed > 0){
-      //
-      //     }else {
-      //       //the controller
-      //       $rootScope.totalDisplayed = i;
-      //       setTimeout(function(){
-      //         $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
-      //       }, 3000);
-      //     }
-      // }
-
-
-      //
-      //
-      //
-      // $rootScope.loadMore = function () {
-      //   $rootScope.totalDisplayed += $rootScope.loadMoreNumber;
-      //   $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
-      //   console.log("$rootScope.totalDisplayed : "+$rootScope.totalDisplayed +" "+$rootScope.loadMoreImage);
-      //
-      //
-      //   if ($rootScope.totalDisplayed >= ((loops)*20)){
-      //     $rootScope.filterRemovesLoadMore();
-      //     console.log("removed");
-      //   }
-      // };
 
 
 
 
 
-
-
-      //.......different loaded pictures for every device
-        // if ($rootScope.isDevice){
-        //   $rootScope.globalLoadMore(14);
-        // } else if (!$rootScope.isDevice) {
-        //   $rootScope.globalLoadMore(20);
-        // }
-
-
-
-      // $rootScope.hideLoadMore = true;
-      // setTimeout(function(){
-      //   $rootScope.hideLoadMore = false;
-      // }, 2000);
-      //
-      //
-      // $rootScope.filterRemovesLoadMore = function(){
-      //   $rootScope.hideLoadMore = true;
-      // }
-      //
-      // $rootScope.filterAllLoadMore = function(){
-      //   $rootScope.hideLoadMore = false;
-      // }
+    // $rootScope.g_instaTotal  =[];
+    // $rootScope.g_instapics = [];
+    // $rootScope.g_totalDisplayed;
+    // $rootScope.g_loadMoreImage="";
+    // $rootScope.g_loadMoreNumber;
 
 
 
     // ACCESS TOKEN = 20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da
 
-var thisData;
-var thisArtist;
-
-
+// var thisData;
+// var thisArtist;
 //
-$rootScope.g_instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
+// $rootScope.g_instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
 
 
 
-$scope.$watch('artistReady' ,function(){
-  setTimeout(function(){
-      $scope.aboutLoop();
-  }, 900);
-});
-
-
-$scope.aboutLoop = function(){
-
-  for ( i = 0; i < ($rootScope.Artist.length); i++ ){
-    var id = "";
-    id = $rootScope.Artist[i].data['artist.instagramId'].value;
-
-    if (id != ""){
-
-var config = {method: 'JSONP', cache: true, isArray: true};
-    var g_endpoint = "";
-    g_endpoint = "https://api.instagram.com/v1/users/"+id+"/media/recent?access_token="+$rootScope.g_instaAccessToken+"&callback=JSON_CALLBACK";
-
-    $http.jsonp(g_endpoint, config)
-
-    // $http({url: g_endpoint, method: 'JSONP', cache: true, isArray: true})
-
-    .then(function(response){
-          thisData = [];
-          thisData = response.data.data;
-          $rootScope.g_instaTotal = $rootScope.g_instaTotal.concat(thisData);
-
-          // if(thisArtist != response.data[0].user.id){
-          //
-          //   console.log(thisArtist);
-          // }else{
-          //   console.log("same");
-          //
-          // }
-          //
-          // var done = true;
-          //
-          // thisArtist = response.data[0].user.id;
-
-      })
-
-
-
-    }
-  }
-}
-
-
+// $scope.$watch('artistReady' ,function(){
+//   setTimeout(function(){
+//       $scope.aboutLoop();
+//   }, 900);
+// });
+//
+//
+// $scope.aboutLoop = function(){
+//
+//   for ( i = 0; i < ($rootScope.Artist.length); i++ ){
+//     var id = "";
+//     id = $rootScope.Artist[i].data['artist.instagramId'].value;
+//
+//     if (id != ""){
+//
+// var config = {method: 'JSONP', cache: true, isArray: true};
+//     var g_endpoint = "";
+//     g_endpoint = "https://api.instagram.com/v1/users/"+id+"/media/recent?access_token="+$rootScope.g_instaAccessToken+"&callback=JSON_CALLBACK";
+//
+//     $http.jsonp(g_endpoint, config)
+//
+//     // $http({url: g_endpoint, method: 'JSONP', cache: true, isArray: true})
+//
+//     .then(function(response){
+//           thisData = [];
+//           thisData = response.data.data;
+//           $rootScope.g_instaTotal = $rootScope.g_instaTotal.concat(thisData);
+//
+//           // if(thisArtist != response.data[0].user.id){
+//           //
+//           //   console.log(thisArtist);
+//           // }else{
+//           //   console.log("same");
+//           //
+//           // }
+//           //
+//           // var done = true;
+//           //
+//           // thisArtist = response.data[0].user.id;
+//
+//       })
+//
+//
+//
+//     }
+//   }
+// }
+//
+//
 
 
 
@@ -2253,9 +2580,16 @@ Tour.controller('tourCtrl', function($scope, $location, $rootScope, $routeParams
       $scope.$apply();
     }, 500);
 
+
+    
+
     $rootScope.tour=[];
 
-
+    $rootScope.meta= {
+      "title":"taylorgang | tour",
+      "url": "tour",
+      "description": "tour"
+    }
 
 
 $rootScope.bandsintownJSONP = function(artist){
@@ -2301,6 +2635,12 @@ Contact.controller('contactCtrl', function($scope, $location, $rootScope, $route
 
 
   $rootScope.pageLoading = true;
+
+  $rootScope.meta= {
+    "title":"taylorgang | contact",
+    "url":"contact",
+    "description": "contact"
+  }
 
   setTimeout(function(){
     $rootScope.viewLoaded = true;

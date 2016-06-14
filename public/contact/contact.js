@@ -5,6 +5,12 @@ Contact.controller('contactCtrl', function($scope, $location, $rootScope, $route
 
   $rootScope.pageLoading = true;
 
+  $rootScope.meta= {
+    "title":"taylorgang | contact",
+    "url":"contact",
+    "description": "contact"
+  }
+
   setTimeout(function(){
     $rootScope.viewLoaded = true;
     $rootScope.pageLoading = false;

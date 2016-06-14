@@ -84,6 +84,8 @@ $sceProvider.enabled(false);
     //   controller: 'homeCtrl',
     //   })
 
+
+
     .when('/artists/:id', {
       templateUrl: 'artist/artist-detail.html',
       controller: 'artistCtrl'
@@ -129,6 +131,13 @@ $sceProvider.enabled(false);
       controller: 'homeCtrl'
     })
 
+    .when('/:name', {
+      templateUrl: 'home/home.html',
+      controller: 'homeCtrl',
+      })
+
+
+
 
     /*............................. Take-all routing ........................*/
 
@@ -170,20 +179,22 @@ $rootScope.firstLoading = true;
 
 
 
-$rootScope.Filter, $rootScope.Release, $rootScope.Artist, $rootScope.Producer;
+$rootScope.Filter,
+$rootScope.Release =[], $rootScope.Artist, $rootScope.Producer;
 
 
 
     //..........................................................GET
 
-    $rootScope.getContentType = function(type, orderField){
+    $rootScope.getContentType = function(type, orderField, thisPage){
 
           Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
               Api.form('everything')
                   .ref(Api.master())
-
                   .query(Prismic.Predicates.at("document.type", type))
                   .orderings('['+orderField+']')
+                  .pageSize(9)
+                  .page(thisPage)
                   .submit(function (err, response) {
 
                       var Data = response;
@@ -192,11 +203,13 @@ $rootScope.Filter, $rootScope.Release, $rootScope.Artist, $rootScope.Producer;
 
                         $rootScope.pageLoading = false;
                         $scope.$apply();
-                      }, 1500);
+                      }, 1200);
 
                       if(type =='release'){
-                        $rootScope.Release = response.results;
+                        $rootScope.Release = $rootScope.Release.concat(response.results);
                         $scope.$broadcast('releaseDone');
+                        $rootScope.totalReleasePages = response.total_pages; // the number of pages
+
                       }
                       else if (type =='artist'){
                         $rootScope.Artist = response.results;
@@ -216,20 +229,17 @@ $rootScope.Filter, $rootScope.Release, $rootScope.Artist, $rootScope.Producer;
                       var next_page = response.next_page; // the URL of the next page (may be null)
                       var results_per_page = response.results_per_page; // max number of results per page
                       var results_size = response.results_size; // the size of the current page
-                      var total_pages = response.total_pages; // the number of pages
+
                       var total_results_size = response.total_results_size; // the total size of results across all pages
                       return results;
                   });
             });
     };
 
-    // if ($rootScope.firstLoading == false){
       $rootScope.getContentType('release', 'my.release.date desc');
       $rootScope.getContentType('filter', 'my.filter.index');
       $rootScope.getContentType('artist', 'my.artist.index');
       $rootScope.getContentType('producer', 'my.producer.index');
-    //
-    // }
 
 
 

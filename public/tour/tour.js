@@ -10,9 +10,16 @@ Tour.controller('tourCtrl', function($scope, $location, $rootScope, $routeParams
       $scope.$apply();
     }, 500);
 
+
+    
+
     $rootScope.tour=[];
 
-
+    $rootScope.meta= {
+      "title":"taylorgang | tour",
+      "url": "tour",
+      "description": "tour"
+    }
 
 
 $rootScope.bandsintownJSONP = function(artist){

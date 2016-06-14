@@ -94,6 +94,7 @@ angular.module('eliasInstagramModule', [])
 
 
                               // ACCESS TOKEN = 20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da
+                              // NEW ACCESS TOKEN = 676636769.2afa5bd.28c09a19bfb44d8f961987433f81d2f8
 
                           var n=0;
                           var maxID;
@@ -103,42 +104,44 @@ angular.module('eliasInstagramModule', [])
 
 
 
-                          $rootScope.instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
+                          $rootScope.instaAccessToken = "676636769.2afa5bd.28c09a19bfb44d8f961987433f81d2f8";
 
                           var endpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&callback=JSON_CALLBACK";
 
                           return $http({url: endpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response){
-                            deferred = $q.defer();
+                            // deferred = $q.defer();
                                 $rootScope.instaTotal = response.data;
                                 theData = response.data;
-                                maxID = response.pagination.next_max_id;
+                                console.log(response);
+                                return theData;
+                                // maxID = response.pagination.next_max_id;
 
-                                while (n <= loops) {
-                                n++;
+                                // while (n <= loops) {
+                                // n++;
 
-                                var thisEndpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&max_id=" + maxID + "&callback=JSON_CALLBACK";
-                                        $http({url: thisEndpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response1){
-
-                                              $rootScope.instapics1 = response1.data;
-                                              theData = theData.concat(response1.data);
-                                              $rootScope.instaTotal = $rootScope.instaTotal.concat(response1.data);
-                                              maxID = response.pagination.next_max_id;
-
-
-
-                                              //secondm is loaded so the load more can now be shown
-                                              $rootScope.hideLoadMore = false;
-                                            });
-
-                                      if (n==loops){
-                                        //  $rootScope.instaTotal;
-
-                                        deferred.resolve('Hello, ' + name + '!');
-                                        // return $rootScope.instaTotal;
-                                        //  resolve(theData);
-                                      }
-
-                                }
+                                // var thisEndpoint = "https://api.instagram.com/v1/users/"+userId+"/media/recent?access_token="+$rootScope.instaAccessToken+"&max_id=" + maxID + "&callback=JSON_CALLBACK";
+                                //         $http({url: thisEndpoint, method: 'JSONP', cache: true, isArray: true}).success(function(response1){
+                                //
+                                //               $rootScope.instapics1 = response1.data;
+                                //               theData = theData.concat(response1.data);
+                                //               $rootScope.instaTotal = $rootScope.instaTotal.concat(response1.data);
+                                //               maxID = response.pagination.next_max_id;
+                                //
+                                //
+                                //
+                                //               //secondm is loaded so the load more can now be shown
+                                //               $rootScope.hideLoadMore = false;
+                                //             });
+                                //
+                                //       if (n==loops){
+                                //         //  $rootScope.instaTotal;
+                                //
+                                //         deferred.resolve('Hello, ' + name + '!');
+                                //         // return $rootScope.instaTotal;
+                                //         //  resolve(theData);
+                                //       }
+                                //
+                                // }
 
 
 

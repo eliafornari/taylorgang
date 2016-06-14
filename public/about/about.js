@@ -8,6 +8,11 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
 
+  $rootScope.meta= {
+    "title":"taylorgang | gang",
+    "url": "gang",
+    "description": "gang"
+  }
 
   //................................................................................................................................................//
   //................................................................................................................................................//
@@ -81,6 +86,71 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
 
+
+
+
+
+  $scope.$on("$destroy", function() {
+    $rootScope.gangRelease=[];
+    $rootScope.totalGangReleasePages=1;
+  });
+
+
+  $rootScope.gangRelease;
+  $rootScope.totalGangReleasePages;
+
+  $scope.getGangReleases = function(thisPage){
+    Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+        Api.form('everything')
+            .ref(Api.master())
+            .query(
+              Prismic.Predicates.at("document.type", "release")
+            )
+            .pageSize(9)
+            .page(thisPage)
+            .orderings('[my.release.date desc]')
+            .submit(function (err, response) {
+                // The products are now ordered by price, highest first
+                var results = response.results;
+
+                setTimeout(function(){
+
+                  $rootScope.pageLoading = false;
+                  $scope.$apply();
+                }, 600);
+
+
+                if (thisPage >1 ) {
+                  $rootScope.gangRelease = $rootScope.gangRelease.concat(response.results);
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalGangReleasePages = response.total_pages; // the number of pages
+                }else{
+
+                  $rootScope.gangRelease= response.results;
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalGangReleasePages = response.total_pages;
+
+                }
+
+            });
+    });
+  }
+$scope.getGangReleases(1);
+
+
+  $scope.page_g =1;
+
+  $scope.pagingGang=function(){
+    $scope.page_g = $scope.page_g +1;
+
+    if($scope.page_g <= $rootScope.totalGangReleasePages){
+      $scope.getGangReleases($scope.page_g);
+    }else{
+      return false
+    }
+  }
+
+
   //DETAIL CHECK
     $scope.about_getYoutubePlaylist('PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S');
 
@@ -88,136 +158,77 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
 
 
 
-    $rootScope.g_instaTotal  =[];
-    $rootScope.g_instapics = [];
-
-    $rootScope.g_totalDisplayed;
-    $rootScope.g_loadMoreImage="";
-    $rootScope.g_loadMoreNumber;
-
-
-      //..............................................................................loading new pictures
-      // $rootScope.noMore = false;
-      // $rootScope.gang_globalLoadMore = function(i){
-      //   $rootScope.loadMoreNumber = i;
-      //     if ($rootScope.totalDisplayed > 0){
-      //
-      //     }else {
-      //       //the controller
-      //       $rootScope.totalDisplayed = i;
-      //       setTimeout(function(){
-      //         $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
-      //       }, 3000);
-      //     }
-      // }
-
-
-      //
-      //
-      //
-      // $rootScope.loadMore = function () {
-      //   $rootScope.totalDisplayed += $rootScope.loadMoreNumber;
-      //   $rootScope.loadMoreImage = $rootScope.instaTotal[$rootScope.totalDisplayed].images.standard_resolution.url;
-      //   console.log("$rootScope.totalDisplayed : "+$rootScope.totalDisplayed +" "+$rootScope.loadMoreImage);
-      //
-      //
-      //   if ($rootScope.totalDisplayed >= ((loops)*20)){
-      //     $rootScope.filterRemovesLoadMore();
-      //     console.log("removed");
-      //   }
-      // };
 
 
 
 
 
-
-
-      //.......different loaded pictures for every device
-        // if ($rootScope.isDevice){
-        //   $rootScope.globalLoadMore(14);
-        // } else if (!$rootScope.isDevice) {
-        //   $rootScope.globalLoadMore(20);
-        // }
-
-
-
-      // $rootScope.hideLoadMore = true;
-      // setTimeout(function(){
-      //   $rootScope.hideLoadMore = false;
-      // }, 2000);
-      //
-      //
-      // $rootScope.filterRemovesLoadMore = function(){
-      //   $rootScope.hideLoadMore = true;
-      // }
-      //
-      // $rootScope.filterAllLoadMore = function(){
-      //   $rootScope.hideLoadMore = false;
-      // }
+    // $rootScope.g_instaTotal  =[];
+    // $rootScope.g_instapics = [];
+    // $rootScope.g_totalDisplayed;
+    // $rootScope.g_loadMoreImage="";
+    // $rootScope.g_loadMoreNumber;
 
 
 
     // ACCESS TOKEN = 20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da
 
-var thisData;
-var thisArtist;
-
-
+// var thisData;
+// var thisArtist;
 //
-$rootScope.g_instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
+// $rootScope.g_instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
 
 
 
-$scope.$watch('artistReady' ,function(){
-  setTimeout(function(){
-      $scope.aboutLoop();
-  }, 900);
-});
-
-
-$scope.aboutLoop = function(){
-
-  for ( i = 0; i < ($rootScope.Artist.length); i++ ){
-    var id = "";
-    id = $rootScope.Artist[i].data['artist.instagramId'].value;
-
-    if (id != ""){
-
-var config = {method: 'JSONP', cache: true, isArray: true};
-    var g_endpoint = "";
-    g_endpoint = "https://api.instagram.com/v1/users/"+id+"/media/recent?access_token="+$rootScope.g_instaAccessToken+"&callback=JSON_CALLBACK";
-
-    $http.jsonp(g_endpoint, config)
-
-    // $http({url: g_endpoint, method: 'JSONP', cache: true, isArray: true})
-
-    .then(function(response){
-          thisData = [];
-          thisData = response.data.data;
-          $rootScope.g_instaTotal = $rootScope.g_instaTotal.concat(thisData);
-
-          // if(thisArtist != response.data[0].user.id){
-          //
-          //   console.log(thisArtist);
-          // }else{
-          //   console.log("same");
-          //
-          // }
-          //
-          // var done = true;
-          //
-          // thisArtist = response.data[0].user.id;
-
-      })
-
-
-
-    }
-  }
-}
-
-
+// $scope.$watch('artistReady' ,function(){
+//   setTimeout(function(){
+//       $scope.aboutLoop();
+//   }, 900);
+// });
+//
+//
+// $scope.aboutLoop = function(){
+//
+//   for ( i = 0; i < ($rootScope.Artist.length); i++ ){
+//     var id = "";
+//     id = $rootScope.Artist[i].data['artist.instagramId'].value;
+//
+//     if (id != ""){
+//
+// var config = {method: 'JSONP', cache: true, isArray: true};
+//     var g_endpoint = "";
+//     g_endpoint = "https://api.instagram.com/v1/users/"+id+"/media/recent?access_token="+$rootScope.g_instaAccessToken+"&callback=JSON_CALLBACK";
+//
+//     $http.jsonp(g_endpoint, config)
+//
+//     // $http({url: g_endpoint, method: 'JSONP', cache: true, isArray: true})
+//
+//     .then(function(response){
+//           thisData = [];
+//           thisData = response.data.data;
+//           $rootScope.g_instaTotal = $rootScope.g_instaTotal.concat(thisData);
+//
+//           // if(thisArtist != response.data[0].user.id){
+//           //
+//           //   console.log(thisArtist);
+//           // }else{
+//           //   console.log("same");
+//           //
+//           // }
+//           //
+//           // var done = true;
+//           //
+//           // thisArtist = response.data[0].user.id;
+//
+//       })
+//
+//
+//
+//     }
+//   }
+// }
+//
+//
 
 
 
