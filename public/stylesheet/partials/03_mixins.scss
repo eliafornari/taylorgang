@@ -67,7 +67,6 @@ $break-desktop: 50000px;
 
 
   @if $type == 'fill' {
-
     svg, g, path, rect, line{
       fill: $color;
       transition:         fill $transition-medium ease;
@@ -141,16 +140,6 @@ $transition-slow: 1s;
 
   &:hover {
     opacity: $hover;
-
-    // @include respond-to(phone-device) {
-    //     opacity: $opacity !important;
-    // }
-    // @include respond-to(tablet-portrait-device) {
-    //     opacity: $opacity !important;
-    // }
-    // @include respond-to(tablet-landscape-device) {
-    //     opacity: $opacity !important;
-    // }
   }
 }
 
@@ -329,7 +318,6 @@ $transition-slow: 1s;
 
   font-size: $font-size-title;
   line-height: $line-height-title;
-  font-family: camptonBold;
 
   @if $hasHover == 'yes'{
             @if $color == 'red' {
@@ -398,8 +386,3 @@ $transition-slow: 1s;
   -ms-transition:     all 0.4s ease-in-out;
   -o-transition:      all 0.4s ease-in-out;
 }
-
-// box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-// box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-
-// transition: all 0.2s ease-in-out;

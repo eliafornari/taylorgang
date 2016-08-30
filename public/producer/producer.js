@@ -4,22 +4,14 @@ var Producer = angular.module('myApp');
 
 Producer.controller('producerCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, instaFactory, anchorSmoothScroll, $window){
 
+  $rootScope.meta= {
+    "title":"taylorgang | producers",
+    "url": "producers",
+    "description": "producers"
+  }
 
 
-    $rootScope.meta= {
-      "title":"taylorgang | producers",
-      "url": "producers",
-      "description": "producers"
-    }
-
-
-
-
-//................................................................................................................................................//
-//................................................................................................................................................//
 //................................................................DETAIL..........................................................................//
-//................................................................................................................................................//
-//................................................................................................................................................//
 
 $rootScope.producer_data;
 $rootScope.channel_data_p = [];
@@ -27,12 +19,10 @@ $rootScope.main_video_p, $scope.main_title_p;
 $rootScope.main_video_show_p =false;
 $rootScope.baseUrl = '';
 $rootScope.mainProducer;
-// https://www.youtube.com/embed/8d0cm_hcQes
 $rootScope.main_video_p = $rootScope.baseUrl;
 $scope.producerInstagram=[];
 
 $rootScope.thisProducer = function(thisProducer){
-
     for (a in $rootScope.Producer){
       if($rootScope.Producer[a].uid==thisProducer){
         $rootScope.mainProducer = $rootScope.Producer[a];
@@ -43,37 +33,35 @@ $rootScope.thisProducer = function(thisProducer){
         $scope.getProducerReleases($rootScope.mainProducer.id , 1);
       }
     }
-    // $scope.instagram_p();
 };
 
-
+// get youtube playlist
 $scope.getYoutubeChannel_p = function(channelid){
+  $.get(
+    "https://www.googleapis.com/youtube/v3/search",{
+      part: 'snippet',
+      maxResults: 50,
+      channelId: channelid,
+      key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+    },
+      function(data){
 
-              $.get(
-                "https://www.googleapis.com/youtube/v3/search",{
-                  part: 'snippet',
-                  maxResults: 50,
-                  channelId: channelid,
-                  key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
-                },
-                  function(data){
+        $rootScope.channel_data_p = data.items;
 
-                    $rootScope.channel_data_p = data.items;
+        $rootScope.baseUrl_p = 'https://www.youtube.com/embed/'+$rootScope.channel_data_p[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+        $rootScope.main_video_p = $rootScope.baseUrl_p;
+        $rootScope.main_title_p = $rootScope.channel_data_p[0].title;
 
-                    $rootScope.baseUrl_p = 'https://www.youtube.com/embed/'+$rootScope.channel_data_p[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
-                    $rootScope.main_video_p = $rootScope.baseUrl_p;
-                    $rootScope.main_title_p = $rootScope.channel_data_p[0].title;
+        $rootScope.$apply();
 
-                    $rootScope.$apply();
+        setTimeout(function(){
+          $rootScope.viewLoaded = true;
+          $rootScope.pageLoading = false;
+          $rootScope.$apply();
+          $rootScope.main_video_show_p =true;
+        }, 2000);
 
-                    setTimeout(function(){
-                      $rootScope.viewLoaded = true;
-                      $rootScope.pageLoading = false;
-                      $rootScope.$apply();
-                      $rootScope.main_video_show_p =true;
-                    }, 2000);
-
-                  });
+      });
 
 }
 

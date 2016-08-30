@@ -1,11 +1,7 @@
 .producer{
   width: 100vw;
-  // height: 100vh;
   display: table;
-
 }
-
-
 
 .producer-ul{
   display: block;
@@ -68,33 +64,15 @@
   @include respond-to(phone){
     font-size: 30px;
   }
-
 }
-
-
 
 #producer-li-image-tukicarter{
 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-//.....................................................................................................//
-//.....................................................................................................//
 //..................................................DETAIL.............................................//
-//.....................................................................................................//
-//.....................................................................................................//
+
 .producer-detail{
 
 }
@@ -116,7 +94,6 @@
     font-family: gtWalsheimPro-black;
     height: 100%;
     line-height: 120px;
-
     @include respond-to(phone){
       position: absolute;
       right:$margin-sides-mobile;
@@ -145,7 +122,6 @@
       right: $margin-sides-mobile;
       top: 0;
     }
-
   }//producer-header-image
   .producer-header-text{
     width:50%;
@@ -153,7 +129,6 @@
     @include respond-to(phone){
       width:100%;
     }
-
     .producer-header-ul{
       width: auto;
       position: absolute;
@@ -183,13 +158,10 @@
             height: 100%;
           }
         }
-
       }
     }
   }//producer-header-text
 }
-
-
 
 #producer-header-image-tukicarter{
   background-size: auto 80%;
@@ -201,9 +173,6 @@
     background-size: auto 80%;
   }
 }
-
-
-
 
 .producer-youtube{
   width: 100vw;
@@ -375,8 +344,6 @@
           height:30px;
           text-align: center;
           @include subtitle();
-          // z-index: $z-index-producer-release;
-
         }
         .producer-releases-li-cover{
           position: absolute;
@@ -386,24 +353,11 @@
           background-repeat: no-repeat;
           background-size: 98% 98%;
           @include hover-effect-opacity();
-
         }
-
       }
-
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 #tour-dates{
@@ -415,9 +369,6 @@
   }
 }
 
-// .bit-rsvp{
-//   display: none !important;
-// }
 .bit-track-producer-header{
   display: none !important;
 }
@@ -434,19 +385,12 @@
   }
 }
 
-
 td>a{
   font-family: gtWalsheimPro-light !important;
   line-height: $line-height-paragraph !important;
   font-size: $font-size-paragraph !important;
   font-weight: normal !important;
 }
-
-
-
-
-
-
 
 
 
@@ -484,8 +428,6 @@ td>a{
           line-height: $line-height-paragraph;
           color:$black;
           font-family: $font-family-paragraph;
-          // margin-left: $margin-sides;
-          //   margin-top: $margin-sides;
           width: 600px;
           height: auto;
           margin: auto;
@@ -511,12 +453,9 @@ td>a{
     @include raised(0.6);
     border: 0;
     &:hover{
-      // opacity:0.4;
-
       p{
         @include hover-effect-color($black, $yellow);
       }
-
     }
   .load-more-button{
     width:600px;
@@ -532,10 +471,6 @@ td>a{
     }
   }
 }
-
-
-
-
 
 
 

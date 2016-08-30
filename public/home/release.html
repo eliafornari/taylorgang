@@ -3,20 +3,20 @@
     <tr class="release-tr">
       <td class="release-td">
         <div class="release-li-main">
-
           <div class="release-main-left">
             <table style="width: 100%;height: 100%;">
               <tr>
                 <td style="vertical-align:middle; height:100%;">
-                  <p class="release-main-left-name">{{mainRelease.data['release.name'].value[0].text}}</p>
-                  <p class="release-main-left-artist">{{mainRelease.data['release.artist'].value[0].text}}</p>
+                  <p class="home-main-left-name">{{mainRelease.data['release.name'].value[0].text}}</p>
+                  <a class="home-main-left-artist" ng-if="mainRelease.data['release.artist'].value[0]">{{mainRelease.data['release.artist'].value[0].artistName.value[0].text}}</a>
+                  <a class="home-main-left-artist" ng-if="mainRelease.data['release.producer'].value[0]">{{mainRelease.data['release.producer'].value[0].producerName.value[0].text}}</a>
+                  <p class="release-main-left-description" ng-if="mainRelease.data['release.description'].value[0]">{{mainRelease.data['release.description'].value[0].text}}</p>
                 </td>
               </tr>
             </table>
           </div>
-
           <div class="release-main-video">
-            <iframe class="release-main-video-iframe" ng-src="{{mainRelease.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'youtube'"></iframe>
+            <iframe class="release-main-video-iframe" ng-src="{{mainRelease.data['release.embed'].value[0].value.value | youtube}}" frameborder="0" allowfullscreen ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'youtube'"></iframe>
             <iframe class="release-main-video-iframe" ng-src="{{mainRelease.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'soundcloud'"></iframe>
             <iframe class="release-main-video-iframe" ng-src="{{mainRelease.data['release.embed'].value[0].value.value.url || trustUrl}}" frameborder="0" allowfullscreen ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'vimeo'"></iframe>
             <div class="release-main-video-iframe" style="background-image: url('{{mainRelease.data['release.embed'].value[0].value.value.main.url || trustUrl}}')" ng-if="mainRelease.data['release.embed'].value[0].slice_type == 'image'"></div>
@@ -25,11 +25,7 @@
             <table style="width: 100%;height: 100%;">
               <tr>
                 <td style="vertical-align:middle; height:100%;">
-                  <!-- <p class="release-main-right-name">{{mainRelease.data['release.name'].value[0].text}}</p> -->
-
                     <div class="home-main-share">
-                      <!-- <p ng-click="shareOpen=!shareOpen" class="home-main-share-p">share</p> -->
-                       <!-- ng-show="shareOpen" -->
                       <ul class="home-main-share-ul">
                         <li class="home-main-share-li">
                           <a href="http://tumblr.com/widgets/share/tool?canonicalUrl=taylorgang.com/home/{{r.uid}}" target="_blank" id="home-social-li-instagram">
@@ -47,28 +43,14 @@
                           </a>
                         </li>
                       </ul>
-
                     </div>
-
                     <a class="home-main-right-read" href="home/{{mainRelease.uid}}">home</a>
-
-
                 </td>
               </tr>
             </table>
           </div>
-
-
         </div>
       </td>
     </tr>
   </table>
-
-
-
-
-  <!-- <div class="release-back">
-    <a href="home/{{mainRelease.uid}}">HOME</a>
-
-  </div> -->
 </div>

@@ -51,17 +51,8 @@ $rootScope.pageLoading = true;
 
 
 
-  .filter('trustUrl', function ($sce) {
-      return function(url) {
-        // if (url){
-          var trusted = $sce.trustAsResourceUrl(url);
-          return trusted;
-        // }
-      };
-    })
 
 
-// .filter('date', )
 
 
 
@@ -169,6 +160,8 @@ $sceProvider.enabled(false);
 
 }])
 
+
+
 .controller('routeController', function($scope, $location, $rootScope, $routeParams, $timeout, $interval, $window){
 
 $rootScope.location = $location.path();
@@ -193,7 +186,7 @@ $rootScope.Release =[], $rootScope.Artist, $rootScope.Producer;
                   .ref(Api.master())
                   .query(Prismic.Predicates.at("document.type", type))
                   .orderings('['+orderField+']')
-                  .pageSize(9)
+                  .pageSize(22)
                   .page(thisPage)
                   .submit(function (err, response) {
 
@@ -236,7 +229,11 @@ $rootScope.Release =[], $rootScope.Artist, $rootScope.Producer;
             });
     };
 
-      $rootScope.getContentType('release', 'my.release.date desc');
+
+      if ($location.path() == "/"){
+        $rootScope.getContentType('release', 'my.release.date desc');
+        console.log("not normal");
+      }
       $rootScope.getContentType('filter', 'my.filter.index');
       $rootScope.getContentType('artist', 'my.artist.index');
       $rootScope.getContentType('producer', 'my.producer.index');
@@ -246,8 +243,40 @@ $rootScope.Release =[], $rootScope.Artist, $rootScope.Producer;
 
 
 
+      $rootScope.getEverything = function(type, orderField, thisPage){
 
+            Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+                Api.form('everything')
+                    .ref(Api.master())
+                    .query(Prismic.Predicates.at("document.type", type))
+                    .orderings('['+orderField+']')
+                    .pageSize(100)
+                    .submit(function (err, response) {
 
+                        var Data = response;
+
+                        if(type =='release'){
+                          $rootScope.Release = response.results;
+                          // $rootScope.Release.concat();
+                          console.log($rootScope.Release);
+                          $scope.$broadcast('releaseDone');
+                          $scope.$apply();
+                        }
+
+                        // The documents object contains a Response object with all documents of type "product".
+                        var page = response.page; // The current page number, the first one being 1
+                        var results = response.results; // An array containing the results of the current page;
+                        // you may need to retrieve more pages to get all results
+                        var prev_page = response.prev_page; // the URL of the previous page (may be null)
+                        var next_page = response.next_page; // the URL of the next page (may be null)
+                        var results_per_page = response.results_per_page; // max number of results per page
+                        var results_size = response.results_size; // the size of the current page
+
+                        var total_results_size = response.total_results_size; // the total size of results across all pages
+                        return results;
+                    });
+              });
+      };
 
 
 

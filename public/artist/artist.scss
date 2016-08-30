@@ -69,32 +69,14 @@
 
 }
 
-
-
 #artist-li-image-tukicarter{
-
 }
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-//.....................................................................................................//
-//.....................................................................................................//
 //..................................................DETAIL.............................................//
-//.....................................................................................................//
-//.....................................................................................................//
 .artist-detail{
-
 }
 
 .artist-header{
@@ -199,9 +181,6 @@
     background-size: auto 80%;
   }
 }
-
-
-
 
 .artist-youtube{
   width: 100vw;
@@ -347,12 +326,10 @@
   height:auto;
   margin-top: $margin-top;
   margin-bottom: $margin-top;
-
   .artist-releases-ul{
     width:50vw;
     display: table;
     height:auto;
-    // white-space:nowrap;
     margin: auto;
     .artist-releases-li{
       position: relative;
@@ -371,22 +348,17 @@
           left: 0;
           width: 100%;
           @include subtitle();
-          // z-index: $z-index-artist-release;
-
         }
         .artist-releases-li-cover{
           position: relative;
           width:50vw;
           height:50vw;
-          background-position: center;
+          background-position: center center;
           background-repeat: no-repeat;
-          background-size: 100% 100%;
+          background-size: 100% auto;
           @include hover-effect-opacity();
-
         }
-
       }
-
     }
   }
 }
@@ -528,11 +500,6 @@ td>a{
     }
   }
 }
-
-
-
-
-
 
 
 .artist-backtotop{

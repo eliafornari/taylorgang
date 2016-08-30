@@ -1,120 +1,70 @@
 <div class="about">
+  <header class="about-header">
+    <h1 class="about-header-name">TAYLOR GANG</h1>
+    <div class="about-header-text">
+        <ul class="about-header-ul"  ng-if="!isMobile" >
+          <li class="home-social-li" id="home-social-li-instagram"><a class="home-social-li-a" href="https://www.instagram.com/taylorgang/" target="_blank"><instagram-icon-directive></instagram-icon-directive></a></li>
+          <li class="home-social-li" id="home-social-li-facebook"><a class="home-social-li-a" href="https://www.facebook.com/TaylorGang" target="_blank"><facebook-icon-directive></facebook-icon-directive></a></li>
+          <li class="home-social-li" id="home-social-li-twitter"><a class="home-social-li-a" href="https://twitter.com/TaylorGang" target="_blank"><twitter-icon-directive></twitter-icon-directive></a></li>
 
+          <li class="home-social-li" id="home-social-li-soundcloud"><a class="home-social-li-a" href="https://soundcloud.com/taylorgang" target="_blank"><soundcloud-icon-directive></soundcloud-icon-directive></a></li>
+        </ul>
 
-    <header class="about-header">
-      <h1 class="about-header-name">TAYLOR GANG</h1>
-
-      <div class="about-header-text">
-          <ul class="about-header-ul"  ng-if="!isMobile" >
+        <!-- mobile -->
+        <div class="home-mobile-links" ng-if="isMobile" ng-click="g_mobileLinks()"><a>LINKS</a></div>
+        <div class="home-social-background-mobile" ng-if="isMobile" ng-show="showAboutLinks">
+          <ul class="home-social">
             <li class="home-social-li" id="home-social-li-instagram"><a class="home-social-li-a" href="https://www.instagram.com/taylorgang/" target="_blank"><instagram-icon-directive></instagram-icon-directive></a></li>
             <li class="home-social-li" id="home-social-li-facebook"><a class="home-social-li-a" href="https://www.facebook.com/TaylorGang" target="_blank"><facebook-icon-directive></facebook-icon-directive></a></li>
             <li class="home-social-li" id="home-social-li-twitter"><a class="home-social-li-a" href="https://twitter.com/TaylorGang" target="_blank"><twitter-icon-directive></twitter-icon-directive></a></li>
-
             <li class="home-social-li" id="home-social-li-soundcloud"><a class="home-social-li-a" href="https://soundcloud.com/taylorgang" target="_blank"><soundcloud-icon-directive></soundcloud-icon-directive></a></li>
           </ul>
-
-          <!-- mobile -->
-          <div class="home-mobile-links" ng-if="isMobile" ng-click="g_mobileLinks()"><a>LINKS</a></div>
-          <div class="home-social-background-mobile" ng-if="isMobile" ng-show="showAboutLinks">
-            <ul class="home-social">
-              <li class="home-social-li" id="home-social-li-instagram"><a class="home-social-li-a" href="https://www.instagram.com/taylorgang/" target="_blank"><instagram-icon-directive></instagram-icon-directive></a></li>
-              <li class="home-social-li" id="home-social-li-facebook"><a class="home-social-li-a" href="https://www.facebook.com/TaylorGang" target="_blank"><facebook-icon-directive></facebook-icon-directive></a></li>
-              <li class="home-social-li" id="home-social-li-twitter"><a class="home-social-li-a" href="https://twitter.com/TaylorGang" target="_blank"><twitter-icon-directive></twitter-icon-directive></a></li>
-              <li class="home-social-li" id="home-social-li-soundcloud"><a class="home-social-li-a" href="https://soundcloud.com/taylorgang" target="_blank"><soundcloud-icon-directive></soundcloud-icon-directive></a></li>
-            </ul>
-            <div class="home-social-back-mobile"><a ng-click="g_mobileLinks()">CLOSE</a></div>
-          </div>
-
-
-      </div>
-      <div class="about-header-image" style="background-image: url('assets/images/wizband.png')"></div>
-    </header>
-
-
-
+          <div class="home-social-back-mobile"><a ng-click="g_mobileLinks()">CLOSE</a></div>
+        </div>
+    </div>
+    <div class="about-header-image" style="background-image: url('assets/images/wizband.png')"></div>
+  </header>
 
 
   <div class="about-youtube">
-      <div class="about-video">
-                <!-- main video -->
-                <div class="about-video-main">
-                  <iframe class="iframe" src="{{about_main_video | trustUrl}}" frameborder="0" allowfullscreen ></iframe>
-                  <p class="about-video-main-title">{{about_main_title}}</p>
-                </div>
+    <div class="about-video">
+      <!-- main video -->
+      <div class="about-video-main">
+        <iframe class="iframe" src="{{about_main_video | trustUrl}}" frameborder="0" allowfullscreen ></iframe>
+        <p class="about-video-main-title">{{about_main_title}}</p>
+      </div>
+        <!-- related video -->
+        <div class="about-video-related">
+          <ul class="about-video-ul">
+            <li class="about-video-li" ng-repeat="r in about_playlist_data" ng-click="thisVideo(r.id.videoId, $index)" ng-mouseover="about_related_show=true" ng-mouseout="about_related_show=false">
 
-
-
-                <!-- related video -->
-                <div class="about-video-related">
-                  <ul class="about-video-ul">
-                    <li class="about-video-li" ng-repeat="r in about_playlist_data" ng-click="thisVideo(r.id.videoId, $index)" ng-mouseover="about_related_show=true" ng-mouseout="about_related_show=false">
-
-                      <div class="about-video-title" id="about-video-title-{{$index}}" ng-show="about_related_show">
-                        <table>
-                          <tr>
-                            <td>
-                              <p class="about-video-title-p">{{r.snippet.title}}</p>
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
-                      <div class="about-video-img" style="background-image: url('{{r.snippet.thumbnails.high.url}}')"></div>
-                      <!-- http://img.youtube.com/vi/{{r.id.videoId}}/0.jpg -->
-                    </li>
-                  </ul>
-                </div>
-
-    </div>
+              <div class="about-video-title" id="about-video-title-{{$index}}" ng-show="about_related_show">
+                <table>
+                  <tr>
+                    <td>
+                      <p class="about-video-title-p">{{r.snippet.title}}</p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="about-video-img" style="background-image: url('{{r.snippet.thumbnails.high.url}}')"></div>
+            </li>
+          </ul>
+        </div>
   </div>
-
-    <!-- <div class="tour" id="tour-dates">
-
-    </div> -->
+</div>
 
 
-
-
-
-
-
-    <div class="artist-releases" >
-      <ul class="artist-releases-ul">
-        <li class="artist-releases-li" ng-repeat="r in gangRelease | orderBy: r.data['release.date'].value track by $index" >
-          <a class="artist-releases-li-a" href="{{r.data['release.buyLink'].value.url}}" target="_blank">
-            <p class="artist-releases-li-p" ng-show="showRelease">{{r.data['release.coverTitle'].value[0].text}}</p>
-            <div class="artist-releases-li-cover" style="background-image: url('{{r.data['release.cover'].value.main.url}}')" ng-mouseover="showRelease=true" ng-mouseout="showRelease=false">
-            </div>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="infinite-loader" infinite-scroll="pagingGang()"  infinite-scroll-distance="1" ></div>
-
-
-
-
-
-    <!-- <div class="about-instagram">
-
-
-      <ul class="about-instagram-ul">
-        <li class="about-instagram-li" ng-repeat="i in g_instaTotal | orderBy: 'created_time':true | limitTo:g_totalDisplayed track by $index ">
-          <a class="about-instagram-li-a" href="{{i.link}}" target="_blank">
-            <p class="about-instagram-user">
-              {{i.user.username}}
-            </p>
-            <img class="about-instagram-img" src="{{i.images.standard_resolution.url}}" alt="" />
-            <p class="about-instagram-caption">
-              {{i.caption.text}}
-            </p>
-          </a>
-        </li>
-
-      </ul>
-
-    </div> -->
-
-
-
+  <div class="artist-releases" >
+    <ul class="artist-releases-ul">
+      <li class="artist-releases-li" ng-repeat="r in gangRelease | orderBy: r.data['release.date'].value track by $index" >
+        <a class="artist-releases-li-a" href="{{r.data['release.buyLink'].value.url}}" target="_blank">
+          <p class="artist-releases-li-p" ng-show="showRelease">{{r.data['release.coverTitle'].value[0].text}}</p>
+          <div class="artist-releases-li-cover" style="background-image: url('{{r.data['release.cover'].value.main.url}}')" ng-mouseover="showRelease=true" ng-mouseout="showRelease=false">
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="infinite-loader" infinite-scroll="pagingGang()"  infinite-scroll-distance="1" ></div>
 </div>

@@ -7,7 +7,6 @@
   background-color: #000000;
   z-index: $z-header;
   @include raised(0.6);
-
   @include respond-to(phone){
     width: 60px;
     height: 60px;
@@ -44,7 +43,6 @@
         @include respond-to(phone){
           height: 100%;
         }
-        // @include hover-effect-fill(#FFFFFF, $yellow, 'fill');
       }
       .menu-icon-svg{
         width: 15px;
@@ -69,13 +67,6 @@
     height: 60px;
   }
 }
-
-
-
-
-
-
-
 
 
 
@@ -162,8 +153,6 @@
           vertical-align: middle;
           display: block;
           font-size: $font-size-nav;
-
-
           @include respond-to(phone){
             font-size: $font-size-nav-mobile;
             height: 25px;
@@ -171,13 +160,9 @@
             position: absolute;
             top:50%;
             margin-top: -12.5px;
-
           }
-
         }
-
       }
-
     }
   }
 }

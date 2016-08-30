@@ -1,6 +1,4 @@
 <div class="producer" ng-controller="producerCtrl">
-
-
   <ul class="producer-ul">
     <li class="producer-li" ng-repeat="a in Producer | orderBy: 'producer.index.value'">
       <a href="producers/{{a.uid}}" ng-click="thisProducer(a.uid, $index)" ng-mouseover="showProducerName=true" ng-mouseout="showProducerName=false">
@@ -9,5 +7,4 @@
       </a>
     </li>
   </ul>
-
 </div>

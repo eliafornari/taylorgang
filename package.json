@@ -6,7 +6,6 @@
     "body-parser": "~1.5.2",
     "express": "*",
     "method-override": "~2.1.2",
-    "mongoose": "~3.6.2",
     "morgan": "~1.2.2",
     "path": "^0.12.7",
     "prerender-node": "^2.1.0",

@@ -1,12 +1,8 @@
-
-
 /*....................................CONTACT PAGE..................................*/
-
 .input{
   outline: 0;
   border: 0;
 }
-
 
 $paddingInput: 4px 4px 4px 8px;
 .contact{
@@ -14,7 +10,6 @@ $paddingInput: 4px 4px 4px 8px;
   position: relative;
   height: 100vh;
   display: block;
-
   .contact-table{
     position: absolute;
     height: 100%;
@@ -60,51 +55,27 @@ $paddingInput: 4px 4px 4px 8px;
                     font-family: gtWalsheimPro-light;
                     color: #FFFF00;
                     margin-left: 8px;
-                    // line-height: 10px;
-
                   }
                   .form-group2{
                     padding-bottom:8px;
-
-                    // input.ng-invalid.ng-touched::-webkit-input-placeholder {
-                    // color: red;
-                    // content: 'hello';
-                    // }
-                    // input{
-                    //   &.ng-invalid.ng-touched
-                    //    {
-                    //     //  content: "Email address ";
-                    //     //  background-color: #606060;
-                    //   }
-                    //
-                    //   &.ng-valid.ng-touched {
-                    //     background-color: transparent;
-                    //   }
-                    // }
                   }
-
                   .form-error-email{
                     padding-bottom: 8px;
                     font-size: $font-size-paragraph;
                     font-family: gtWalsheimPro-light;
                     color: #FFFF00;
                     margin-left: 8px;
-                    // line-height: 10px;
                   }
                   .form-group3{
                     padding-bottom:8px;
                   }
                   .drop-down{
                     padding-bottom:8px;
-                    }
-
+                  }
                     .contact-dropdown{
                       width:100%;
                       height:30px;
                       background-color: transparent;
-                      // border-color:#000000;
-                      // border-style:solid;
-                      // border-width:1px;
                       border: none;
                       padding: $paddingInput;
                       outline:0;
@@ -139,10 +110,8 @@ $paddingInput: 4px 4px 4px 8px;
                     .placeholder-text{
                       color: $yellow;
                     }
-
                     .contact-select-arrow{
                       display:block;
-                      /*height: 26px;*/
                       position: relative;
                       top: -17px;
                       right: 1px;
@@ -152,21 +121,17 @@ $paddingInput: 4px 4px 4px 8px;
                         top: -19px;
                         }
                     }
-
                     .contact-select-arrow b{
                       border-color: #888 transparent transparent transparent;
                       border-style: solid;
                       border-width: 5px 4px 0 4px;
                       height: 0;
-                      /*left: 50%;*/
                       margin-left: 0px;
                       margin-top: 0px;
                       position: absolute;
                       top: 37%;
                       width: 57.5%;
                     }
-
-
                   .submit-button{
                     display:block;
                     color: #000000;
@@ -189,7 +154,6 @@ $paddingInput: 4px 4px 4px 8px;
                     @include hover-effect-color($black, $yellow);
                     a{
                       @include hover-effect-color($black, $yellow);
-
                     }
                     &.contactDisabled{
                       cursor:default;
@@ -245,7 +209,7 @@ $paddingInput: 4px 4px 4px 8px;
                     padding-top: 8px;
                     @include respond-to(phone) {
                       height: 109px;
-                      }
+                    }
                   }
                   .help-block {
                     color: red;
@@ -261,8 +225,6 @@ $paddingInput: 4px 4px 4px 8px;
         }
       }
     }
-
-
 
 
 /*......................................ALERTTS...........................................*/
@@ -328,14 +290,6 @@ $paddingInput: 4px 4px 4px 8px;
           }
       }
   }
-
-
-
-
-
-
-
-
 
 
 
@@ -422,17 +376,12 @@ $paddingInput: 4px 4px 4px 8px;
         }
       }
   }
-
 }//contact end
 
 
 
 
-
-
-
-
-  /*.................................................................................*/
+/*.................................................................................*/
 
 ::-webkit-input-placeholder {
     color:    #000000;

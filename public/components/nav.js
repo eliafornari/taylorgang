@@ -4,7 +4,7 @@ angular.module('myApp')
 
 .controller('navCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http){
 
-$rootScope.isNavOpen = false;
+  $rootScope.isNavOpen = false;
 
   $scope.openNav = function(){
     $rootScope.isNavOpen = !$rootScope.isNavOpen;
@@ -13,9 +13,6 @@ $rootScope.isNavOpen = false;
   $scope.closeNav = function(){
     $rootScope.isNavOpen = false;
   }
-
-
-
 
   $rootScope.navOpenArtist=function(){
     $rootScope.openArtists($rootScope.Artist[0].uid,0);
@@ -29,18 +26,14 @@ $rootScope.isNavOpen = false;
     $rootScope.openJournal($rootScope.Journal[0].uid,0);
   }
 
+  $rootScope.link = function(url, force){
+    $location.path(url, force);
+  }
 
-
-$rootScope.link = function(url, force){
-  $location.path(url, force);
-}
-
-$rootScope.releaseLink = function(url, force){
-  console.log('url: '+'release/'+url);
-  $location.path('release/'+url, force);
-}
-
-
+  $rootScope.releaseLink = function(url, force){
+    console.log('url: '+'release/'+url);
+    $location.path('release/'+url, force);
+  }
 })
 
 
@@ -157,7 +150,6 @@ $rootScope.releaseLink = function(url, force){
   };
 })
 
-
 .directive('menuIconDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
   return {
     restrict: 'E',
@@ -168,9 +160,6 @@ $rootScope.releaseLink = function(url, force){
     }
   };
 })
-
-
-
 
 .directive('navDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
   return {

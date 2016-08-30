@@ -290,7 +290,6 @@ angular.module('myApp', [
     restrict: 'A',
     link: function(){
 
-
     }
   }
 });
@@ -348,17 +347,8 @@ $rootScope.pageLoading = true;
 
 
 
-  .filter('trustUrl', function ($sce) {
-      return function(url) {
-        // if (url){
-          var trusted = $sce.trustAsResourceUrl(url);
-          return trusted;
-        // }
-      };
-    })
 
 
-// .filter('date', )
 
 
 
@@ -466,6 +456,8 @@ $sceProvider.enabled(false);
 
 }])
 
+
+
 .controller('routeController', function($scope, $location, $rootScope, $routeParams, $timeout, $interval, $window){
 
 $rootScope.location = $location.path();
@@ -490,7 +482,7 @@ $rootScope.Release =[], $rootScope.Artist, $rootScope.Producer;
                   .ref(Api.master())
                   .query(Prismic.Predicates.at("document.type", type))
                   .orderings('['+orderField+']')
-                  .pageSize(9)
+                  .pageSize(22)
                   .page(thisPage)
                   .submit(function (err, response) {
 
@@ -533,7 +525,11 @@ $rootScope.Release =[], $rootScope.Artist, $rootScope.Producer;
             });
     };
 
-      $rootScope.getContentType('release', 'my.release.date desc');
+
+      if ($location.path() == "/"){
+        $rootScope.getContentType('release', 'my.release.date desc');
+        console.log("not normal");
+      }
       $rootScope.getContentType('filter', 'my.filter.index');
       $rootScope.getContentType('artist', 'my.artist.index');
       $rootScope.getContentType('producer', 'my.producer.index');
@@ -543,8 +539,40 @@ $rootScope.Release =[], $rootScope.Artist, $rootScope.Producer;
 
 
 
+      $rootScope.getEverything = function(type, orderField, thisPage){
 
+            Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+                Api.form('everything')
+                    .ref(Api.master())
+                    .query(Prismic.Predicates.at("document.type", type))
+                    .orderings('['+orderField+']')
+                    .pageSize(100)
+                    .submit(function (err, response) {
 
+                        var Data = response;
+
+                        if(type =='release'){
+                          $rootScope.Release = response.results;
+                          // $rootScope.Release.concat();
+                          console.log($rootScope.Release);
+                          $scope.$broadcast('releaseDone');
+                          $scope.$apply();
+                        }
+
+                        // The documents object contains a Response object with all documents of type "product".
+                        var page = response.page; // The current page number, the first one being 1
+                        var results = response.results; // An array containing the results of the current page;
+                        // you may need to retrieve more pages to get all results
+                        var prev_page = response.prev_page; // the URL of the previous page (may be null)
+                        var next_page = response.next_page; // the URL of the next page (may be null)
+                        var results_per_page = response.results_per_page; // max number of results per page
+                        var results_size = response.results_size; // the size of the current page
+
+                        var total_results_size = response.total_results_size; // the total size of results across all pages
+                        return results;
+                    });
+              });
+      };
 
 
 
@@ -961,7 +989,7 @@ angular.module('myApp')
 
 .controller('navCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http){
 
-$rootScope.isNavOpen = false;
+  $rootScope.isNavOpen = false;
 
   $scope.openNav = function(){
     $rootScope.isNavOpen = !$rootScope.isNavOpen;
@@ -970,9 +998,6 @@ $rootScope.isNavOpen = false;
   $scope.closeNav = function(){
     $rootScope.isNavOpen = false;
   }
-
-
-
 
   $rootScope.navOpenArtist=function(){
     $rootScope.openArtists($rootScope.Artist[0].uid,0);
@@ -986,18 +1011,14 @@ $rootScope.isNavOpen = false;
     $rootScope.openJournal($rootScope.Journal[0].uid,0);
   }
 
+  $rootScope.link = function(url, force){
+    $location.path(url, force);
+  }
 
-
-$rootScope.link = function(url, force){
-  $location.path(url, force);
-}
-
-$rootScope.releaseLink = function(url, force){
-  console.log('url: '+'release/'+url);
-  $location.path('release/'+url, force);
-}
-
-
+  $rootScope.releaseLink = function(url, force){
+    console.log('url: '+'release/'+url);
+    $location.path('release/'+url, force);
+  }
 })
 
 
@@ -1114,7 +1135,6 @@ $rootScope.releaseLink = function(url, force){
   };
 })
 
-
 .directive('menuIconDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
   return {
     restrict: 'E',
@@ -1125,9 +1145,6 @@ $rootScope.releaseLink = function(url, force){
     }
   };
 })
-
-
-
 
 .directive('navDirective', function($rootScope, $location, $window, $routeParams, $timeout) {
   return {
@@ -1143,112 +1160,64 @@ $rootScope.releaseLink = function(url, force){
 
 var Home = angular.module('myApp');
 
-Home.filter('youtubeEmbed', function ($sce) {
-    return function(url) {
-      if (url){
-        var riskyVideo = "https://www.youtube.com/embed/"+url+"?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque";
-        return $sce.trustAsResourceUrl(riskyVideo);
-        $scope.$apply();
-      }
-    };
-  })
 
 Home.controller('homeCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, $document, anchorSmoothScroll){
 
 $rootScope.firstLoading = false;
-
 $rootScope.meta= {
   "title":"taylorgang | home",
   "url":"",
   "description": "home"
 }
 
-
-
-
-
-
-
 $scope.windowWidth= window.innerWidth;
-
   $scope.$watch(function(){
      $scope.windowWidth = window.innerWidth;
   }, function(value) {
   });
-
-
 
 $scope.selectedIndex =0;
 $scope.moveBox=3;
 $scope.mainReleaseYoutube="";
 $rootScope.mainRelease={};
 
+//selecting a release
 $rootScope.thisRelease=function(uid){
-
-    console.log(uid);
-
     $scope.thisIndex = angular.element(document.getElementById(uid)).scope();
     var polishedIndex;
     for (i in $scope.thisIndex){
      polishedIndex = $scope.thisIndex['$index'];
     }
-
     $scope.selectedIndex=polishedIndex;
     $rootScope.mainRelease = $rootScope.Release[polishedIndex];
-
-    console.log($rootScope.mainRelease);
-
-
     setTimeout(function(){
-
-      // if ($location.path() == '/' || $location.path()=='home/'+$routeParams.name || $location.path() =='/'+$routeParams.name ) {
         anchorSmoothScroll.scrollTo(uid);
-      // }
-
-    }, 900);
-
-
-
+    }, 600);
 }
 
 
-
-
-
-
+//going to the detail of a release
 $rootScope.releaseDetail=function(){
   var uid = $routeParams.name;
-
     for (i in $rootScope.Release){
-
       if ($rootScope.Release[i].uid === $routeParams.name){
-
-
           $rootScope.mainRelease = $rootScope.Release[i];
-          console.log($rootScope.mainRelease.uid);
-
       }
     }
-
 }
-
-
-
-
-
 
 
 //DETAIL CHECK
 $scope.$on("$routeChangeSuccess", function(){
   if ($location.path() == '/release/'+$routeParams.name){
+    $rootScope.getEverything('release', 'my.release.date desc');
 
     $scope.$watch('Release', function(){
       if($rootScope.Release){
-        console.log("releaseDone for real");
-        console.log($rootScope.Release);
         setTimeout(function(){
           $rootScope.releaseDetail();
           $scope.$apply();
+          console.log("coming");
         }, 0);
       }else{
         console.log("release gone");
@@ -1258,196 +1227,105 @@ $scope.$on("$routeChangeSuccess", function(){
 })
 
 
-
-
-
-
-
-
 $scope.selectedFilter = '';
 $scope.setFilter = function(group, index) {
     $scope.selectedFilter = group;
-
     jQuery('.home-filters-predefined-li-a').removeClass('filterClicked');
     jQuery('#filter-'+index).addClass('filterClicked');
-
     jQuery('#filter-clear').removeClass('filterClicked');
-
-    // if(index=='clear'){
-    //   jQuery('#filter-clear').addClass('filterClicked');
-    // }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 $scope.goToHash = function(){
-
   if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.name || $location.path() == "/"+$routeParams.name){
+  var thisHash = $location.path();
+  thisHash = thisHash.substring(1, thisHash.length);
+  if (thisHash){
+    $rootScope.getEverything('release', 'my.release.date desc');
 
-  $scope.$watch('releaseDone', function(){
-    console.log("hash?");
-    setTimeout(function(){
-      var thisHash = $location.path();
-      thisHash = thisHash.substring(1, thisHash.length);
-      console.log(thisHash);
-      if (thisHash){
-        $rootScope.thisRelease(thisHash);
-        $scope.$apply();
-      }
-    }, 900);
-  })
+      setTimeout(function(){
+          $rootScope.thisRelease(thisHash);
+          $scope.$apply();
+      }, 1000);
+    }// if
   }
-
 }
 
 if ($location.path() == "/" || $location.path() == "/home/"+$routeParams.name || $location.path() == "/"+$routeParams.name){
-
-
   $scope.goToHash();
-
-
 }
-
-
-
 $scope.page = 1;
-
-
 $scope.showHomeLinks=false;
 $scope.mobileLinks = function(){
   $scope.showHomeLinks = !$scope.showHomeLinks;
 }
-
-$scope.totalShown = [1,2,3,4,5,6,7,8,9];
-
+$scope.totalShown = 10;
 $rootScope.pagingHome = function(){
   $scope.page = $scope.page +1;
-
+  $scope.totalShown = $scope.page * 10;
   if($scope.page <= $rootScope.totalReleasePages){
     $rootScope.getContentType('release', 'my.release.date desc', $scope.page);
   }else{
     return false
   }
-
-  var last = $scope.totalShown[$scope.totalShown.length - 1];
-  for(var i = 1; i <= 9; i++) {
-    $scope.totalShown.push(last + i);
-  }
 }
-
-
 
 });//controller
 
 
-// Home.filter('startsWithLetter', function () {
-//   return function (items, click, input) {
-//     var filtered = [];
-//     // var letterMatch = new RegExp(letter, 'i');
-//
-//
-//
-//     for (i in items) {
-//       var item = items[i];
-//
-//
-//       // if (item.uid == click ){
-//       //   filtered.push(item);
-//       //
-//       //   this.specificItem = item;
-//       //
-//       //   // data['artistLink'].value.document.uid
-//       // }
-//
-//       // if(item.data['release.artistlink']){
-//       //         console.log(item.data['release.artistlink'].value.document.uid);
-//       //
-//       //         if (this.specificItem.uid != item.uid){
-//       //
-//       //           if(item.data['release.artistlink'].value.document.uid == 'wizkhalifa'){
-//       //             filtered.push(item);
-//       //           }
-//       //
-//       //         }
-//       //
-//       //
-//       // }
-//
-//
-//
-//       // if (item.data['artistLink'].value.document.uid && (item.data['artistLink'].value.document.uid == 'wizkhalifa')){
-//       //   filtered.push(item);
-//       //   console.log(item.data['artistLink'].value.document.uid);
-//       //
-//       // }
-//       // if (letterMatch.test(item.name.substring(0, 1))) {
-//       //   filtered.push(item);
-//       // }
-//     }
-//     return filtered;
-//   };
-// });
+//youtube id transformed to an embed url
+Home.filter('youtube', function ($sce) {
+  return function(url) {
+    var riskyVideo = "https://www.youtube.com/embed/"+url+"?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque";
+    var thisTrusted= $sce.trustAsResourceUrl(riskyVideo);
+    return thisTrusted;
+  };
+})
+
+Home.filter('trustUrl', function ($sce) {
+  return function(url) {
+    var trusted = $sce.trustAsResourceUrl(url);
+    return trusted;
+  };
+})
 
 
 Home.filter('isArtGroup', function(){
   return function(items, filter) {
     var filtered = [];
     var specificItem={};
-
     if(!filter) {
-      // initially don't filter
       return items;
     }
 
+    for (i in items) {
+      var item = items[i];
 
-        for (i in items) {
-          var item = items[i];
+      if (item.uid == filter){
+        filtered.push(item);
+        specificItem = item;
+      }
 
-          if (item.uid == filter){
-            filtered.push(item);
-            specificItem = item;
-          }
+      if((item.data['release.artistlink']) && (specificItem)){
 
-          if((item.data['release.artistlink']) && (specificItem)){
-
-                if (specificItem.uid != item.uid){
-                  if(item.data['release.artistlink'].value.document.uid == filter){
-                    filtered.push(item);
-                  }
-                }
-
-
-          }else if(!specificItem){
+        if (specificItem.uid != item.uid){
+          if(item.data['release.artistlink'].value.document.uid == filter){
             filtered.push(item);
           }
-
         }
-        return filtered;
+
+        }else if(!specificItem){
+          filtered.push(item);
+        }
+      }
+      return filtered;
   }
 })
 
-
-
 var Artist = angular.module('myApp');
 
-
-
-
 Artist.controller('artistCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, instaFactory, anchorSmoothScroll, $window){
-
-
 
   $rootScope.meta= {
     "title":"taylorgang | artists",
@@ -1455,12 +1333,7 @@ Artist.controller('artistCtrl', function($scope, $location, $rootScope, $routePa
     "description": "artists"
   }
 
-
-//................................................................................................................................................//
-//................................................................................................................................................//
 //................................................................DETAIL..........................................................................//
-//................................................................................................................................................//
-//................................................................................................................................................//
 
 $rootScope.artist_data;
 $rootScope.channel_data = [];
@@ -1468,85 +1341,55 @@ $rootScope.main_video, $scope.main_title;
 $rootScope.main_video_show =false;
 $rootScope.baseUrl = '';
 $rootScope.mainArtist;
-// https://www.youtube.com/embed/8d0cm_hcQes
 $rootScope.main_video = $rootScope.baseUrl;
 $scope.artistInstagram=[];
 
 $rootScope.thisArtist = function(thisArtist){
-    for (a in $rootScope.Artist){
-
-      if($rootScope.Artist[a].uid==thisArtist){
-        $rootScope.mainArtist = $rootScope.Artist[a];
-        $rootScope.bandsInTown($rootScope.Artist[a].data['artist.name'].value[0].text);
-        $scope.getYoutubeChannel($rootScope.Artist[a].data['artist.youtubeChannelID'].value);
-        $scope.getArtistReleases($rootScope.Artist[a].id, 1);
-
-      }
+  for (a in $rootScope.Artist){
+    if($rootScope.Artist[a].uid==thisArtist){
+      $rootScope.mainArtist = $rootScope.Artist[a];
+      $rootScope.bandsInTown($rootScope.Artist[a].data['artist.name'].value[0].text);
+      $scope.getYoutubeChannel($rootScope.Artist[a].data['artist.youtubeChannelID'].value);
+      $scope.getArtistReleases($rootScope.Artist[a].id, 1);
     }
-    // $scope.instagram_a();
+  }
 };
 
 
 $scope.getYoutubeChannel = function(channelid){
 
-              $.get(
-                "https://www.googleapis.com/youtube/v3/search",{
-                  part: 'snippet',
-                  maxResults: 50,
-                  channelId: channelid,
-                  key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
-                },
-                  function(data){
-
-                    $rootScope.channel_data = data.items;
-                    // $.each(data.items, function(i, item){
-                    //   // var videoTitle = item.snippet.title;
-                    // })
-
-
-                    $rootScope.baseUrl = 'https://www.youtube.com/embed/'+$rootScope.channel_data[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
-                    $rootScope.main_video = $rootScope.baseUrl;
-                    $rootScope.main_title = $rootScope.channel_data[0].title;
-
-                    $rootScope.$apply();
-
-                    setTimeout(function(){
-                      $rootScope.viewLoaded = true;
-                      $rootScope.pageLoading = false;
-                      $rootScope.$apply();
-                      $rootScope.main_video_show =true;
-                    }, 2000);
-
-                  });
-
+    $.get(
+      "https://www.googleapis.com/youtube/v3/search",{
+        part: 'snippet',
+        maxResults: 50,
+        channelId: channelid,
+        key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+      },
+      function(data){
+        $rootScope.channel_data = data.items;
+        $rootScope.baseUrl = 'https://www.youtube.com/embed/'+$rootScope.channel_data[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+        $rootScope.main_video = $rootScope.baseUrl;
+        $rootScope.main_title = $rootScope.channel_data[0].title;
+        $rootScope.$apply();
+        setTimeout(function(){
+          $rootScope.viewLoaded = true;
+          $rootScope.pageLoading = false;
+          $rootScope.$apply();
+          $rootScope.main_video_show =true;
+        }, 2000);
+      });
 }
 
-
-
-
 $scope.thisVideo = function(id, index){
-
   $rootScope.baseUrl = 'https://www.youtube.com/embed/'+id+'?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
   $rootScope.main_video = $scope.baseUrl;
   $rootScope.main_title = $rootScope.channel_data[index].title;
-
 }
 
 
-
-
-
-
-
-
-
-  //BANDSINTOWN
-
+//BANDSINTOWN
 $rootScope.bandsInTown = function(artistname){
-
-
         if($rootScope.isMobile){
-          // $scope.showTour = function(){
             new BIT.Widget({
               "artist": artistname,
               "div_id":"tour-dates",
@@ -1558,8 +1401,6 @@ $rootScope.bandsInTown = function(artistname){
               "link_color": "#000000"
               // "force_narrow_layout":"true"
             }).insert_events();
-          // }
-
         }else if(!$rootScope.isMobile){
           // $scope.showTour = function(){
             new BIT.Widget({
@@ -1578,50 +1419,20 @@ $rootScope.bandsInTown = function(artistname){
 
 
 
-
-
-
-
-
 //DETAIL CHECK
-
 if ($location.path() == '/artists/'+$routeParams.id){
-
-var artistParam = $routeParams.id;
-
-$rootScope.meta= {
-  "title":"taylorgang | "+artistParam,
-  "url": "artists/"+$routeParams.id,
-  "description": "artists | "+$routeParams.id
-}
-
-
+  var artistParam = $routeParams.id;
+  $rootScope.meta= {
+    "title":"taylorgang | "+artistParam,
+    "url": "artists/"+$routeParams.id,
+    "description": "artists | "+$routeParams.id
+  }
   $rootScope.$watch('artistReady' ,function(){
     setTimeout(function(){
-        $rootScope.thisArtist(artistParam);
-
+      $rootScope.thisArtist(artistParam);
     }, 900);
   });
-
 }
-
-
-
-
-
-// $scope.instagram_a = function(){
-//   instaFactory.pullimages($rootScope.mainArtist.data['artist.instagramId'].value, 2).then( function(data) {
-//         $scope.artistInstagram = $rootScope.instaTotal;
-//       }, function(error) {
-//     });
-// }
-
-
-
-
-
-
-
 
 
 
@@ -1636,110 +1447,76 @@ $rootScope.scroll;
 $scope.hideBacktotop = true;
 $scope.windowHeight = $window.innerHeight;
 
-  angular.element($window).bind("scroll", function() {
-
-
-      var scroll = this.pageYOffset;
-
-      $rootScope.scroll = scroll;
-      if(scroll<($scope.windowHeight*3)){
-        $scope.hideBacktotop = true;
-        // angular.element($window).unbind("scroll");
-      }else if (scroll>=($scope.windowHeight*3)){
-        $scope.hideBacktotop = false;
-
-      }
-
-      $scope.$apply();
-  });
-
-
-
-
-
-
-
+angular.element($window).bind("scroll", function() {
+    var scroll = this.pageYOffset;
+    $rootScope.scroll = scroll;
+    if(scroll<($scope.windowHeight*3)){
+      $scope.hideBacktotop = true;
+      // angular.element($window).unbind("scroll");
+    }else if (scroll>=($scope.windowHeight*3)){
+      $scope.hideBacktotop = false;
+    }
+    $scope.$apply();
+});
 
 
   $scope.showArtistLinks = false;
-
   $scope.a_mobileLinks = function(){
-    $scope.showArtistLinks = !$scope.showArtistLinks
+    $scope.showArtistLinks = !$scope.showArtistLinks;
   }
-
-
-
-
-
-
-
-
-
 
   $scope.$on("$destroy", function() {
     $rootScope.artistRelease=[];
     $rootScope.totalArtistReleasePages=1;
   });
 
+  $rootScope.artistRelease;
+  $rootScope.totalArtistReleasePages;
 
-$rootScope.artistRelease;
-$rootScope.totalArtistReleasePages;
+  //get artist releases from prismic
+  $scope.getArtistReleases = function(id, thisPage){
+    Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+        Api.form('everything')
+            .ref(Api.master())
+            .query(
+              // Prismic.Predicates.at("document.type", "release"),
+              Prismic.Predicates.at("my.release.artist.artistlink", id)
+            )
+            .pageSize(9)
+            .page(thisPage)
+            .orderings('[my.release.date]')
+            .submit(function (err, response) {
+                // The products are now ordered by price, highest first
+                var results = response.results;
+                setTimeout(function(){
+                  $rootScope.pageLoading = false;
+                  $scope.$apply();
+                }, 600);
 
-$scope.getArtistReleases = function(id, thisPage){
-  Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
-      Api.form('everything')
-          .ref(Api.master())
-          .query(
-            // Prismic.Predicates.at("document.type", "release"),
-            Prismic.Predicates.at("my.release.artist.artistlink", id)
-          )
-          .pageSize(9)
-          .page(thisPage)
-          .orderings('[my.release.date]')
-          .submit(function (err, response) {
-              // The products are now ordered by price, highest first
-              var results = response.results;
-
-              setTimeout(function(){
-
-                $rootScope.pageLoading = false;
-                $scope.$apply();
-              }, 600);
-
-
-              if (thisPage >1 ) {
-                $rootScope.artistRelease = $rootScope.artistRelease.concat(response.results);
-                $scope.$broadcast('artistReleaseDone');
-                $rootScope.totalArtistReleasePages = response.total_pages; // the number of pages
-              }else{
-
-                $rootScope.artistRelease= response.results;
-                $scope.$broadcast('artistReleaseDone');
-                $rootScope.totalArtistReleasePages = response.total_pages;
-
-              }
-
-
-
-
-          });
-  });
-}
+                if (thisPage >1 ) {
+                  $rootScope.artistRelease = $rootScope.artistRelease.concat(response.results);
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalArtistReleasePages = response.total_pages; // the number of pages
+                }else{
+                  $rootScope.artistRelease= response.results;
+                  $scope.$broadcast('artistReleaseDone');
+                  $rootScope.totalArtistReleasePages = response.total_pages;
+                }
+            });
+    });
+  }
 
 
 
 $scope.page_a =1;
-
 $scope.pagingArtist=function(){
   $scope.page_a = $scope.page_a +1;
-
   if($scope.page_a <= $rootScope.totalArtistReleasePages){
     $scope.getArtistReleases($rootScope.mainArtist.id, $scope.page_a);
   }else{
-    return false
+    return false;
   }
 }
-
 
 });//end of the controller.... .... ...... ..... ....
 
@@ -1760,26 +1537,19 @@ Artist.filter('artistReleaseFilter', function(){
   return function(items, filter) {
     var filtered = [];
     var specificItem={};
-
     if(!filter) {
       // initially don't filter
       return items;
     }
-
-
-
-        for (i in items) {
-          var item = items[i];
-
-          if(item.data['release.artist']){
-
-              if(item.data['release.artist'].value[0].artistlink.value.document.uid == filter){
-                filtered.push(item);
-              }
-
-        }
+      for (i in items) {
+        var item = items[i];
+        if(item.data['release.artist']){
+            if(item.data['release.artist'].value[0].artistlink.value.document.uid == filter){
+              filtered.push(item);
+            }
       }
-        return filtered;
+    }
+    return filtered;
   }
 })
 
@@ -1789,22 +1559,14 @@ var Producer = angular.module('myApp');
 
 Producer.controller('producerCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, instaFactory, anchorSmoothScroll, $window){
 
+  $rootScope.meta= {
+    "title":"taylorgang | producers",
+    "url": "producers",
+    "description": "producers"
+  }
 
 
-    $rootScope.meta= {
-      "title":"taylorgang | producers",
-      "url": "producers",
-      "description": "producers"
-    }
-
-
-
-
-//................................................................................................................................................//
-//................................................................................................................................................//
 //................................................................DETAIL..........................................................................//
-//................................................................................................................................................//
-//................................................................................................................................................//
 
 $rootScope.producer_data;
 $rootScope.channel_data_p = [];
@@ -1812,12 +1574,10 @@ $rootScope.main_video_p, $scope.main_title_p;
 $rootScope.main_video_show_p =false;
 $rootScope.baseUrl = '';
 $rootScope.mainProducer;
-// https://www.youtube.com/embed/8d0cm_hcQes
 $rootScope.main_video_p = $rootScope.baseUrl;
 $scope.producerInstagram=[];
 
 $rootScope.thisProducer = function(thisProducer){
-
     for (a in $rootScope.Producer){
       if($rootScope.Producer[a].uid==thisProducer){
         $rootScope.mainProducer = $rootScope.Producer[a];
@@ -1828,37 +1588,35 @@ $rootScope.thisProducer = function(thisProducer){
         $scope.getProducerReleases($rootScope.mainProducer.id , 1);
       }
     }
-    // $scope.instagram_p();
 };
 
-
+// get youtube playlist
 $scope.getYoutubeChannel_p = function(channelid){
+  $.get(
+    "https://www.googleapis.com/youtube/v3/search",{
+      part: 'snippet',
+      maxResults: 50,
+      channelId: channelid,
+      key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+    },
+      function(data){
 
-              $.get(
-                "https://www.googleapis.com/youtube/v3/search",{
-                  part: 'snippet',
-                  maxResults: 50,
-                  channelId: channelid,
-                  key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
-                },
-                  function(data){
+        $rootScope.channel_data_p = data.items;
 
-                    $rootScope.channel_data_p = data.items;
+        $rootScope.baseUrl_p = 'https://www.youtube.com/embed/'+$rootScope.channel_data_p[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+        $rootScope.main_video_p = $rootScope.baseUrl_p;
+        $rootScope.main_title_p = $rootScope.channel_data_p[0].title;
 
-                    $rootScope.baseUrl_p = 'https://www.youtube.com/embed/'+$rootScope.channel_data_p[0].id.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
-                    $rootScope.main_video_p = $rootScope.baseUrl_p;
-                    $rootScope.main_title_p = $rootScope.channel_data_p[0].title;
+        $rootScope.$apply();
 
-                    $rootScope.$apply();
+        setTimeout(function(){
+          $rootScope.viewLoaded = true;
+          $rootScope.pageLoading = false;
+          $rootScope.$apply();
+          $rootScope.main_video_show_p =true;
+        }, 2000);
 
-                    setTimeout(function(){
-                      $rootScope.viewLoaded = true;
-                      $rootScope.pageLoading = false;
-                      $rootScope.$apply();
-                      $rootScope.main_video_show_p =true;
-                    }, 2000);
-
-                  });
+      });
 
 }
 
@@ -2319,88 +2077,69 @@ var About = angular.module('myApp');
 About.controller('aboutCtrl', function($scope, $location, $rootScope, $routeParams, $timeout,	$http, $sce, instaFactory){
 
 
-
-
   $rootScope.meta= {
     "title":"taylorgang | gang",
     "url": "gang",
     "description": "gang"
   }
 
-  //................................................................................................................................................//
-  //................................................................................................................................................//
   //................................................................DETAIL..........................................................................//
-  //................................................................................................................................................//
-  //................................................................................................................................................//
+
 
   $rootScope.about_data;
   $rootScope.about_playlist_data = [];
   $rootScope.about_main_video, $scope.about_main_title;
   $rootScope.about_main_video_show =false;
   $rootScope.about_baseUrl;
-  // 'https://www.youtube.com/embed/8d0cm_hcQes'
   $rootScope.about_main_video;
-  // = $scope.about_baseUrl;
   $scope.aboutInstagram=[];
 
 
 
 
-
+  //get youtube channel
   $scope.about_getYoutubePlaylist = function(playid){
-// GET https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S&key={YOUR_API_KEY}
-                $.get(
-                  "https://www.googleapis.com/youtube/v3/playlistItems",{
-                    part: 'snippet',
-                    maxResults: 50,
-                    playlistId: playid,
-                    key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
-                  },
-                    function(data){
+  // GET https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S&key={YOUR_API_KEY}
+      $.get(
+        "https://www.googleapis.com/youtube/v3/playlistItems",{
+          part: 'snippet',
+          maxResults: 50,
+          playlistId: playid,
+          key: 'AIzaSyC_ArqRandYQu5VgJiL9flmr27ApQU5ZqA'
+        },
+          function(data){
 
-                      $rootScope.about_playlist_data = data.items;
-                      // console.log(data);
-                      // $.each(data.items, function(i, item){
-                      //   // var videoTitle = item.snippet.title;
-                      // })
+            $rootScope.about_playlist_data = data.items;
+            // console.log(data);
+            // $.each(data.items, function(i, item){
+            //   // var videoTitle = item.snippet.title;
+            // })
 
 
-                      $rootScope.about_baseUrl = 'https://www.youtube.com/embed/'+$rootScope.about_playlist_data[0].snippet.resourceId.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
-                      $rootScope.about_main_video = $scope.about_baseUrl;
-                      $rootScope.about_main_title = $rootScope.about_playlist_data[0].title;
+            $rootScope.about_baseUrl = 'https://www.youtube.com/embed/'+$rootScope.about_playlist_data[0].snippet.resourceId.videoId+'?rel=0&amp;&autoplay=0&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
+            $rootScope.about_main_video = $scope.about_baseUrl;
+            $rootScope.about_main_title = $rootScope.about_playlist_data[0].title;
 
-                      $rootScope.$apply();
+            $rootScope.$apply();
 
-                      setTimeout(function(){
-                        $rootScope.viewLoaded = true;
-                        $rootScope.pageLoading = false;
-                        $rootScope.$apply();
-                        $rootScope.about_main_video_show =true;
-                      }, 2000);
+            setTimeout(function(){
+              $rootScope.viewLoaded = true;
+              $rootScope.pageLoading = false;
+              $rootScope.$apply();
+              $rootScope.about_main_video_show =true;
+            }, 2000);
 
-                    });
-
+          });
   }
 
 
 
 
   $scope.thisVideo = function(id, index){
-
     $rootScope.baseUrl = 'https://www.youtube.com/embed/'+id+'?rel=0&amp;&autoplay=1&controls=1&loop=1&showinfo=0&modestbranding=1&theme=dark&color=white&wmode=opaque';
     $rootScope.main_video = $scope.baseUrl;
     $rootScope.main_title = $rootScope.about_playlist_data[index].title;
-
   }
-
-
-
-
-
-
-
-
-
 
 
   $scope.$on("$destroy", function() {
@@ -2412,47 +2151,43 @@ About.controller('aboutCtrl', function($scope, $location, $rootScope, $routePara
   $rootScope.gangRelease;
   $rootScope.totalGangReleasePages;
 
-  $scope.getGangReleases = function(thisPage){
-    Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
-        Api.form('everything')
-            .ref(Api.master())
-            .query(
-              Prismic.Predicates.at("document.type", "release")
-            )
-            .pageSize(9)
-            .page(thisPage)
-            .orderings('[my.release.date desc]')
-            .submit(function (err, response) {
-                // The products are now ordered by price, highest first
-                var results = response.results;
 
-                setTimeout(function(){
+    //get every gang release from prismic
+    $scope.getGangReleases = function(thisPage){
+      Prismic.Api('https://taylorgang.cdn.prismic.io/api', function (err, Api) {
+          Api.form('everything')
+              .ref(Api.master())
+              .query(
+                Prismic.Predicates.at("document.type", "release")
+              )
+              .pageSize(9)
+              .page(thisPage)
+              .orderings('[my.release.date desc]')
+              .submit(function (err, response) {
+                  // The content is now ordered by date, latest first
+                  var results = response.results;
 
-                  $rootScope.pageLoading = false;
-                  $scope.$apply();
-                }, 600);
+                  setTimeout(function(){
+                    $rootScope.pageLoading = false;
+                    $scope.$apply();
+                  }, 600);
 
+                  if (thisPage >1 ) {
+                    $rootScope.gangRelease = $rootScope.gangRelease.concat(response.results);
+                    $scope.$broadcast('artistReleaseDone');
+                    $rootScope.totalGangReleasePages = response.total_pages; // the number of pages
+                  }else{
+                    $rootScope.gangRelease= response.results;
+                    $scope.$broadcast('artistReleaseDone');
+                    $rootScope.totalGangReleasePages = response.total_pages;
+                  }
+              });
+      });
+    }
 
-                if (thisPage >1 ) {
-                  $rootScope.gangRelease = $rootScope.gangRelease.concat(response.results);
-                  $scope.$broadcast('artistReleaseDone');
-                  $rootScope.totalGangReleasePages = response.total_pages; // the number of pages
-                }else{
-
-                  $rootScope.gangRelease= response.results;
-                  $scope.$broadcast('artistReleaseDone');
-                  $rootScope.totalGangReleasePages = response.total_pages;
-
-                }
-
-            });
-    });
-  }
-$scope.getGangReleases(1);
-
+  $scope.getGangReleases(1);
 
   $scope.page_g =1;
-
   $scope.pagingGang=function(){
     $scope.page_g = $scope.page_g +1;
 
@@ -2465,104 +2200,11 @@ $scope.getGangReleases(1);
 
 
   //DETAIL CHECK
-    $scope.about_getYoutubePlaylist('PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S');
-
-
-
-
-
-
-
-
-
-
-    // $rootScope.g_instaTotal  =[];
-    // $rootScope.g_instapics = [];
-    // $rootScope.g_totalDisplayed;
-    // $rootScope.g_loadMoreImage="";
-    // $rootScope.g_loadMoreNumber;
-
-
-
-    // ACCESS TOKEN = 20694160.2e1aeb5.45751ad675a143b083a008ed7b9775da
-
-// var thisData;
-// var thisArtist;
-//
-// $rootScope.g_instaAccessToken = "20694160.020b8c7.a5946235ad9346a8b824b050360c7584";
-
-
-
-// $scope.$watch('artistReady' ,function(){
-//   setTimeout(function(){
-//       $scope.aboutLoop();
-//   }, 900);
-// });
-//
-//
-// $scope.aboutLoop = function(){
-//
-//   for ( i = 0; i < ($rootScope.Artist.length); i++ ){
-//     var id = "";
-//     id = $rootScope.Artist[i].data['artist.instagramId'].value;
-//
-//     if (id != ""){
-//
-// var config = {method: 'JSONP', cache: true, isArray: true};
-//     var g_endpoint = "";
-//     g_endpoint = "https://api.instagram.com/v1/users/"+id+"/media/recent?access_token="+$rootScope.g_instaAccessToken+"&callback=JSON_CALLBACK";
-//
-//     $http.jsonp(g_endpoint, config)
-//
-//     // $http({url: g_endpoint, method: 'JSONP', cache: true, isArray: true})
-//
-//     .then(function(response){
-//           thisData = [];
-//           thisData = response.data.data;
-//           $rootScope.g_instaTotal = $rootScope.g_instaTotal.concat(thisData);
-//
-//           // if(thisArtist != response.data[0].user.id){
-//           //
-//           //   console.log(thisArtist);
-//           // }else{
-//           //   console.log("same");
-//           //
-//           // }
-//           //
-//           // var done = true;
-//           //
-//           // thisArtist = response.data[0].user.id;
-//
-//       })
-//
-//
-//
-//     }
-//   }
-// }
-//
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-$scope.showAboutLinks = false;
-
-$scope.g_mobileLinks = function(){
-  $scope.showAboutLinks = !$scope.showAboutLinks
-}
-
-
-
+  $scope.about_getYoutubePlaylist('PL9cwsTrgI6FFxBon4flET37aW2QJP7l9S');
+  $scope.showAboutLinks = false;
+  $scope.g_mobileLinks = function(){
+    $scope.showAboutLinks = !$scope.showAboutLinks
+  }
 
 
 
@@ -2580,11 +2222,7 @@ Tour.controller('tourCtrl', function($scope, $location, $rootScope, $routeParams
       $scope.$apply();
     }, 500);
 
-
-    
-
     $rootScope.tour=[];
-
     $rootScope.meta= {
       "title":"taylorgang | tour",
       "url": "tour",
@@ -2653,54 +2291,44 @@ Contact.controller('contactCtrl', function($scope, $location, $rootScope, $route
     //setting an animation class for this specific page
     $scope.pageClass = 'page-contact';
 
-
-
     $scope.success = false;
     $scope.error = false;
 
 
     // create a blank object to hold our form information
     // $scope will allow this to pass between controller and view
-  $scope.contactMobileOutsideLink = function(){
-    $window.open('http://www.taylorgng.com/', '_blank');
-  }
+    $scope.contactMobileOutsideLink = function(){
+      $window.open('http://www.taylorgng.com/', '_blank');
+    }
 
 
-  $scope.formData = {};
-
+    $scope.formData = {};
 
     // process the form
     $scope.processForm = function() {
 
-      // $scope.contactForm.$invalid = true;
-      $scope.formData.mandrill_subject = $scope.formData.subject.toUpperCase() + " REQUEST FROM TAYLORGANG.COM"
-
-
-
-       var mandrill = {
-            "key": "kgS1hoQnJBhbLYF0v9jYXQ",
-            "message": {
-                "html": $scope.formData.body,
-                "text": $scope.formData.body,
-                "subject": $scope.formData.mandrill_subject,
-                "from_email": $scope.formData.email,
-                "from_name": $scope.formData.name,
-                "to": [
-                    {
-                        "email": "dev@eliafornari.com",
-                        "name": "TAYLORGANG.COM",
-                        "type": "to"
-                    }
-                ],
-                "headers": {
-                    "Reply-To": $scope.formData.email
-                }
-
-            }
-        }
-
-
-
+    // $scope.contactForm.$invalid = true;
+    $scope.formData.mandrill_subject = $scope.formData.subject.toUpperCase() + " REQUEST FROM TAYLORGANG.COM";
+     var mandrill = {
+          "key": "kgS1hoQnJBhbLYF0v9jYXQ",
+          "message": {
+              "html": $scope.formData.body,
+              "text": $scope.formData.body,
+              "subject": $scope.formData.mandrill_subject,
+              "from_email": $scope.formData.email,
+              "from_name": $scope.formData.name,
+              "to": [
+                  {
+                      "email": "dev@eliafornari.com",
+                      "name": "TAYLORGANG.COM",
+                      "type": "to"
+                  }
+              ],
+              "headers": {
+                  "Reply-To": $scope.formData.email
+              }
+          }
+      }
 
       $http({
         method  : 'POST',
@@ -2709,17 +2337,10 @@ Contact.controller('contactCtrl', function($scope, $location, $rootScope, $route
         data    : mandrill  // pass in data as strings
        })
 
-
       .success(function (data) {
-
-          	$scope.success = true;
-          	$scope.formdata = {};
-            $scope.hideContact = true;
-            // $scope.formData.name ={};
-            // $scope.formData.email ={};
-            // $scope.formData.subject ={};
-            // $scope.formData.body ={};
-
+      	$scope.success = true;
+      	$scope.formdata = {};
+        $scope.hideContact = true;
       })
       .error(function (data) {
         	$scope.error = true;
@@ -2728,27 +2349,13 @@ Contact.controller('contactCtrl', function($scope, $location, $rootScope, $route
     };
 
 
-      // jQuery(".form-control-dropdown").select2({
-      //   minimumResultsForSearch: Infinity,
-      //   placeholder: "SUBJECT"
-      // });
-      $rootScope.pageLoading = false;
-
-
-
-
-
-
-
-
+    $rootScope.pageLoading = false;
 
   //....mobile
   $scope.contactMobileOutsideBackLink = function(){
     $scope.hideContact = false;
     $window.location.reload();
   }
-
-
 
 
 });

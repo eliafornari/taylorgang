@@ -1,17 +1,10 @@
 <div class="artist" ng-controller="artistCtrl">
-
-
   <ul class="artist-ul">
     <li class="artist-li" ng-repeat="a in Artist | orderBy: 'artist.index.value'">
       <a href="artists/{{a.uid}}" ng-click="thisArtist(a.uid)" ng-mouseover="showArtistName=true" ng-mouseout="showArtistName=false">
-
         <div class="artist-li-image" id="artist-li-image-{{a.uid}}" style="background-image: url('{{a.data['artist.image'].value.main.url}}')" ></div>
         <p class="artist-li-name" id="{{a.uid}}" ng-hide="!showArtistName" >{{a.data['artist.name'].value[0].text}}</p>
       </a>
     </li>
   </ul>
-
-
-
-
 </div>

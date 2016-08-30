@@ -3,7 +3,6 @@
   height:100vh;
   width: 100vw;
   background-color: #000000;
-
 }
 
 .release-table{
@@ -14,7 +13,6 @@
   .release-tr{
     .release-td{
       vertical-align: middle;
-
     }
   }
 }
@@ -76,7 +74,6 @@
       background-repeat: no-repeat;
       background-size: auto 100%;
     }
-
   }
   .release-main-right{
     position: absolute;
@@ -87,13 +84,22 @@
       width: 100vw;
       bottom: 0%;
       height: 20%;
-
     }
   }
 }
 
-
-
+.release-main-left-description{
+  color: #FFFFFF;
+  display:block;
+  @include paragraph();
+  text-align: center;
+  width: 90%;
+  margin-left: 5%;
+  margin-top:$margin-top-paragraph;
+  @include respond-to(phone){
+    width:100vw;
+  }
+}
 
 .release-back{
   position: fixed;

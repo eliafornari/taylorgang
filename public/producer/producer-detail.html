@@ -1,7 +1,5 @@
 <div class="artist-detail" ng-controller="producerCtrl">
 
-
-
     <header class="artist-header" id="top">
       <h1 class="artist-header-name">{{mainProducer.data['producer.name'].value[0].text;}}</h1>
       <div class="artist-header-text">
@@ -16,7 +14,6 @@
         </ul>
 
         <!-- mobile -->
-
         <div class="home-mobile-links" ng-if="isMobile" ng-click="p_mobileLinks()"><a>links</a></div>
 
         <div class="home-social-background-mobile" ng-if="isMobile" ng-show="showProducerLinks">
@@ -36,48 +33,37 @@
       <div class="artist-header-image" id="producer-header-image-{{mainProducer.uid}}" style="background-image: url('{{mainProducer.data['producer.image'].value.main.url}}')"></div>
     </header>
 
-
-
-
-
 <div class="artist-youtube" ng-if="mainProducer.data['producer.youtubeChannelID'].value">
-
     <div class="artist-video">
+      <!-- main video -->
+      <div class="artist-video-main">
+        <iframe class="iframe" src="{{main_video_p | trustUrl}}" frameborder="0" allowfullscreen ></iframe>
+        <p class="artist-video-main-title">
+          {{main_title_p}}
+        </p>
+      </div>
+      <!-- related video -->
+      <div class="artist-video-related">
+        <ul class="artist-video-ul">
+          <li class="artist-video-li" ng-repeat="r in channel_data_p" ng-click="thisVideo(r.id.videoId, $index)" ng-mouseover="related_show=true" ng-mouseout="related_show=false">
 
-              <!-- main video -->
-              <div class="artist-video-main">
-                <iframe class="iframe" src="{{main_video_p | trustUrl}}" frameborder="0" allowfullscreen ></iframe>
-                <p class="artist-video-main-title">
-                  {{main_title_p}}
-                </p>
-              </div>
-
-              <!-- related video -->
-              <div class="artist-video-related">
-                <ul class="artist-video-ul">
-                  <li class="artist-video-li" ng-repeat="r in channel_data_p" ng-click="thisVideo(r.id.videoId, $index)" ng-mouseover="related_show=true" ng-mouseout="related_show=false">
-
-                    <div class="artist-video-title" id="producer-video-title-{{$index}}" ng-show="related_show">
-                      <table>
-                        <tr>
-                          <td>
-                            <p class="artist-video-title-p">{{r.snippet.title}}</p>
-                          </td>
-                        </tr>
-                      </table>
-                    </div>
-                    <div class="artist-video-img" style="background-image: url('{{r.snippet.thumbnails.high.url}}')"></div>
-                    <!-- http://img.youtube.com/vi/{{r.id.videoId}}/0.jpg -->
-                  </li>
-                </ul>
-              </div>
+            <div class="artist-video-title" id="producer-video-title-{{$index}}" ng-show="related_show">
+              <table>
+                <tr>
+                  <td>
+                    <p class="artist-video-title-p">{{r.snippet.title}}</p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="artist-video-img" style="background-image: url('{{r.snippet.thumbnails.high.url}}')"></div>
+            <!-- http://img.youtube.com/vi/{{r.id.videoId}}/0.jpg -->
+          </li>
+        </ul>
+      </div>
 
   </div>
 </div>
-
-
-
-
 
   <div class="tour" id="tour-dates" ng-if="mainProducer.data['producer.bandsintownName'].value"></div>
 
@@ -95,35 +81,10 @@
   </div>
 
 
-<!--
-  <div class="artist-instagram">
-
-    <ul class="artist-instagram-ul">
-      <li class="artist-instagram-li" ng-repeat="i in instaTotal | orderBy: $index | limitTo:totalDisplayed_p track by $index ">
-        <a class="artist-instagram-li-a" href="{{i.link}}" target="_blank">
-          <img class="artist-instagram-img" src="{{i.images.standard_resolution.url}}" alt="" />
-          <p class="artist-instagram-caption">
-            {{i.caption.text}}
-          </p>
-        </a>
-      </li>
-      <li class="load-more-li" ng-hide="hideLoadMore_p" style="background-image: url('{{loadMoreImage}}')">
-        <div class="load-more-button" ng-click="loadMore_p()" ng-hide="noMore_p">
-          <p class="load-more-button-p">Load more</p>
-        </div>
-      </li>
-    </ul>
-
-  </div> -->
-
-
   <div class="infinite-loader" infinite-scroll="pagingProducer()"  infinite-scroll-distance="1" ></div>
-
 
   <div class="artist-backtotop" ng-hide="hideBacktotop" ng-click="gotoAnchor('top')">
     <p>BACK TO TOP</p>
   </div>
-
-
 
 </div>

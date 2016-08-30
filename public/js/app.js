@@ -18,7 +18,6 @@ angular.module('myApp', [
     restrict: 'A',
     link: function(){
 
-
     }
   }
 });

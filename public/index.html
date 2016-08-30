@@ -72,7 +72,7 @@
 
 <!-- .................................. Body ...............................-->
 
-<body  page-loading-spinner>
+<body>
 
 
 
@@ -92,14 +92,14 @@
 
 
 
-
+<!-- 
   <div ng-show="pageLoading" class="page-loader-div">
 
     <div class="loading-logo">
       <logo-black-directive></logo-black-directive>
     </div>
 
-  </div>
+  </div> -->
 
 
 
@@ -107,7 +107,7 @@
 
   <!-- .................................. Main ...............................-->
 
-  <main ng-view class='main' autoscroll="true">
+  <main ng-view class='main' autoscroll="true" ng-cloak>
   </main>
 
 
